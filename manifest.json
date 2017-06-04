@@ -18,6 +18,18 @@
         "https://soundcloud.com/*"
       ],
       "js": ["musicInfoScriptSC.js"]
+    },
+    {
+      "matches": [
+        "https://youtube.com/*"
+      ],
+      "js": ["musicInfoScriptYT.js"]
+    },
+    {
+      "matches": [
+        "https://twitch.tv/*"
+      ],
+      "js": ["musicInfoScriptTW.js"]
     }
   ]
 }

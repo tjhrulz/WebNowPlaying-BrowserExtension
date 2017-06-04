@@ -1,102 +1,151 @@
 var oldTitle;
+var oldArtist;
+var oldAlbum;
+var oldAlbumArt;
 var oldPos;
+var oldDur;
+var oldLiked;
+var oldRepeat;
+var oldState;
+
 var ws;
 var connected = false;
 var reconnect;
+var sendData;
 
-function open()
-{
-    try {
-        var url = "ws://127.0.0.1:8974/";
-        ws = new WebSocket(url);
-        ws.onopen = onOpen;
-        ws.onclose = onClose;
-        ws.onmessage = onMessage;
-        ws.onerror = onError;
+function open() {
+	try {
+		var url = "ws://127.0.0.1:8974/";
+		ws = new WebSocket(url);
+		ws.onopen = onOpen;
+		ws.onclose = onClose;
+		ws.onmessage = onMessage;
+		ws.onerror = onError;
 
-        console.log("Opening websocket");
-    }
-    catch (error)
-    {
-        console.log("Error:" + error);
-    }
+		console.log("Opening websocket");
+	}
+	catch (error) {
+		console.log("Error:" + error);
+	}
 }
 
 var onOpen = function() {
-    console.log("Opened websocket");
-    connected = true;
-    clearTimeout(reconnect);
-    dataCheck();
+	console.log("Opened websocket");
+	connected = true;
+	ws.send("PLAYER:SOUNDCLOUD");
+	//@TODO Possibly send all know data right away on open
+	sendData = setInterval(function() {
+		dataCheck();
+	}, 500);
 };
 
 var onClose = function() {
-    console.log("Closed websocket");
-    connected = false;
-    reconnect = setTimeout(function(){ open(); }, 5000);
+	console.log("Closed websocket");
+	connected = false;
+	clearInterval(sendData);
+	reconnect = setTimeout(function() {
+		open();
+	}, 5000);
 };
 
 var onMessage = function(event) {
-    console.log("Message received:" + event.data);
+	if (event.data.toLowerCase() == "playpause") {
+		var a = document.getElementsByClassName("playControl")[0];
+		var e = document.createEvent('MouseEvents');
+		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		a.dispatchEvent(e);
+	}
+	else if (event.data.toLowerCase() == "next") {
+		var a = document.getElementsByClassName("skipControl__next")[0];
+		var e = document.createEvent('MouseEvents');
+		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		a.dispatchEvent(e);
+	}
+	else if (event.data.toLowerCase() == "previous") {
+		var a = document.getElementsByClassName("skipControl__previous")[0];
+		var e = document.createEvent('MouseEvents');
+		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		a.dispatchEvent(e);
+	}
+	else if (event.data.toLowerCase() == "repeat") {
+		var a = document.getElementsByClassName("repeatControl")[0];
+		var e = document.createEvent('MouseEvents');
+		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		a.dispatchEvent(e);
+	}
 };
 
 var onError = function(event) {
-    if(typeof event.data != 'undefined') {
-        console.log("Websocket Error:" + event.data);
-    }
+	if (typeof event.data != 'undefined') {
+		console.log("Websocket Error:" + event.data);
+	}
 };
 
-function dataCheck()
-{
-    try
-    {
-        //Contains both the title and the album art
+function dataCheck() {
+	try {
+		if (document.getElementsByClassName("playbackSoundBadge__title").length > 0) {
+			var newTitle = document.getElementsByClassName("playbackSoundBadge__title")[0].title;
+			if (newTitle != oldTitle) {
+				oldTitle = newTitle;
+				ws.send("TITLE:" + newTitle);
+			}
 
-        newPos = document.getElementsByClassName("playbackTimeline__timePassed")[0].children[1].innerHTML;
-        newTitle = document.getElementsByClassName("playbackSoundBadge__title sc-truncate")[0].title;
+			if (document.getElementsByClassName("playControl")[0].title == "Pause current") {
+				var newArtist = document.title.substring(document.title.indexOf("by") + 3).replace(" | Free Listening on SoundCloud");
+				if (newArtist != oldArtist) {
+					oldArtist = newArtist;
+					ws.send("ARTIST:" + newArtist);
+				}
+			}
 
-        if(newTitle != oldTitle || newPos != oldPos)
-        {
-            oldTitle = newTitle;
-            oldPos = newPos;
+			var newAlbum = document.getElementsByClassName("playbackSoundBadge__context")[0].innerText;
+			if (newAlbum != oldAlbum) {
+				oldAlbum = newAlbum;
+				ws.send("ALBUM:" + newAlbum);
+			}
 
-            title = newTitle;
-            artist = document.getElementsByClassName("playbackSoundBadge__context sc-link-light sc-truncate")[0].title;
-            //album = document.getElementsByClassName("player-album")[0].innerHTML;
-            //Only contains album art thumbnail not full sized
-            albumArt =  document.getElementsByClassName("playbackSoundBadge")[0].children[0].children[0].children[0];
+			var newAlbumArt = document.getElementsByClassName("sc-artwork")[document.getElementsByClassName("sc-artwork").length - 1].style.backgroundImage;
+			if (newAlbumArt != oldAlbumArt) {
+				oldAlbumArt = newAlbumArt;
+				ws.send("ALBUMART:" + newAlbumArt.substring(newAlbumArt.indexOf("(") + 2, newAlbumArt.indexOf(")") - 1).replace("50x50", "500x500"));
+			}
 
-            position = newPos;
-            duration = document.getElementsByClassName("playbackTimeline__duration")[0].children[1].innerHTML;
+			var newDur = document.getElementsByClassName("playbackTimeline__duration")[0].children[1].innerHTML;
+			if (newDur != oldDur) {
+				oldDur = newDur;
+				ws.send("DURATION:" + newDur);
+			}
 
-            liked = document.getElementsByClassName("sc-button-like playbackSoundBadge__like sc-button sc-button-small sc-button-responsive sc-button-icon")[0].title;
-            disliked = 0;
+			var newPos = document.getElementsByClassName("playbackTimeline__timePassed")[0].children[1].innerHTML;
+			if (newPos != oldPos) {
+				oldPos = newPos;
+				ws.send("POSITION:" + newPos);
+			}
 
-            //Note this may get info right when using podcasts
-            //.children[0 & 6].title is back 30 seconds and forward 30 seconds
-            //.children[2 & 4].title are previous and next
-            repeat = 0;
-            shuffle = 0;
-            if(document.getElementsByClassName("repeatControl sc-ir m-old m-one").length > 0)
-            {
-                repeat = 1
-            }
+			var newLiked = document.getElementsByClassName("playbackSoundBadge__like")[0].title;
+			if (newLiked != oldLiked) {
+				oldLiked = newLiked;
+				ws.send("RATING:" + newLiked.replace("Unlike", 5).replace("Like", 0));
+			}
 
-            status = document.getElementsByClassName("playControl sc-ir playControls__icon playControls__play")[0].title;
+			var newRepeat = document.getElementsByClassName("repeatControl sc-ir m-old m-one").length;
+			if (newRepeat != oldRepeat) {
+				oldRepeat = newRepeat;
+				ws.send("REPEAT:" + newRepeat);
+			}
 
-            if(connected) {
-                ws.send(title);
-                ws.send(artist);
-                ws.send(album);
-                ws.send(status);
-
-            }
-        }
-        setTimeout(dataCheck, 500);
-    }
-    catch(err)
-    {
-        setTimeout(dataCheck, 1000);
-    }
+			var newState = document.getElementsByClassName("playControl")[0].title;
+			if (newState != oldState) {
+				oldState = newState;
+				ws.send("STATE:" + newState.replace("Play current", 0).replace("Pause current", 1));
+			}
+		}
+		else {
+			//@TODO Decide on if/how to tell it to reset data/ignore this one
+		}
+	}
+	catch (e) {
+		ws.send("Error:" + e);
+	}
 }
-
 open();
