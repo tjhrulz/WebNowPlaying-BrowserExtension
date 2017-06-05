@@ -27,7 +27,7 @@
     },
     {
       "matches": [
-        "https://youtube.com/*"
+        "https://www.youtube.com/*"
       ],
       "js": ["musicInfoScriptYT.js"]
     }
