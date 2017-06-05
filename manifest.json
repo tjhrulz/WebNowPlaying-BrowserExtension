@@ -1,35 +1,39 @@
 {
-  "manifest_version": 2,
+    "manifest_version": 2,
 
-  "name": "ChromeMusicInfo",
-  "description": "This extension get music info from supported sites and makes it available to rainmeter",
-  "version": "0.2",
-  "content_scripts": [
-    {
-      "matches": [
-        "https://play.google.com/music/*"
-      ],
-      "js": [
-        "musicInfoScriptGPM.js"
-      ]
-    },
-    {
-      "matches": [
-        "https://soundcloud.com/*"
-      ],
-      "js": ["musicInfoScriptSC.js"]
-    },
-    {
-      "matches": [
-        "https://www.twitch.tv/*"
-      ],
-      "js": ["musicInfoScriptTW.js"]
-    },
-    {
-      "matches": [
-        "https://www.youtube.com/*"
-      ],
-      "js": ["musicInfoScriptYT.js"]
-    }
-  ]
+    "name": "ChromeMusicInfo",
+    "description": "This extension get music info from supported sites and makes it available to rainmeter",
+    "version": "0.2",
+    "content_scripts": [
+      {
+          "matches": [
+              "https://play.google.com/music/*"
+          ],
+          "js": [
+              "video-bg-play-content.js",
+              "musicInfoScriptGPM.js"
+          ]
+      },
+      {
+          "matches": [
+              "https://soundcloud.com/*"
+          ],
+          "js": ["musicInfoScriptSC.js"]
+      },
+      {
+          "matches": [
+              "https://www.twitch.tv/*"
+          ],
+          "js": ["musicInfoScriptTW.js"]
+      },
+      {
+          "matches": [
+              "https://www.youtube.com/*"
+          ],
+          "js": [
+              "video-bg-play-content.js",
+              "musicInfoScriptYT.js"
+          ]
+      }
+    ]
 }

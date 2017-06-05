@@ -4,6 +4,7 @@ var oldAlbum = "";
 var oldAlbumArt = "";
 var oldPos = "";
 var oldDur = "";
+var oldVolume = "";
 var oldLiked = "";
 var oldRepeat = "";
 var oldShuffle = "";
@@ -33,11 +34,11 @@ function open() {
 var onOpen = function() {
 	console.log("Opened websocket");
 	connected = true;
-	ws.send("PLAYER:GOOGLE PLAY MUSIC");
+	ws.send("PLAYER:Google Play Music");
 	//@TODO Possibly send all know data right away on open
 	sendData = setInterval(function() {
 		dataCheck();
-	}, 500);
+	}, 50);
 };
 
 var onClose = function() {
@@ -88,22 +89,9 @@ var onError = function(event) {
 	}
 };
 
-function sendExistingData() {
-  if(oldTitle !== "") {ws.send("TITLE:" + oldTitle);}
-  if(oldArtist !== "") {ws.send("ARTIST:" + oldArtist);}
-  if(oldAlbum !== "") {ws.send("ALBUM:" + oldAlbum);}
-  if(oldAlbumArt !== "") {ws.send("ALBUMART:" + oldAlbumArt);}
-  if(oldPos !== "") {ws.send("POSITION:" + oldPos);}
-  if(oldDur !== "") {ws.send("DURATION:" + oldDur);}
-  if(oldLiked !== "") {ws.send("RATING:" + oldLiked);}
-  if(oldRepeat !== "") {ws.send("REPEAT:" + oldRepeat);}
-  if(oldShuffle !== "") {ws.send("SHUFFLE:" + oldShuffle);}
-  if(oldState !== "") {ws.send("STATE:" + oldState);}
-}
-
 function dataCheck() {
 	try {
-		if (document.getElementById("currently-playing-title").innerText.length > 0) {
+		if (document.getElementById("currently-playing-title") !== null && document.getElementById("currently-playing-title").innerText.length > 0) {
 			var newTitle = document.getElementById("currently-playing-title").innerText;
 			if (newTitle != oldTitle) {
 				oldTitle = newTitle;
@@ -140,8 +128,14 @@ function dataCheck() {
 				ws.send("POSITION:" + newPos);
 			}
 
-			var thumbsUp = document.getElementsByClassName("rating-container")[0].children[0].title;
-			var thumbsDown = document.getElementsByClassName("rating-container")[0].children[1].title;
+      var newVolume = document.getElementById("material-vslider").getAttribute("aria-valuenow");
+      if (newVolume != oldVolume) {
+        oldVolume = newVolume;
+        ws.send("VOLUME:" + newVolume);
+      }
+
+			var thumbsUp = document.getElementsByClassName("rating-container materialThumbs")[0].children[0].title;
+			var thumbsDown = document.getElementsByClassName("rating-container materialThumbs")[0].children[1].title;
 			var newLiked = thumbsUp + thumbsDown;
 			if (newLiked != oldLiked) {
 				oldLiked = newLiked;

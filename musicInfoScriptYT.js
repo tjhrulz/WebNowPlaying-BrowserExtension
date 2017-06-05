@@ -4,6 +4,7 @@ var oldAlbum = "";
 var oldAlbumArt = "";
 var oldPos = "";
 var oldDur = "";
+var oldVolume = "";
 var oldLiked = "";
 var oldRepeat = "";
 var oldShuffle = "";
@@ -33,11 +34,11 @@ function open() {
 var onOpen = function() {
 	console.log("Opened websocket");
 	connected = true;
-	ws.send("PLAYER:YOUTUBE");
+	ws.send("PLAYER:Youtube");
 	//@TODO Possibly send all know data right away on open
 	sendData = setInterval(function() {
 		dataCheck();
-	}, 500);
+	}, 50);
 };
 
 var onClose = function() {
@@ -64,10 +65,16 @@ var onMessage = function(event) {
 	}
 	//Make go to beginning of video if not in playlist
 	else if (event.data.toLowerCase() == "previous") {
-		var a = document.getElementsByClassName("ytp-prev-button")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		//If able to go back
+		if (document.getElementsByClassName("ytp-prev-button")[0].getAttribute("aria-disabled") == "false") {
+			var a = document.getElementsByClassName("ytp-prev-button")[0];
+			var e = document.createEvent('MouseEvents');
+			e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+			a.dispatchEvent(e);
+		}
+		else {
+			window.history.back();
+		}
 	}
 	else if (document.getElementsByClassName("yt-playlist-buttons").length > 0) {
 		if (event.data.toLowerCase() == "repeat") {
@@ -91,19 +98,6 @@ var onError = function(event) {
 	}
 };
 
-function sendExistingData() {
-  if(oldTitle !== "") {ws.send("TITLE:" + oldTitle);}
-  if(oldArtist !== "") {ws.send("ARTIST:" + oldArtist);}
-  if(oldAlbum !== "") {ws.send("ALBUM:" + oldAlbum);}
-  if(oldAlbumArt !== "") {ws.send("ALBUMART:" + oldAlbumArt);}
-  if(oldPos !== "") {ws.send("POSITION:" + oldPos);}
-  if(oldDur !== "") {ws.send("DURATION:" + oldDur);}
-  if(oldLiked !== "") {ws.send("RATING:" + oldLiked);}
-  if(oldRepeat !== "") {ws.send("REPEAT:" + oldRepeat);}
-  if(oldShuffle !== "") {ws.send("SHUFFLE:" + oldShuffle);}
-  if(oldState !== "") {ws.send("STATE:" + oldState);}
-}
-
 function dataCheck() {
 	try {
 		if (window.location.href.indexOf("v=") > 0 && document.getElementsByClassName("ytd-video-primary-info-renderer title").length > 0) {
@@ -126,6 +120,30 @@ function dataCheck() {
 					oldAlbum = newAlbum;
 					ws.send("ALBUM:" + newAlbum);
 				}
+
+				var newRepeat = document.getElementsByClassName("yt-playlist-buttons")[0].children[0].children[0].getAttribute("class").includes("active");
+				if (newRepeat != oldRepeat) {
+					oldRepeat = newRepeat;
+					var repeat = 0;
+
+					console.log(newRepeat);
+					if (newRepeat === true) {
+						repeat = 2;
+					}
+					ws.send("REPEAT:" + repeat);
+				}
+
+				var newShuffle = document.getElementsByClassName("yt-playlist-buttons")[0].children[0].children[1].getAttribute("class").includes("active");
+				if (newShuffle != oldShuffle) {
+					oldShuffle = newShuffle;
+					var Shuffle = 0;
+
+					if (newShuffle === true) {
+						Shuffle = 1;
+					}
+					ws.send("SHUFFLE:" + Shuffle);
+				}
+
 			}
 			else {
 				//Come up with a better fallback album
@@ -133,6 +151,18 @@ function dataCheck() {
 				if (newAlbum != oldAlbum) {
 					oldAlbum = newAlbum;
 					ws.send("ALBUM:" + newAlbum);
+				}
+
+				var newRepeat = "0";
+				if (newRepeat != oldRepeat) {
+					oldRepeat = newRepeat;
+					ws.send("REPEAT:" + newRepeat);
+				}
+
+				var newShuffle = "0";
+				if (newShuffle != oldShuffle) {
+					oldShuffle = newShuffle;
+					ws.send("SHUFFLE:" + newShuffle);
 				}
 			}
 
@@ -148,10 +178,25 @@ function dataCheck() {
 				ws.send("DURATION:" + newDur);
 			}
 
+			//@TODO add toggle to get rid of this hack/reverse engineer to not need
+			var a = document.getElementsByClassName("ytp-time-current")[0];
+			var e = document.createEvent('MouseEvents');
+			e.initMouseEvent('mousemove', true, false, window, 0, 10, 200, 10, 200, false, false, false, false, 0, null);
+			a.dispatchEvent(e);
+
+			e.initMouseEvent('mousemove', true, false, window, 0, 10, 201, 10, 201, false, false, false, false, 0, null);
+			a.dispatchEvent(e);
+
 			var newPos = document.getElementsByClassName("ytp-time-current")[0].innerText;
 			if (newPos != oldPos) {
 				oldPos = newPos;
 				ws.send("POSITION:" + newPos);
+			}
+
+			var newVolume = document.getElementsByClassName("ytp-volume-panel")[0].getAttribute("aria-valuenow");
+			if (newVolume != oldVolume) {
+				oldVolume = newVolume;
+				ws.send("VOLUME:" + newVolume);
 			}
 
 			//This is lovely is it not?
@@ -173,10 +218,15 @@ function dataCheck() {
 
 			var newState = document.getElementsByClassName("ytp-play-button")[0].getAttribute("aria-label");
 
+			//Check if replay button
+			if (newState === null) {
+				newState = document.getElementsByClassName("ytp-play-button")[0].title
+			}
+
 			if (newState != oldState) {
 				oldState = newState;
 
-				ws.send("STATE:" + newState.replace("Play", 2).replace("Pause", 1));
+				ws.send("STATE:" + newState.replace("Play", 2).replace("Pause", 1).replace("Replay", 3));
 			}
 		}
 		else {

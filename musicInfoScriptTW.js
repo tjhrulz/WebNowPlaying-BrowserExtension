@@ -4,6 +4,7 @@ var oldAlbum = "";
 var oldAlbumArt = "";
 var oldPos = "";
 var oldDur = "";
+var oldVolume = "";
 var oldLiked = "";
 var oldRepeat = "";
 var oldShuffle = "";
@@ -33,11 +34,11 @@ function open() {
 var onOpen = function() {
 	console.log("Opened websocket");
 	connected = true;
-	ws.send("PLAYER:TWITCH");
+	ws.send("PLAYER:Twitch");
 	//@TODO Possibly send all know data right away on open
 	sendData = setInterval(function() {
 		dataCheck();
-	}, 500);
+	}, 50);
 };
 
 var onClose = function() {
@@ -63,19 +64,6 @@ var onError = function(event) {
 		console.log("Websocket Error:" + event.data);
 	}
 };
-
-function sendExistingData() {
-  if(oldTitle !== "") {ws.send("TITLE:" + oldTitle);}
-  if(oldArtist !== "") {ws.send("ARTIST:" + oldArtist);}
-  if(oldAlbum !== "") {ws.send("ALBUM:" + oldAlbum);}
-  if(oldAlbumArt !== "") {ws.send("ALBUMART:" + oldAlbumArt);}
-  if(oldPos !== "") {ws.send("POSITION:" + oldPos);}
-  if(oldDur !== "") {ws.send("DURATION:" + oldDur);}
-  if(oldLiked !== "") {ws.send("RATING:" + oldLiked);}
-  if(oldRepeat !== "") {ws.send("REPEAT:" + oldRepeat);}
-  if(oldShuffle !== "") {ws.send("SHUFFLE:" + oldShuffle);}
-  if(oldState !== "") {ws.send("STATE:" + oldState);}
-}
 
 function dataCheck() {
 	try {
@@ -128,7 +116,8 @@ function dataCheck() {
 			else {
 				//@TODO Look at twitch api integration to current stream durration
 				var newDur = "0:00";
-				if (newDur != oldDur) {
+        //If stream is playing keep sending 0 to indicate it is still playing
+				if (document.getElementsByClassName("js-pause-button")[0].getBoundingClientRect().top > 0) {
 					oldDur = newDur;
 					ws.send("DURATION:" + newDur);
 				}
@@ -139,6 +128,12 @@ function dataCheck() {
 					ws.send("POSITION:" + newPos);
 				}
 			}
+
+      var newVolume = document.getElementsByClassName("player-volume__slider")[0].getAttribute("aria-valuenow");
+      if (newVolume != oldVolume) {
+        oldVolume = newVolume;
+        ws.send("VOLUME:" + parseFloat(newVolume) * 100);
+      }
 
 
 			var newLiked = document.getElementsByClassName("follow-button")[0].innerText;

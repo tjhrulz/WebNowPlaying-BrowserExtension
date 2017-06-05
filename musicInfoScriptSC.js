@@ -4,6 +4,7 @@ var oldAlbum = "";
 var oldAlbumArt = "";
 var oldPos = "";
 var oldDur = "";
+var oldVolume = "";
 var oldLiked = "";
 var oldRepeat = "";
 var oldShuffle = "";
@@ -33,12 +34,11 @@ function open() {
 var onOpen = function() {
 	console.log("Opened websocket");
 	connected = true;
-  sendExistingData();
-	ws.send("PLAYER:SOUNDCLOUD");
+	ws.send("PLAYER:Soundcloud");
 	//@TODO Possibly send all know data right away on open
 	sendData = setInterval(function() {
 		dataCheck();
-	}, 500);
+	}, 50);
 };
 
 var onClose = function() {
@@ -83,19 +83,6 @@ var onError = function(event) {
 	}
 };
 
-function sendExistingData() {
-  if(oldTitle !== "") {ws.send("TITLE:" + oldTitle);}
-  if(oldArtist !== "") {ws.send("ARTIST:" + oldArtist);}
-  if(oldAlbum !== "") {ws.send("ALBUM:" + oldAlbum);}
-  if(oldAlbumArt !== "") {ws.send("ALBUMART:" + oldAlbumArt);}
-  if(oldPos !== "") {ws.send("POSITION:" + oldPos);}
-  if(oldDur !== "") {ws.send("DURATION:" + oldDur);}
-  if(oldLiked !== "") {ws.send("RATING:" + oldLiked);}
-  if(oldRepeat !== "") {ws.send("REPEAT:" + oldRepeat);}
-  if(oldShuffle !== "") {ws.send("SHUFFLE:" + oldShuffle);}
-  if(oldState !== "") {ws.send("STATE:" + oldState);}
-}
-
 function dataCheck() {
 	try {
 		if (document.getElementsByClassName("playbackSoundBadge__title").length > 0) {
@@ -116,7 +103,7 @@ function dataCheck() {
 			var newAlbum = document.getElementsByClassName("playbackSoundBadge__context")[0].innerText;
 			if (newAlbum != oldAlbum) {
 				oldAlbum = newAlbum;
-				ws.send("ALBUM:" + newAlbum);
+				ws.send("ALBUM:" + newAlbum.replace("Playing from"));
 			}
 
 			var newAlbumArt = document.getElementsByClassName("sc-artwork")[document.getElementsByClassName("sc-artwork").length - 1].style.backgroundImage;
@@ -131,11 +118,17 @@ function dataCheck() {
 				ws.send("DURATION:" + newDur);
 			}
 
-			var newPos = document.getElementsByClassName("playbackTimeline__timePassed")[0].children[1].innerHTML;
+      var newPos = document.getElementsByClassName("playbackTimeline__timePassed")[0].children[1].innerHTML;
 			if (newPos != oldPos) {
 				oldPos = newPos;
 				ws.send("POSITION:" + newPos);
 			}
+
+      var newVolume = document.getElementsByClassName("volume__sliderWrapper")[0].getAttribute("aria-valuenow");
+      if (newVolume != oldVolume) {
+        oldVolume = newVolume;
+        ws.send("VOLUME:" + parseFloat(newVolume) * 100);
+      }
 
 			var newLiked = document.getElementsByClassName("playbackSoundBadge__like")[0].title;
 			if (newLiked != oldLiked) {
