@@ -137,11 +137,17 @@ function dataCheck() {
 			var newState = document.getElementsByClassName("playControl")[0].title;
 			if (newState != oldState) {
 				oldState = newState;
-				ws.send("STATE:" + newState.replace("Play current", 0).replace("Pause current", 1));
+				ws.send("STATE:" + newState.replace("Play current", 2).replace("Pause current", 1));
 			}
 		}
 		else {
 			//@TODO Decide on if/how to tell it to reset data/ignore this one
+			//Send playback as stopped
+			var newState = 0;
+			if (newState != oldState) {
+				oldState = newState;
+				ws.send("STATE:" + newState);
+			}
 		}
 	}
 	catch (e) {
