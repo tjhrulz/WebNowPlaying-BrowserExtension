@@ -1,13 +1,13 @@
-var oldTitle;
-var oldArtist;
-var oldAlbum;
-var oldAlbumArt;
-var oldPos;
-var oldDur;
-var oldLiked;
-var oldRepeat;
-var oldShuffle;
-var oldState;
+var oldTitle = "";
+var oldArtist = "";
+var oldAlbum = "";
+var oldAlbumArt = "";
+var oldPos = "";
+var oldDur = "";
+var oldLiked = "";
+var oldRepeat = "";
+var oldShuffle = "";
+var oldState = "";
 
 var ws;
 var connected = false;
@@ -87,6 +87,19 @@ var onError = function(event) {
 		console.log("Websocket Error:" + event.data);
 	}
 };
+
+function sendExistingData() {
+  if(oldTitle !== "") {ws.send("TITLE:" + oldTitle);}
+  if(oldArtist !== "") {ws.send("ARTIST:" + oldArtist);}
+  if(oldAlbum !== "") {ws.send("ALBUM:" + oldAlbum);}
+  if(oldAlbumArt !== "") {ws.send("ALBUMART:" + oldAlbumArt);}
+  if(oldPos !== "") {ws.send("POSITION:" + oldPos);}
+  if(oldDur !== "") {ws.send("DURATION:" + oldDur);}
+  if(oldLiked !== "") {ws.send("RATING:" + oldLiked);}
+  if(oldRepeat !== "") {ws.send("REPEAT:" + oldRepeat);}
+  if(oldShuffle !== "") {ws.send("SHUFFLE:" + oldShuffle);}
+  if(oldState !== "") {ws.send("STATE:" + oldState);}
+}
 
 function dataCheck() {
 	try {
