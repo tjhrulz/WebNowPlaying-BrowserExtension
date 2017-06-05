@@ -21,15 +21,15 @@
     },
     {
       "matches": [
-        "https://youtube.com/*"
+        "https://www.twitch.tv/*"
       ],
-      "js": ["musicInfoScriptYT.js"]
+      "js": ["musicInfoScriptTW.js"]
     },
     {
       "matches": [
-        "https://twitch.tv/*"
+        "https://youtube.com/*"
       ],
-      "js": ["musicInfoScriptTW.js"]
+      "js": ["musicInfoScriptYT.js"]
     }
   ]
 }
