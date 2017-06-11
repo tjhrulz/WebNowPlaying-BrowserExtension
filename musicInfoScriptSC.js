@@ -86,7 +86,7 @@ var onError = function(event) {
 function dataCheck() {
 	try {
 		if (document.getElementsByClassName("playbackSoundBadge__title").length > 0) {
-			var newTitle = document.getElementsByClassName("playbackSoundBadge__title")[0].title;
+			var newTitle = document.getElementsByClassName("playbackSoundBadge__titleLink")[0].title;
 			if (newTitle != oldTitle) {
 				oldTitle = newTitle;
 				ws.send("TITLE:" + newTitle);
@@ -103,7 +103,7 @@ function dataCheck() {
 			var newAlbum = document.getElementsByClassName("playbackSoundBadge__context")[0].innerText;
 			if (newAlbum != oldAlbum) {
 				oldAlbum = newAlbum;
-				ws.send("ALBUM:" + newAlbum.replace("Playing from"));
+				ws.send("ALBUM:" + newAlbum.replace("Playing from", ""));
 			}
 
 			var newAlbumArt = document.getElementsByClassName("sc-artwork")[document.getElementsByClassName("sc-artwork").length - 1].style.backgroundImage;
