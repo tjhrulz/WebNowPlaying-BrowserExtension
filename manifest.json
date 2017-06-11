@@ -37,6 +37,12 @@
               "video-bg-play-content.js",
               "musicInfoScriptYT.js"
           ]
+      },
+      {
+          "matches": [
+              "https://music.amazon.com/*"
+          ],
+          "js": ["musicInfoScriptAZ.js"]
       }
     ]
 }
