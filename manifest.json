@@ -4,6 +4,9 @@
     "name": "ChromeMusicInfo",
     "description": "This extension get music info from supported sites and makes it available to rainmeter",
     "version": "0.2",
+   "permissions": [
+    "tabs", "https://www.youtube.com/*", "https://play.google.com/music/*"
+   ],
     "content_scripts": [
       {
           "matches": [
