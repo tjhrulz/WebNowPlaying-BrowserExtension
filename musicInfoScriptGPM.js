@@ -113,7 +113,7 @@ function dataCheck() {
 			var newAlbumArt = document.getElementById("playerBarArt").src;
 			if (newAlbumArt != oldAlbumArt) {
 				oldAlbumArt = newAlbumArt;
-				ws.send("ALBUMART:" + newAlbumArt.replace("=s90-c-e100", ""));
+				ws.send("COVER:" + newAlbumArt.replace("=s90-c-e100", ""));
 			}
 
 			var newDur = document.getElementById("time_container_duration").innerText;

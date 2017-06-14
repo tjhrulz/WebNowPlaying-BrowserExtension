@@ -127,7 +127,7 @@ function dataCheck() {
 				//Amazon has a placeholder album art, ignore that till the real one loads
 				if(newAlbumArt.indexOf("placeholder-album") < 0)
 				{
-					ws.send("ALBUMART:" + newAlbumArt.replace('url("',"").replace('")',""));
+					ws.send("COVER:" + newAlbumArt.replace('url("',"").replace('")',""));
 				}
 			}
 

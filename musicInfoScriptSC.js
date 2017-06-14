@@ -107,9 +107,13 @@ function dataCheck() {
 			}
 
 			var newAlbumArt = document.getElementsByClassName("sc-artwork")[document.getElementsByClassName("sc-artwork").length - 1].style.backgroundImage;
+			if(newAlbumArt.includes("avatar"))
+			{
+				newAlbumArt = document.getElementsByClassName("sc-artwork")[document.getElementsByClassName("sc-artwork").length - 3].style.backgroundImage;
+			}
 			if (newAlbumArt != oldAlbumArt) {
 				oldAlbumArt = newAlbumArt;
-				ws.send("ALBUMART:" + newAlbumArt.substring(newAlbumArt.indexOf("(") + 2, newAlbumArt.indexOf(")") - 1).replace("50x50", "500x500"));
+				ws.send("COVER:" + newAlbumArt.substring(newAlbumArt.indexOf("(") + 2, newAlbumArt.indexOf(")") - 1).replace("50x50", "500x500"));
 			}
 
 			var newDur = document.getElementsByClassName("playbackTimeline__duration")[0].children[1].innerHTML;

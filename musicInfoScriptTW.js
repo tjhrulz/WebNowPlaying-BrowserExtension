@@ -96,7 +96,7 @@ function dataCheck() {
 			var newAlbumArt = document.getElementsByClassName("cn-metabar__boxart")[0].children[0].src;
 			if (newAlbumArt != oldAlbumArt) {
 				oldAlbumArt = newAlbumArt;
-				ws.send("ALBUMART:" + newAlbumArt.replace("-138x190", ""));
+				ws.send("COVER:" + newAlbumArt.replace("-138x190", ""));
 			}
 
 			//If not live

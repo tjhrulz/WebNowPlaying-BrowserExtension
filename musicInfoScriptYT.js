@@ -15,6 +15,14 @@ var connected = false;
 var reconnect;
 var sendData;
 
+var mouseDown = 0;
+document.body.onmousedown = function() {
+  ++mouseDown;
+}
+document.body.onmouseup = function() {
+  --mouseDown;
+}
+
 function open() {
 	try {
 		var url = "ws://127.0.0.1:8974/";
@@ -169,7 +177,7 @@ function dataCheck() {
 			var newAlbumArt = window.location.href.substring(window.location.href.indexOf("v=") + 2, window.location.href.indexOf("v=") + 2 + 11);
 			if (newAlbumArt != oldAlbumArt) {
 				oldAlbumArt = newAlbumArt;
-				ws.send("ALBUMART:" + "https://i.ytimg.com/vi/" + newAlbumArt + "/hqdefault.jpg?");
+				ws.send("COVER:" + "https://i.ytimg.com/vi/" + newAlbumArt + "/hqdefault.jpg?");
 			}
 
 			var newDur = document.getElementsByClassName("ytp-time-duration")[0].innerText;
@@ -178,15 +186,17 @@ function dataCheck() {
 				ws.send("DURATION:" + newDur);
 			}
 
-			//@TODO add toggle to get rid of this hack/reverse engineer to not need
-			var a = document.getElementsByClassName("ytp-time-current")[0];
-			var e = document.createEvent('MouseEvents');
-			e.initMouseEvent('mousemove', true, false, window, 0, 10, 200, 10, 200, false, false, false, false, 0, null);
-			a.dispatchEvent(e);
+			if(mouseDown == 0)
+			{
+				//@TODO add toggle to get rid of this hack/reverse engineer to not need
+				var a = document.getElementsByClassName("ytp-time-current")[0];
+				var e = document.createEvent('MouseEvents');
+				e.initMouseEvent('mousemove', true, true, window, 0, 10, 200, 10, 200, false, false, false, false, 0, null);
+				a.dispatchEvent(e);
 
-			e.initMouseEvent('mousemove', true, false, window, 0, 10, 201, 10, 201, false, false, false, false, 0, null);
-			a.dispatchEvent(e);
-
+				e.initMouseEvent('mousemove', true, true, window, 0, 10, 201, 10, 201, false, false, false, false, 0, null);
+				a.dispatchEvent(e);
+			}
 			var newPos = document.getElementsByClassName("ytp-time-current")[0].innerText;
 			if (newPos != oldPos) {
 				oldPos = newPos;
