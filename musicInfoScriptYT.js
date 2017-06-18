@@ -179,7 +179,7 @@ function dataCheck() {
       var newAlbumArt = window.location.href.substring(window.location.href.indexOf("v=") + 2, window.location.href.indexOf("v=") + 2 + 11);
       if (newAlbumArt != oldAlbumArt) {
         oldAlbumArt = newAlbumArt;
-        ws.send("COVER:" + "https://i.ytimg.com/vi/" + newAlbumArt + "/hqdefault.jpg?");
+        ws.send("COVER:" + "https://i.ytimg.com/vi/" + newAlbumArt + "/mqdefault.jpg?");
       }
 
       var newDur = document.getElementsByClassName("ytp-time-duration")[0].innerText;
@@ -188,7 +188,7 @@ function dataCheck() {
         ws.send("DURATION:" + newDur);
       }
 
-      if (mouseDown == 0) {
+      if (!document.getElementsByClassName("ytp-fullscreen-button")[0].title.includes("Exit") && mouseDown == 0) {
         //@TODO add toggle to get rid of this hack/reverse engineer to not need
         var a = document.getElementsByClassName("ytp-time-current")[0];
         var e = document.createEvent('MouseEvents');

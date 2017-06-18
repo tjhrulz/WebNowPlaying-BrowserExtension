@@ -1,9 +1,13 @@
 {
     "manifest_version": 2,
 
-    "name": "ChromeMusicInfo",
-    "description": "This extension get music info from supported sites and makes it available to rainmeter",
+    "name": "WebNowPlaying Chrome Companion",
+    "short_name": "WebNowPlaying",
+    "description": "Ever wished music info from your web browser could be used in Rainmeter? Well now it can!",
     "version": "0.2",
+    "icons": { "16": "icon16.png",
+           "48": "icon48.png",
+          "128": "icon128.png" },
    "permissions": [
     "tabs", "https://www.youtube.com/*", "https://play.google.com/music/*"
    ],
