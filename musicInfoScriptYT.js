@@ -92,7 +92,7 @@ var onMessage = function(event) {
 			window.history.back();
 		}
 	}
-	else if (document.getElementsByClassName("yt-playlist-buttons").length > 0) {
+	else if (document.getElementsByClassName("yt-playlist-buttons").length > 0 && (event.data.toLowerCase() == "repeat" || event.data.toLowerCase() == "shuffle")) {
 		if (event.data.toLowerCase() == "repeat") {
 			var a = document.getElementsByClassName("yt-playlist-buttons")[0].children[0].children[0];
 			var e = document.createEvent('MouseEvents');
@@ -106,6 +106,19 @@ var onMessage = function(event) {
 			a.dispatchEvent(e);
 		}
 	}
+	else if (event.data.toLowerCase() == "togglethumbsup") {
+    console.log("togglethumbsup");
+    var a = document.getElementById("menu-container").children[0].children[0].children[0].children[0];
+    var e = document.createEvent('MouseEvents');
+    e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    a.dispatchEvent(e);
+	}
+	else if (event.data.toLowerCase() == "togglethumbsdown") {
+    var a = document.getElementById("menu-container").children[0].children[0].children[0].children[1];
+    var e = document.createEvent('MouseEvents');
+    e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    a.dispatchEvent(e);
+	}
 	else if (event.data.toLowerCase().includes("rating ")) {
 		var rating = event.data.toLowerCase()
 		//+7 because "rating " is 7 chars
@@ -117,7 +130,7 @@ var onMessage = function(event) {
 		if (rating > 3) {
 			if (thumbsUp != "true") {
 
-				var a = document.getElementsByClassName("rating-container materialThumbs")[0].children[0];
+				var a = document.getElementById("menu-container").children[0].children[0].children[0].children[0];
 				var e = document.createEvent('MouseEvents');
 				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 				a.dispatchEvent(e);
@@ -126,7 +139,7 @@ var onMessage = function(event) {
 		else if (rating < 3) {
 			if (thumbsDown != "true") {
 
-				var a = document.getElementsByClassName("rating-container materialThumbs")[0].children[1];
+				var a = document.getElementById("menu-container").children[0].children[0].children[0].children[1];
 				var e = document.createEvent('MouseEvents');
 				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 				a.dispatchEvent(e);
@@ -135,14 +148,14 @@ var onMessage = function(event) {
 		else {
 			if (thumbsUp == "true") {
 
-				var a = document.getElementsByClassName("rating-container materialThumbs")[0].children[0];
+				var a = document.getElementById("menu-container").children[0].children[0].children[0].children[0];
 				var e = document.createEvent('MouseEvents');
 				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 				a.dispatchEvent(e);
 			}
 			else if (thumbsDown == "true") {
 
-				var a = document.getElementsByClassName("rating-container materialThumbs")[0].children[1];
+				var a = document.getElementById("menu-container").children[0].children[0].children[0].children[1];
 				var e = document.createEvent('MouseEvents');
 				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 				a.dispatchEvent(e);
@@ -237,7 +250,7 @@ function dataCheck() {
 				ws.send("DURATION:" + newDur);
 			}
 
-			var newPos = parseInt(document.getElementsByClassName("html5-main-video")[0].currentTime /60) +":"+ pad(parseInt(document.getElementsByClassName("html5-main-video")[0].currentTime)%60, 2);  
+			var newPos = parseInt(document.getElementsByClassName("html5-main-video")[0].currentTime /60) +":"+ pad(parseInt(document.getElementsByClassName("html5-main-video")[0].currentTime)%60, 2);
 			if (newPos != oldPos) {
 				oldPos = newPos;
 				ws.send("POSITION:" + newPos);

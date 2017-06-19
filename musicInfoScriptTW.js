@@ -64,6 +64,35 @@ var onMessage = function(event) {
     e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
     a.dispatchEvent(e);
   }
+	else if (event.data.toLowerCase() == "togglethumbsup") {
+		var a = document.getElementsByClassName("follow-button")[0];
+		var e = document.createEvent('MouseEvents');
+		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		a.dispatchEvent(e);
+	}
+	else if (event.data.toLowerCase().includes("rating ")) {
+		var rating = event.data.toLowerCase()
+		//+7 because "rating " is 7 chars
+		rating = parseInt(rating.substring(rating.indexOf("rating ") + 7));
+		var liked = document.getElementsByClassName("follow-button")[0].innerText.includes("Follow");
+
+		if (rating > 3) {
+			if (!liked) {
+				var a = document.getElementsByClassName("follow-button")[0];
+				var e = document.createEvent('MouseEvents');
+				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+				a.dispatchEvent(e);
+			}
+		}
+		else {
+			if (liked) {
+				var a = document.getElementsByClassName("follow-button")[0];
+				var e = document.createEvent('MouseEvents');
+				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+				a.dispatchEvent(e);
+			}
+		}
+	}
 };
 
 var onError = function(event) {

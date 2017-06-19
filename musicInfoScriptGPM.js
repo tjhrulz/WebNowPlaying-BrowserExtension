@@ -89,6 +89,18 @@ var onMessage = function(event) {
 		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 		a.dispatchEvent(e);
 	}
+	else if (event.data.toLowerCase() == "togglethumbsup") {
+		var a = document.getElementsByClassName("rating-container materialThumbs")[0].children[0];
+		var e = document.createEvent('MouseEvents');
+		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		a.dispatchEvent(e);
+	}
+	else if (event.data.toLowerCase() == "togglethumbsdown") {
+		var a = document.getElementsByClassName("rating-container materialThumbs")[0].children[1];
+		var e = document.createEvent('MouseEvents');
+		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		a.dispatchEvent(e);
+	}
 	else if (event.data.toLowerCase().includes("rating ")) {
 		var rating = event.data.toLowerCase()
 		//+7 because "rating " is 7 chars

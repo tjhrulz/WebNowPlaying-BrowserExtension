@@ -1,10 +1,10 @@
 {
     "manifest_version": 2,
 
-    "name": "WebNowPlaying Chrome Companion",
+    "name": "WebNowPlaying Companion",
     "short_name": "WebNowPlaying",
     "description": "Ever wished music info from your web browser could be used in Rainmeter? Well now it can!",
-    "version": "0.2",
+    "version": "0.2.5",
     "icons": { "16": "icon16.png",
            "48": "icon48.png",
           "128": "icon128.png" },
@@ -14,7 +14,6 @@
               "https://play.google.com/music/*"
           ],
           "js": [
-              "video-bg-play-content.js",
               "musicInfoScriptGPM.js"
           ]
       },
@@ -35,7 +34,6 @@
               "https://www.youtube.com/*"
           ],
           "js": [
-              "video-bg-play-content.js",
               "musicInfoScriptYT.js"
           ]
       },
