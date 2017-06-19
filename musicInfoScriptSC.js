@@ -140,7 +140,7 @@ function dataCheck() {
 			var newAlbum = document.getElementsByClassName("playbackSoundBadge__context")[0].innerText;
 			if (newAlbum != oldAlbum) {
 				oldAlbum = newAlbum;
-				ws.send("ALBUM:" + newAlbum.replace("Playing from", ""));
+				ws.send("ALBUM:" + newAlbum.replace("Playing from ", ""));
 			}
 
 			var newAlbumArt = document.getElementsByClassName("sc-artwork")[document.getElementsByClassName("sc-artwork").length - 1].style.backgroundImage;
