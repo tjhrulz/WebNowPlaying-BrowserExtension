@@ -83,6 +83,12 @@ var onMessage = function(event) {
 		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 		a.dispatchEvent(e);
 	}
+	else if (event.data.toLowerCase() == "shuffle") {
+		var a = document.getElementsByClassName("shuffleControl")[0];
+		var e = document.createEvent('MouseEvents');
+		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		a.dispatchEvent(e);
+	}
 	else if (event.data.toLowerCase() == "togglethumbsup") {
 		var a = document.getElementsByClassName("playbackSoundBadge__like")[0];
 		var e = document.createEvent('MouseEvents');
@@ -130,14 +136,14 @@ function dataCheck() {
 			}
 
 			if (document.getElementsByClassName("playControl")[0].title == "Pause current") {
-				var newArtist = document.title.substring(document.title.indexOf("by") + 3).replace(" | Free Listening on SoundCloud");
+				var newArtist = document.title.substring(document.title.indexOf("by")).replace(" | Free Listening on SoundCloud", "");
 				if (newArtist != oldArtist) {
 					oldArtist = newArtist;
 					ws.send("ARTIST:" + newArtist);
 				}
 			}
 
-			var newAlbum = document.getElementsByClassName("playbackSoundBadge__context")[0].innerText;
+			var newAlbum = document.getElementsByClassName("playbackSoundBadge__lightLink")[0].innerText;
 			if (newAlbum != oldAlbum) {
 				oldAlbum = newAlbum;
 				ws.send("ALBUM:" + newAlbum.replace("Playing from ", ""));
@@ -176,10 +182,39 @@ function dataCheck() {
 				ws.send("RATING:" + newLiked.replace("Unlike", 5).replace("Like", 0));
 			}
 
-			var newRepeat = document.getElementsByClassName("repeatControl sc-ir m-old m-one").length;
-			if (newRepeat != oldRepeat) {
-				oldRepeat = newRepeat;
-				ws.send("REPEAT:" + newRepeat);
+			var repeatOne = document.getElementsByClassName("m-one").length
+			var repeatNone = document.getElementsByClassName("m-none").length
+			var repeatAll = document.getElementsByClassName("m-all").length
+
+			if(repeatNone == 1)
+			{
+				var newRepeat = "None";
+				if (newRepeat != oldRepeat) {
+					oldRepeat = newRepeat;
+					ws.send("REPEAT:" + 0);
+				}
+			}
+			if(repeatOne == 1)
+			{
+				var newRepeat = "One";
+				if (newRepeat != oldRepeat) {
+					oldRepeat = newRepeat;
+					ws.send("REPEAT:" + 1);
+				}
+			}
+			if(repeatAll == 1)
+			{
+				varnewRepeat = "All";
+				if (newRepeat != oldRepeat) {
+					oldRepeat = newRepeat;
+					ws.send("REPEAT:" + 2);
+				}
+			}
+
+			var newShuffle = document.getElementsByClassName("m-shuffling").length;
+			if (newShuffle != oldShuffle) {
+				oldShuffle = newShuffle;
+				ws.send("SHUFFLE:" + newShuffle);
 			}
 
 			var newState = document.getElementsByClassName("playControl")[0].title;

@@ -120,7 +120,7 @@ var onMessage = function(event) {
     a.dispatchEvent(e);
 	}
 	else if (event.data.toLowerCase().includes("rating ")) {
-		var rating = event.data.toLowerCase()
+		var rating = event.data.toLowerCase();
 		//+7 because "rating " is 7 chars
 		rating = parseInt(rating.substring(rating.indexOf("rating ") + 7));
 
@@ -283,7 +283,7 @@ function dataCheck() {
 
 			//Check if replay button
 			if (newState === null) {
-				newState = document.getElementsByClassName("ytp-play-button")[0].title
+				newState = document.getElementsByClassName("ytp-play-button")[0].title;
 			}
 
 			if (newState != oldState) {
