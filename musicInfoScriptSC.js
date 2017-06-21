@@ -136,7 +136,7 @@ function dataCheck() {
 			}
 
 			if (document.getElementsByClassName("playControl")[0].title == "Pause current") {
-				var newArtist = document.title.substring(document.title.indexOf("by")).replace(" | Free Listening on SoundCloud", "");
+				var newArtist = document.title.substring(document.title.indexOf("by")+3).replace(" | Free Listening on SoundCloud", "");
 				if (newArtist != oldArtist) {
 					oldArtist = newArtist;
 					ws.send("ARTIST:" + newArtist);
@@ -150,12 +150,14 @@ function dataCheck() {
 			}
 
 			var newAlbumArt = document.getElementsByClassName("sc-artwork")[document.getElementsByClassName("sc-artwork").length - 1].style.backgroundImage;
-			if (newAlbumArt.includes("avatar")) {
+			//If it includes 50x50 then it is the album art and not a user profile image
+			if (!newAlbumArt.includes("50x50")) {
 				newAlbumArt = document.getElementsByClassName("sc-artwork")[document.getElementsByClassName("sc-artwork").length - 3].style.backgroundImage;
 			}
 			if (newAlbumArt != oldAlbumArt) {
 				oldAlbumArt = newAlbumArt;
-				ws.send("COVER:" + newAlbumArt.substring(newAlbumArt.indexOf("(") + 2, newAlbumArt.indexOf(")") - 1).replace("50x50", "500x500"));
+				//Replace 50x50 and 120x120 just incase we ended up with a user image
+				ws.send("COVER:" + newAlbumArt.substring(newAlbumArt.indexOf("(") + 2, newAlbumArt.indexOf(")") - 1).replace("50x50", "500x500").replace("120x120", "500x500"));
 			}
 
 			var newDur = document.getElementsByClassName("playbackTimeline__duration")[0].children[1].innerHTML;
