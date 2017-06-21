@@ -42,6 +42,12 @@
               "https://music.amazon.com/*"
           ],
           "js": ["musicInfoScriptAZ.js"]
+      },
+      {
+          "matches": [
+              "https://www.pandora.com/*"
+          ],
+          "js": ["musicInfoScriptPD.js"]
       }
     ]
 }
