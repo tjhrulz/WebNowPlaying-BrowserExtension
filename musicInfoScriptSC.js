@@ -134,13 +134,11 @@ function dataCheck() {
 				oldTitle = newTitle;
 				ws.send("TITLE:" + newTitle);
 			}
-
-			if (document.getElementsByClassName("playControl")[0].title == "Pause current") {
-				var newArtist = document.title.substring(document.title.indexOf("by")+3).replace(" | Free Listening on SoundCloud", "");
-				if (newArtist != oldArtist) {
-					oldArtist = newArtist;
-					ws.send("ARTIST:" + newArtist);
-				}
+			
+			var newArtist = document.getElementsByClassName("playbackSoundBadge__titleContextContainer")[0].innerText;
+			if (newTitle != oldArtist) {
+				oldArtist = newArtist;
+				ws.send("ARTIST:" + newArtist);
 			}
 
 			var newAlbum = document.getElementsByClassName("playbackSoundBadge__lightLink")[0].innerText;
@@ -188,24 +186,21 @@ function dataCheck() {
 			var repeatNone = document.getElementsByClassName("m-none").length
 			var repeatAll = document.getElementsByClassName("m-all").length
 
-			if(repeatNone == 1)
-			{
+			if (repeatNone == 1) {
 				var newRepeat = "None";
 				if (newRepeat != oldRepeat) {
 					oldRepeat = newRepeat;
 					ws.send("REPEAT:" + 0);
 				}
 			}
-			if(repeatOne == 1)
-			{
+			if (repeatOne == 1) {
 				var newRepeat = "One";
 				if (newRepeat != oldRepeat) {
 					oldRepeat = newRepeat;
 					ws.send("REPEAT:" + 1);
 				}
 			}
-			if(repeatAll == 1)
-			{
+			if (repeatAll == 1) {
 				varnewRepeat = "All";
 				if (newRepeat != oldRepeat) {
 					oldRepeat = newRepeat;
