@@ -16,11 +16,11 @@ var reconnect;
 var sendData;
 
 function pad(number, length) {
-  var str = number + "";
-  while (str.length < length) {
-    str = "0" + str;
-  }
-  return str;
+	var str = number + "";
+	while (str.length < length) {
+		str = "0" + str;
+	}
+	return str;
 }
 
 function open() {
@@ -107,26 +107,26 @@ var onMessage = function(event) {
 		}
 	}
 	else if (event.data.toLowerCase() == "togglethumbsup") {
-    console.log("togglethumbsup");
-    var a = document.getElementById("menu-container").children[0].children[0].children[0].children[0];
-    var e = document.createEvent('MouseEvents');
-    e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-    a.dispatchEvent(e);
+		console.log("togglethumbsup");
+		var a = document.getElementById("menu-container").children[0].children[0].children[0].children[0];
+		var e = document.createEvent('MouseEvents');
+		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		a.dispatchEvent(e);
 	}
 	else if (event.data.toLowerCase() == "togglethumbsdown") {
-    var a = document.getElementById("menu-container").children[0].children[0].children[0].children[1];
-    var e = document.createEvent('MouseEvents');
-    e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-    a.dispatchEvent(e);
+		var a = document.getElementById("menu-container").children[0].children[0].children[0].children[1];
+		var e = document.createEvent('MouseEvents');
+		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+		a.dispatchEvent(e);
 	}
 	else if (event.data.toLowerCase().includes("rating ")) {
 		var rating = event.data.toLowerCase();
 		//+7 because "rating " is 7 chars
 		rating = parseInt(rating.substring(rating.indexOf("rating ") + 7));
 
-    //Still just as lovely
-    var thumbsUp = document.getElementById("menu-container").children[0].children[0].children[0].children[0].children[0].children[0].getAttribute("aria-pressed");
-    var thumbsDown = document.getElementById("menu-container").children[0].children[0].children[0].children[1].children[0].children[0].getAttribute("aria-pressed");
+		//Still just as lovely
+		var thumbsUp = document.getElementById("menu-container").children[0].children[0].children[0].children[0].children[0].children[0].getAttribute("aria-pressed");
+		var thumbsDown = document.getElementById("menu-container").children[0].children[0].children[0].children[1].children[0].children[0].getAttribute("aria-pressed");
 		if (rating > 3) {
 			if (thumbsUp != "true") {
 
@@ -250,7 +250,7 @@ function dataCheck() {
 				ws.send("DURATION:" + newDur);
 			}
 
-			var newPos = parseInt(document.getElementsByClassName("html5-main-video")[0].currentTime /60) +":"+ pad(parseInt(document.getElementsByClassName("html5-main-video")[0].currentTime)%60, 2);
+			var newPos = parseInt(document.getElementsByClassName("html5-main-video")[0].currentTime / 60) + ":" + pad(parseInt(document.getElementsByClassName("html5-main-video")[0].currentTime) % 60, 2);
 			if (newPos != oldPos) {
 				oldPos = newPos;
 				ws.send("POSITION:" + newPos);
@@ -279,17 +279,29 @@ function dataCheck() {
 				ws.send("RATING:" + rating);
 			}
 
-			var newState = document.getElementsByClassName("ytp-play-button")[0].getAttribute("aria-label");
+			var newState = document.getElementsByClassName("html5-main-video")[0].paused;
+			//If paused
+			if (newState) {
 
-			//Check if replay button
-			if (newState === null) {
-				newState = document.getElementsByClassName("ytp-play-button")[0].title;
+        //Check if button has no title, if it does not it is in replay state
+				if (document.getElementsByClassName("ytp-play-button")[0].getAttribute("aria-label") === null) {
+					newState = 3;
+				}
+        //Paused
+				else {
+
+					newState = 2;
+				}
+			}
+      //Playing
+			else {
+				newState = 1;
 			}
 
 			if (newState != oldState) {
 				oldState = newState;
 
-				ws.send("STATE:" + newState.replace("Play", 2).replace("Pause", 1).replace("Replay", 3));
+				ws.send("STATE:" + newState);
 			}
 		}
 		else {
