@@ -150,8 +150,7 @@ function dataCheck() {
       } else {
         //@TODO Look at twitch api integration to current stream durration
         var newDur = "0:00";
-        //If stream is playing keep sending 0 to indicate it is still playing
-        if (document.getElementsByClassName("js-pause-button")[0].getBoundingClientRect().top > 0) {
+        if (newDur != oldDur) {
           oldDur = newDur;
           ws.send("DURATION:" + newDur);
         }
