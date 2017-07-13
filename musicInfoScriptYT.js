@@ -92,6 +92,28 @@ var onMessage = function(event) {
 			window.history.back();
 		}
 	}
+	else if (event.data.toLowerCase().includes("setposition ")) {
+		var position = event.data.toLowerCase();
+		//+9 because "position " is 9 chars
+		position = parseInt(position.substring(position.indexOf("position ") + 9));
+
+		document.getElementsByClassName("video-stream html5-main-video")[0].currentTime = position;
+	}
+	else if (event.data.toLowerCase().includes("setvolume ")) {
+		var volume = event.data.toLowerCase();
+		//+7 because "volume " is 7 chars
+		volume = parseInt(volume.substring(volume.indexOf("volume ") + 7)) / 100;
+		if(volume > 1)
+		{
+			volume = 1;
+		}
+		else if (volume < 0)
+		{
+			volume = 0;
+		}
+
+		document.getElementsByClassName("video-stream html5-main-video")[0].volume = volume;
+	}
 	else if (document.getElementsByClassName("yt-playlist-buttons").length > 0 && (event.data.toLowerCase() == "repeat" || event.data.toLowerCase() == "shuffle")) {
 		if (event.data.toLowerCase() == "repeat") {
 			var a = document.getElementsByClassName("yt-playlist-buttons")[0].children[0].children[0];
@@ -256,7 +278,7 @@ function dataCheck() {
 				ws.send("POSITION:" + newPos);
 			}
 
-			var newVolume = document.getElementsByClassName("ytp-volume-panel")[0].getAttribute("aria-valuenow");
+			var newVolume = document.getElementsByClassName("video-stream html5-main-video")[0].volume * 100;
 			if (newVolume != oldVolume) {
 				oldVolume = newVolume;
 				ws.send("VOLUME:" + newVolume);

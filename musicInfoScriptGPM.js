@@ -15,6 +15,14 @@ var connected = false;
 var reconnect;
 var sendData;
 
+function pad(number, length) {
+	var str = number + "";
+	while (str.length < length) {
+		str = "0" + str;
+	}
+	return str;
+}
+
 function open() {
 	try {
 		var url = "ws://127.0.0.1:8974/";
@@ -76,6 +84,26 @@ var onMessage = function(event) {
 		var e = document.createEvent('MouseEvents');
 		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 		a.dispatchEvent(e);
+	}
+	else if (event.data.toLowerCase().includes("setposition ")) {
+		var position = event.data.toLowerCase();
+		//+9 because "position " is 9 chars
+		position = parseInt(position.substring(position.indexOf("position ") + 9));
+
+		document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length-1].currentTime = position;
+	}
+	else if (event.data.toLowerCase().includes("setvolume ")) {
+		var volume = event.data.toLowerCase();
+		//+7 because "volume " is 7 chars
+		volume = parseInt(volume.substring(volume.indexOf("volume ") + 7)) / 100;
+		if (volume > 1) {
+			volume = 1;
+		}
+		else if (volume < 0) {
+			volume = 0;
+		}
+
+		document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length-1].volume = volume;
 	}
 	else if (event.data.toLowerCase() == "repeat") {
 		var a = document.getElementsByClassName("material-player-middle")[0].children[1];
@@ -182,13 +210,13 @@ function dataCheck() {
 				ws.send("DURATION:" + newDur);
 			}
 
-			var newPos = document.getElementById("time_container_current").innerText;
+			var newPos = parseInt(document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length-1].currentTime / 60) + ":" + pad(parseInt(document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length-1].currentTime) % 60, 2);
 			if (newPos != oldPos) {
 				oldPos = newPos;
 				ws.send("POSITION:" + newPos);
 			}
 
-			var newVolume = document.getElementById("material-vslider").getAttribute("aria-valuenow");
+			var newVolume = document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length-1].volume * 100;
 			if (newVolume != oldVolume) {
 				oldVolume = newVolume;
 				ws.send("VOLUME:" + newVolume);

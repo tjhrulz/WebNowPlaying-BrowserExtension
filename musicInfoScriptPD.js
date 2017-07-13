@@ -86,6 +86,28 @@ var onMessage = function(event) {
 		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 		a.dispatchEvent(e);
 	}
+	else if (event.data.toLowerCase().includes("setposition ")) {
+		var position = event.data.toLowerCase();
+		//+9 because "position " is 9 chars
+		position = parseInt(position.substring(position.indexOf("position ") + 9));
+
+		document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length-1].currentTime = position;
+	}
+	else if (event.data.toLowerCase().includes("setvolume ")) {
+		var volume = event.data.toLowerCase();
+		//+7 because "volume " is 7 chars
+		volume = parseInt(volume.substring(volume.indexOf("volume ") + 7)) / 100;
+		if(volume > 1)
+		{
+			volume = 1;
+		}
+		else if (volume < 0)
+		{
+			volume = 0;
+		}
+
+		document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length-1].volume = volume;
+	}
 	else if (event.data.toLowerCase() == "shuffle") {
 		var a = document.getElementsByClassName("ShuffleButton__button__shuffleString")[0];
 		var e = document.createEvent('MouseEvents');
@@ -212,7 +234,7 @@ function dataCheck() {
 			}
 
 			//For some reason the width of pandora volume is a fixed 80px so it is on a scale of 0-80
-			var newVolume = parseInt(document.getElementsByClassName("VolumeDurationControl__VolumeSlider__Trail")[0].style.width.substring(0, 2)) / 80;
+			var newVolume = document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length-1].volume;
 			if (newVolume != oldVolume) {
 				oldVolume = newVolume;
 				ws.send("VOLUME:" + parseFloat(newVolume) * 100);
