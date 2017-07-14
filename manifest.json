@@ -25,6 +25,12 @@
       },
       {
           "matches": [
+              "https://open.spotify.com/*"
+          ],
+          "js": ["musicInfoScriptSP.js"]
+      },
+      {
+          "matches": [
               "https://www.twitch.tv/*"
           ],
           "js": ["musicInfoScriptTW.js"]
