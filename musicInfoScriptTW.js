@@ -84,12 +84,6 @@ var onMessage = function(event) {
 		var volume = event.data.toLowerCase();
 		//+7 because "volume " is 7 chars
 		volume = parseInt(volume.substring(volume.indexOf("volume ") + 7)) / 100;
-		if (volume > 1) {
-			volume = 1;
-		}
-		else if (volume < 0) {
-			volume = 0;
-		}
 
 		document.getElementsByClassName("player-video")[0].children[0].volume = volume;
 	}

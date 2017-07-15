@@ -9,6 +9,7 @@ var oldLiked = "";
 var oldRepeat = "";
 var oldShuffle = "";
 var oldState = "";
+var oldAlbumID = "";
 
 var ws;
 var connected = false;
@@ -35,6 +36,7 @@ function open() {
 		oldRepeat = "";
 		oldShuffle = "";
 		oldState = "";
+		oldAlbumID = "";
 	}
 	catch (error) {
 		console.log("Error:" + error);
@@ -178,6 +180,7 @@ function dataCheck() {
 				ws.send("ARTIST:" + newArtist);
 			}
 
+			//Album, Albumart are done on the plugin side using the API these are just failsafes
 			var newAlbum = document.getElementsByClassName("react-contextmenu-wrapper")[0].children[0].children[0].title;
 			if (newAlbum != oldAlbum) {
 				oldAlbum = newAlbum;
@@ -185,7 +188,6 @@ function dataCheck() {
 			}
 
 			var newAlbumArt = document.getElementsByClassName("cover-art-image")[document.getElementsByClassName("cover-art-image").length - 1].style.backgroundImage;
-
 			if (newAlbumArt != oldAlbumArt) {
 				oldAlbumArt = newAlbumArt;
 				//Replace 50x50 and 120x120 just incase we ended up with a user image
@@ -227,13 +229,22 @@ function dataCheck() {
 				}
 			}
 
-			var newRepeat = document.getElementsByClassName("spoticon-repeat-16")[0].title
+			var newRepeat = 0;
+			if(document.getElementsByClassName("spoticon-repeat-16").length > 0)
+			{
+				newRepeat = document.getElementsByClassName("spoticon-repeat-16")[0].title
+			}
 			if (newRepeat != oldRepeat) {
 				oldRepeat = newRepeat;
 				ws.send("REPEAT:" + newRepeat.replace("Enable repeat", 0).replace("Disable repeat", 2));
 			}
 
-			var newShuffle = document.getElementsByClassName("spoticon-shuffle-16")[0].title;
+			//If shuffle is not on page it is in radio mode
+			var newShuffle = 1;
+			if(document.getElementsByClassName("spoticon-shuffle-16").length)
+			{
+				newShuffle = document.getElementsByClassName("spoticon-shuffle-16")[0].title
+			}
 			if (newShuffle != oldShuffle) {
 				oldShuffle = newShuffle;
 				ws.send("SHUFFLE:" + newRepeat.replace("Enable shuffle", 0).replace("Disable shuffle", 1));
@@ -243,6 +254,13 @@ function dataCheck() {
 			if (newState != oldState) {
 				oldState = newState;
 				ws.send("STATE:" + newState);
+			}
+
+
+			var newAlbumID = document.getElementsByClassName("track-info__name")[0].children[0].children[0].href;
+			if (newAlbumID != oldAlbumID) {
+				oldAlbumID = newAlbumID;
+				ws.send("AlbumID:" + newAlbumID);
 			}
 		}
 		else {
