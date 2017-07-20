@@ -293,23 +293,21 @@ function dataCheck() {
 				ws.send("RATING:" + rating);
 			}
 
+			console.log(document.getElementsByClassName("html5-main-video")[0].played.length)
 			var newState = document.getElementsByClassName("html5-main-video")[0].paused;
-			//If paused
-			if (newState) {
-
-        //Check if button has no title, if it does not it is in replay state
+			//If playing and some video has been played (If no video has been played the video is "playing" but has not started)
+			if (!newState && document.getElementsByClassName("html5-main-video")[0].played.length > 0) {
+				newState = 1;
+			}
+			//Else it is paused or over
+			else {
+				//Check if button has no title, if it does not it is in replay state
 				if (document.getElementsByClassName("ytp-play-button")[0].getAttribute("aria-label") === null) {
 					newState = 3;
 				}
-        //Paused
 				else {
-
 					newState = 2;
 				}
-			}
-      //Playing
-			else {
-				newState = 1;
 			}
 
 			if (newState != oldState) {
