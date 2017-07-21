@@ -135,17 +135,20 @@ function dataCheck() {
 				ws.send("TITLE:" + newTitle);
 			}
 
-			var newArtist = document.getElementsByClassName("playbackSoundBadge__titleContextContainer")[0].innerText;
+			var newArtist = document.getElementsByClassName("playbackSoundBadge__lightLink")[0].innerText;
 			if (newTitle != oldArtist) {
 				oldArtist = newArtist;
 				ws.send("ARTIST:" + newArtist);
 			}
 
-			var newAlbum = document.getElementsByClassName("playbackSoundBadge__lightLink")[0].innerText;
-			if (newAlbum != oldAlbum) {
-				oldAlbum = newAlbum;
-				ws.send("ALBUM:" + newAlbum.replace("Playing from ", ""));
+			if (document.getElementsByClassName("queueItemView m-playing m-active").length > 0) {
+				var newAlbum = document.getElementsByClassName("queueItemView m-playing m-active")[0].children[2].children[0].children[1].title;
+				if (newAlbum != oldAlbum) {
+					oldAlbum = newAlbum;
+					ws.send("ALBUM:" + newAlbum.replace("From ", ""));
+				}
 			}
+			//No else because otherwise we would lose info when playback is stopped, maybe I could move it below state check in the future though
 
 			var newAlbumArt = document.getElementsByClassName("sc-artwork")[document.getElementsByClassName("sc-artwork").length - 1].style.backgroundImage;
 			//If it includes 50x50 then it is the album art and not a user profile image

@@ -88,7 +88,9 @@ var onMessage = function(event) {
 	else if (event.data.toLowerCase().includes("setposition ")) {
 		var position = event.data.toLowerCase();
 		//+9 because "position " is 9 chars
-		position = parseInt(position.substring(position.indexOf("position ") + 9));
+		position = position.substring(position.indexOf("position ") + 9);
+		//Goto the : at the end of the command, this command is now a compound command the first half is seconds the second is percent
+		position = parseInt(position.substring(0, position.indexOf(":")));
 
 		document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length-1].currentTime = position;
 	}
