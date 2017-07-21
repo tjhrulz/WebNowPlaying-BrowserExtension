@@ -104,8 +104,11 @@ var onMessage = function(event) {
 		e.initMouseEvent('mousemove', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 		a.dispatchEvent(e);
 
-		setTimeout(function() {
+		var counter = 0;
+		//@TODO reduce time required for this by making it poll until ready
+		var volumeReadyTest = setInterval(function() {
 			if (document.getElementsByClassName("volume expanded hover").length > 0) {
+				clearInterval(volumeReadyTest);
 				var loc = document.getElementsByClassName("volume__sliderBackground")[0].getBoundingClientRect();
 				volume = volume / 100 * loc.height;
 
@@ -129,9 +132,13 @@ var onMessage = function(event) {
 				a.dispatchEvent(e);
 			}
 			else {
-				console.log("too fast");
+				counter++;
+					if(counter > 10)
+					{
+						clearInterval(volumeReadyTest);
+					}
 			}
-		}, 150);
+		}, 25);
 	}
 	else if (event.data.toLowerCase() == "repeat") {
 		document.getElementsByClassName("repeatControl")[0].click();
