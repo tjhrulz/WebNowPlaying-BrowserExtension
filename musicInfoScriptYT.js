@@ -293,7 +293,7 @@ function dataCheck() {
 				ws.send("RATING:" + rating);
 			}
 
-			console.log(document.getElementsByClassName("html5-main-video")[0].played.length)
+			console.log(document.getElementsByClassName("html5-main-video")[0].played.length);
 			var newState = document.getElementsByClassName("html5-main-video")[0].paused;
 			//If playing and some video has been played (If no video has been played the video is "playing" but has not started)
 			if (!newState && document.getElementsByClassName("html5-main-video")[0].played.length > 0) {

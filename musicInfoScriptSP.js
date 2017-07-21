@@ -213,8 +213,8 @@ function dataCheck() {
 			}
 
 			var newLiked = document.getElementsByClassName("spoticon-heart-16").length;
-			if (newLiked == 0) {
-				if (document.getElementsByClassName("spoticon-heart-active-16").length == 0) {
+			if (newLiked === 0) {
+				if (document.getElementsByClassName("spoticon-heart-active-16").length === 0) {
 					newLiked = document.getElementsByClassName("spoticon-add-16").length;
 				}
 			}
@@ -232,7 +232,7 @@ function dataCheck() {
 			var newRepeat = 0;
 			if(document.getElementsByClassName("spoticon-repeat-16").length > 0)
 			{
-				newRepeat = document.getElementsByClassName("spoticon-repeat-16")[0].title
+				newRepeat = document.getElementsByClassName("spoticon-repeat-16")[0].title;
 			}
 			if (newRepeat != oldRepeat) {
 				oldRepeat = newRepeat;
@@ -243,7 +243,7 @@ function dataCheck() {
 			var newShuffle = 1;
 			if(document.getElementsByClassName("spoticon-shuffle-16").length)
 			{
-				newShuffle = document.getElementsByClassName("spoticon-shuffle-16")[0].title
+				newShuffle = document.getElementsByClassName("spoticon-shuffle-16")[0].title;
 			}
 			if (newShuffle != oldShuffle) {
 				oldShuffle = newShuffle;

@@ -134,7 +134,7 @@ function dataCheck() {
 				oldTitle = newTitle;
 				ws.send("TITLE:" + newTitle);
 			}
-			
+
 			var newArtist = document.getElementsByClassName("playbackSoundBadge__titleContextContainer")[0].innerText;
 			if (newTitle != oldArtist) {
 				oldArtist = newArtist;
@@ -182,9 +182,9 @@ function dataCheck() {
 				ws.send("RATING:" + newLiked.replace("Unlike", 5).replace("Like", 0));
 			}
 
-			var repeatOne = document.getElementsByClassName("m-one").length
-			var repeatNone = document.getElementsByClassName("m-none").length
-			var repeatAll = document.getElementsByClassName("m-all").length
+			var repeatOne = document.getElementsByClassName("m-one").length;
+			var repeatNone = document.getElementsByClassName("m-none").length;
+			var repeatAll = document.getElementsByClassName("m-all").length;
 
 			if (repeatNone == 1) {
 				var newRepeat = "None";
@@ -201,7 +201,7 @@ function dataCheck() {
 				}
 			}
 			if (repeatAll == 1) {
-				varnewRepeat = "All";
+				var newRepeat = "All";
 				if (newRepeat != oldRepeat) {
 					oldRepeat = newRepeat;
 					ws.send("REPEAT:" + 2);

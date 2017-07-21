@@ -94,7 +94,7 @@ var onMessage = function(event) {
 		a.dispatchEvent(e);
 	}
 	else if (event.data.toLowerCase().includes("rating ")) {
-		var rating = event.data.toLowerCase()
+		var rating = event.data.toLowerCase();
 		//+7 because "rating " is 7 chars
 		rating = parseInt(rating.substring(rating.indexOf("rating ") + 7));
 		var liked = document.getElementsByClassName("follow-button")[0].innerText.includes("Follow");

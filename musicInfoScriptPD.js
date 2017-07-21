@@ -132,7 +132,7 @@ var onMessage = function(event) {
 		rating = parseInt(rating.substring(rating.indexOf("rating ") + 7));
 
 		if (rating > 3) {
-			if (document.getElementsByClassName("Tuner__Control__ThumbUp__Button--active").length == 0) {
+			if (document.getElementsByClassName("Tuner__Control__ThumbUp__Button--active").length === 0) {
 
 				var a = document.getElementsByClassName("ThumbUpButton ")[0];
 				var e = document.createEvent('MouseEvents');
@@ -141,7 +141,7 @@ var onMessage = function(event) {
 			}
 		}
 		else if (rating < 3) {
-			if (document.getElementsByClassName("Tuner__Control__ThumbDown__Button--active").length == 0) {
+			if (document.getElementsByClassName("Tuner__Control__ThumbDown__Button--active").length === 0) {
 
 				var a = document.getElementsByClassName("ThumbDownButton")[0];
 				var e = document.createEvent('MouseEvents');
