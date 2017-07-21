@@ -68,22 +68,16 @@ var onClose = function() {
 
 var onMessage = function(event) {
 	if (event.data.toLowerCase() == "playpause") {
-		var a = document.getElementsByClassName("ytp-play-button")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("ytp-play-button")[0].click();
 	}
 	else if (event.data.toLowerCase() == "next") {
-		var a = document.getElementsByClassName("ytp-next-button")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("ytp-next-button")[0].click();
 	}
 	//Make go to beginning of video if not in playlist
 	else if (event.data.toLowerCase() == "previous") {
 		//If able to go back
 		if (document.getElementsByClassName("ytp-prev-button")[0].getAttribute("aria-disabled") == "false") {
-			var a = document.getElementsByClassName("ytp-prev-button")[0];
+			document.getElementsByClassName("ytp-prev-button")[0];
 			var e = document.createEvent('MouseEvents');
 			e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 			a.dispatchEvent(e);
@@ -110,13 +104,13 @@ var onMessage = function(event) {
 	}
 	else if (document.getElementsByClassName("yt-playlist-buttons").length > 0 && (event.data.toLowerCase() == "repeat" || event.data.toLowerCase() == "shuffle")) {
 		if (event.data.toLowerCase() == "repeat") {
-			var a = document.getElementsByClassName("yt-playlist-buttons")[0].children[0].children[0];
+			document.getElementsByClassName("yt-playlist-buttons")[0].children[0].children[0];
 			var e = document.createEvent('MouseEvents');
 			e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 			a.dispatchEvent(e);
 		}
 		else if (event.data.toLowerCase() == "shuffle") {
-			var a = document.getElementsByClassName("yt-playlist-buttons")[0].children[0].children[1];
+			document.getElementsByClassName("yt-playlist-buttons")[0].children[0].children[1];
 			var e = document.createEvent('MouseEvents');
 			e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 			a.dispatchEvent(e);
@@ -124,16 +118,10 @@ var onMessage = function(event) {
 	}
 	else if (event.data.toLowerCase() == "togglethumbsup") {
 		console.log("togglethumbsup");
-		var a = document.getElementById("menu-container").children[0].children[0].children[0].children[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementById("menu-container").children[0].children[0].children[0].children[0].click();
 	}
 	else if (event.data.toLowerCase() == "togglethumbsdown") {
-		var a = document.getElementById("menu-container").children[0].children[0].children[0].children[1];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementById("menu-container").children[0].children[0].children[0].children[1].click();
 	}
 	else if (event.data.toLowerCase().includes("rating ")) {
 		var rating = event.data.toLowerCase();
@@ -146,35 +134,23 @@ var onMessage = function(event) {
 		if (rating > 3) {
 			if (thumbsUp != "true") {
 
-				var a = document.getElementById("menu-container").children[0].children[0].children[0].children[0];
-				var e = document.createEvent('MouseEvents');
-				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-				a.dispatchEvent(e);
+				document.getElementById("menu-container").children[0].children[0].children[0].children[0].click();
 			}
 		}
 		else if (rating < 3) {
 			if (thumbsDown != "true") {
 
-				var a = document.getElementById("menu-container").children[0].children[0].children[0].children[1];
-				var e = document.createEvent('MouseEvents');
-				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-				a.dispatchEvent(e);
+				document.getElementById("menu-container").children[0].children[0].children[0].children[1].click();
 			}
 		}
 		else {
 			if (thumbsUp == "true") {
 
-				var a = document.getElementById("menu-container").children[0].children[0].children[0].children[0];
-				var e = document.createEvent('MouseEvents');
-				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-				a.dispatchEvent(e);
+				document.getElementById("menu-container").children[0].children[0].children[0].children[0].click();
 			}
 			else if (thumbsDown == "true") {
 
-				var a = document.getElementById("menu-container").children[0].children[0].children[0].children[1];
-				var e = document.createEvent('MouseEvents');
-				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-				a.dispatchEvent(e);
+				document.getElementById("menu-container").children[0].children[0].children[0].children[1].click();
 			}
 		}
 	}

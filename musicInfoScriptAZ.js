@@ -68,30 +68,15 @@ var onClose = function() {
 
 var onMessage = function(event) {
   if (event.data.toLowerCase() == "playpause") {
-    var a = document.getElementsByClassName("playButton")[0];
-    var e = document.createEvent('MouseEvents');
-    e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-    a.dispatchEvent(e);
+    document.getElementsByClassName("playButton")[0].click();
   } else if (event.data.toLowerCase() == "next") {
-    var a = document.getElementsByClassName("nextButton")[0];
-    var e = document.createEvent('MouseEvents');
-    e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-    a.dispatchEvent(e);
+    document.getElementsByClassName("nextButton")[0].click();
   } else if (event.data.toLowerCase() == "previous") {
-    var a = document.getElementsByClassName("previousButton")[0];
-    var e = document.createEvent('MouseEvents');
-    e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-    a.dispatchEvent(e);
+    document.getElementsByClassName("previousButton")[0].click();
   } else if (event.data.toLowerCase() == "repeat") {
-    var a = document.getElementsByClassName("repeatButton")[0];
-    var e = document.createEvent('MouseEvents');
-    e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-    a.dispatchEvent(e);
+    document.getElementsByClassName("repeatButton")[0].click();
   } else if (event.data.toLowerCase() == "shuffle") {
-    var a = document.getElementsByClassName("shuffleButton")[0];
-    var e = document.createEvent('MouseEvents');
-    e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-    a.dispatchEvent(e);
+    document.getElementsByClassName("shuffleButton")[0].click();
   }
 };
 

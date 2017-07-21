@@ -60,40 +60,22 @@ var onClose = function() {
 
 var onMessage = function(event) {
 	if (event.data.toLowerCase() == "playpause") {
-		var a = document.getElementsByClassName("playControl")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("playControl")[0].click();
 	}
 	else if (event.data.toLowerCase() == "next") {
-		var a = document.getElementsByClassName("skipControl__next")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("skipControl__next")[0].click();
 	}
 	else if (event.data.toLowerCase() == "previous") {
-		var a = document.getElementsByClassName("skipControl__previous")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("skipControl__previous")[0].click();
 	}
 	else if (event.data.toLowerCase() == "repeat") {
-		var a = document.getElementsByClassName("repeatControl")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("repeatControl")[0].click();
 	}
 	else if (event.data.toLowerCase() == "shuffle") {
-		var a = document.getElementsByClassName("shuffleControl")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("shuffleControl")[0].click();
 	}
 	else if (event.data.toLowerCase() == "togglethumbsup") {
-		var a = document.getElementsByClassName("playbackSoundBadge__like")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("playbackSoundBadge__like")[0].click();
 	}
 	else if (event.data.toLowerCase().includes("rating ")) {
 		var rating = event.data.toLowerCase();
@@ -103,18 +85,12 @@ var onMessage = function(event) {
 
 		if (rating > 3) {
 			if (!liked) {
-				var a = document.getElementsByClassName("playbackSoundBadge__like")[0];
-				var e = document.createEvent('MouseEvents');
-				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-				a.dispatchEvent(e);
+				document.getElementsByClassName("playbackSoundBadge__like")[0].click();
 			}
 		}
 		else {
 			if (liked) {
-				var a = document.getElementsByClassName("playbackSoundBadge__like")[0];
-				var e = document.createEvent('MouseEvents');
-				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-				a.dispatchEvent(e);
+				document.getElementsByClassName("playbackSoundBadge__like")[0].click();
 			}
 		}
 	}

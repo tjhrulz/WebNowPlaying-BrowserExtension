@@ -68,22 +68,13 @@ var onClose = function() {
 
 var onMessage = function(event) {
 	if (event.data.toLowerCase() == "playpause") {
-		var a = document.getElementById("player-bar-play-pause");
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementById("player-bar-play-pause").click();
 	}
 	else if (event.data.toLowerCase() == "next") {
-		var a = document.getElementsByClassName("material-player-middle")[0].children[4];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("material-player-middle")[0].children[4].click();
 	}
 	else if (event.data.toLowerCase() == "previous") {
-		var a = document.getElementsByClassName("material-player-middle")[0].children[2];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("material-player-middle")[0].children[2].click();
 	}
 	else if (event.data.toLowerCase().includes("setposition ")) {
 		var position = event.data.toLowerCase();
@@ -102,28 +93,16 @@ var onMessage = function(event) {
 		document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length-1].volume = volume;
 	}
 	else if (event.data.toLowerCase() == "repeat") {
-		var a = document.getElementsByClassName("material-player-middle")[0].children[1];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("material-player-middle")[0].children[1].click();
 	}
 	else if (event.data.toLowerCase() == "shuffle") {
-		var a = document.getElementsByClassName("material-player-middle")[0].children[5];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("material-player-middle")[0].children[5].click();
 	}
 	else if (event.data.toLowerCase() == "togglethumbsup") {
-		var a = document.getElementsByClassName("rating-container materialThumbs")[0].children[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("rating-container materialThumbs")[0].children[0].click();
 	}
 	else if (event.data.toLowerCase() == "togglethumbsdown") {
-		var a = document.getElementsByClassName("rating-container materialThumbs")[0].children[1];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("rating-container materialThumbs")[0].children[1].click();
 	}
 	else if (event.data.toLowerCase().includes("rating ")) {
 		var rating = event.data.toLowerCase();
@@ -133,35 +112,23 @@ var onMessage = function(event) {
 		if (rating > 3) {
 			if (!document.getElementsByClassName("rating-container materialThumbs")[0].children[0].title.includes("Undo")) {
 
-				var a = document.getElementsByClassName("rating-container materialThumbs")[0].children[0];
-				var e = document.createEvent('MouseEvents');
-				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-				a.dispatchEvent(e);
+				document.getElementsByClassName("rating-container materialThumbs")[0].children[0].click();
 			}
 		}
 		else if (rating < 3) {
 			if (!document.getElementsByClassName("rating-container materialThumbs")[0].children[1].title.includes("Undo")) {
 
-				var a = document.getElementsByClassName("rating-container materialThumbs")[0].children[1];
-				var e = document.createEvent('MouseEvents');
-				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-				a.dispatchEvent(e);
+				document.getElementsByClassName("rating-container materialThumbs")[0].children[1].click();
 			}
 		}
 		else {
 			if (document.getElementsByClassName("rating-container materialThumbs")[0].children[0].title.includes("Undo")) {
 
-				var a = document.getElementsByClassName("rating-container materialThumbs")[0].children[0];
-				var e = document.createEvent('MouseEvents');
-				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-				a.dispatchEvent(e);
+				document.getElementsByClassName("rating-container materialThumbs")[0].children[0].click();
 			}
 			else if (document.getElementsByClassName("rating-container materialThumbs")[0].children[1].title.includes("Undo")) {
 
-				var a = document.getElementsByClassName("rating-container materialThumbs")[0].children[1];
-				var e = document.createEvent('MouseEvents');
-				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-				a.dispatchEvent(e);
+				document.getElementsByClassName("rating-container materialThumbs")[0].children[1].click();
 			}
 		}
 	}

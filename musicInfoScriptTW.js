@@ -68,10 +68,7 @@ var onClose = function() {
 
 var onMessage = function(event) {
 	if (event.data.toLowerCase() == "playpause") {
-		var a = document.getElementsByClassName("js-control-playpause-button")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("js-control-playpause-button")[0].click();
 	}
 	else if (event.data.toLowerCase().includes("setposition ")) {
 		var position = event.data.toLowerCase();
@@ -90,10 +87,7 @@ var onMessage = function(event) {
 		document.getElementsByClassName("player-video")[0].children[0].volume = volume;
 	}
 	else if (event.data.toLowerCase() == "togglethumbsup") {
-		var a = document.getElementsByClassName("follow-button")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("follow-button")[0].click();
 	}
 	else if (event.data.toLowerCase().includes("rating ")) {
 		var rating = event.data.toLowerCase();
@@ -103,18 +97,12 @@ var onMessage = function(event) {
 
 		if (rating > 3) {
 			if (!liked) {
-				var a = document.getElementsByClassName("follow-button")[0];
-				var e = document.createEvent('MouseEvents');
-				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-				a.dispatchEvent(e);
+				document.getElementsByClassName("follow-button")[0].click();
 			}
 		}
 		else {
 			if (liked) {
-				var a = document.getElementsByClassName("follow-button")[0];
-				var e = document.createEvent('MouseEvents');
-				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-				a.dispatchEvent(e);
+				document.getElementsByClassName("follow-button")[0].click();
 			}
 		}
 	}

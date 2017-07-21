@@ -69,22 +69,13 @@ function parseFallback(str) {
 
 var onMessage = function(event) {
 	if (event.data.toLowerCase() == "playpause") {
-		var a = document.getElementsByClassName("PlayButton")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("PlayButton")[0].click();
 	}
 	else if (event.data.toLowerCase() == "next") {
-		var a = document.getElementsByClassName("SkipButton")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("SkipButton")[0].click();
 	}
 	else if (event.data.toLowerCase() == "previous") {
-		var a = document.getElementsByClassName("ReplayButton")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("ReplayButton")[0].click();
 	}
 	else if (event.data.toLowerCase().includes("setposition ")) {
 		var position = event.data.toLowerCase();
@@ -111,22 +102,13 @@ var onMessage = function(event) {
 		document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length-1].volume = volume;
 	}
 	else if (event.data.toLowerCase() == "shuffle") {
-		var a = document.getElementsByClassName("ShuffleButton__button__shuffleString")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("ShuffleButton__button__shuffleString")[0].click();
 	}
 	else if (event.data.toLowerCase() == "togglethumbsup") {
-		var a = document.getElementsByClassName("ThumbUpButton ")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("ThumbUpButton ")[0].click();
 	}
 	else if (event.data.toLowerCase() == "togglethumbsdown") {
-		var a = document.getElementsByClassName("ThumbDownButton")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+		document.getElementsByClassName("ThumbDownButton")[0].click();
 	}
 	else if (event.data.toLowerCase().includes("rating ")) {
 		var rating = event.data.toLowerCase();
@@ -136,35 +118,23 @@ var onMessage = function(event) {
 		if (rating > 3) {
 			if (document.getElementsByClassName("Tuner__Control__ThumbUp__Button--active").length === 0) {
 
-				var a = document.getElementsByClassName("ThumbUpButton ")[0];
-				var e = document.createEvent('MouseEvents');
-				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-				a.dispatchEvent(e);
+				document.getElementsByClassName("ThumbUpButton ")[0].click();
 			}
 		}
 		else if (rating < 3) {
 			if (document.getElementsByClassName("Tuner__Control__ThumbDown__Button--active").length === 0) {
 
-				var a = document.getElementsByClassName("ThumbDownButton")[0];
-				var e = document.createEvent('MouseEvents');
-				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-				a.dispatchEvent(e);
+				document.getElementsByClassName("ThumbDownButton")[0].click();
 			}
 		}
 		else {
 			if (document.getElementsByClassName("Tuner__Control__ThumbUp__Button--active").length > 0) {
 
-				var a = document.getElementsByClassName("ThumbUpButton ")[0];
-				var e = document.createEvent('MouseEvents');
-				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-				a.dispatchEvent(e);
+				document.getElementsByClassName("ThumbUpButton ")[0].click();
 			}
 			else if (document.getElementsByClassName("Tuner__Control__ThumbDown__Button--active").length > 0) {
 
-				var a = document.getElementsByClassName("ThumbDownButton")[0];
-				var e = document.createEvent('MouseEvents');
-				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-				a.dispatchEvent(e);
+				document.getElementsByClassName("ThumbDownButton")[0].click();
 			}
 		}
 	}
