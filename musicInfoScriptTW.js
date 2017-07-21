@@ -84,6 +84,10 @@ var onMessage = function(event) {
 		//+7 because "volume " is 7 chars
 		volume = parseInt(volume.substring(volume.indexOf("volume ") + 7)) / 100;
 
+		if (volume > 0) {
+			document.getElementsByClassName("player-video")[0].children[0].muted = false;
+		}
+
 		document.getElementsByClassName("player-video")[0].children[0].volume = volume;
 	}
 	else if (event.data.toLowerCase() == "togglethumbsup") {
