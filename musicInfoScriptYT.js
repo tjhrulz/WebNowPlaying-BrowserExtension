@@ -100,6 +100,10 @@ var onMessage = function(event) {
 		//+7 because "volume " is 7 chars
 		volume = parseInt(volume.substring(volume.indexOf("volume ") + 7)) / 100;
 
+		if (volume > 0) {
+			document.getElementsByClassName("video-stream html5-main-video")[0].muted = false;
+		}
+
 		document.getElementsByClassName("video-stream html5-main-video")[0].volume = volume;
 	}
 	else if (document.getElementsByClassName("yt-playlist-buttons").length > 0 && (event.data.toLowerCase() == "repeat" || event.data.toLowerCase() == "shuffle")) {
