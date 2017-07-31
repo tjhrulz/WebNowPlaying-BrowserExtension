@@ -54,6 +54,18 @@
               "https://www.pandora.com/*"
           ],
           "js": ["musicInfoScriptPD.js"]
+      },
+      {
+          "matches": [
+              "https://www.netflix.com/*"
+          ],
+          "js": ["musicInfoScriptNF.js"]
+      },
+      {
+          "matches": [
+              "https://listen.tidal.com/*"
+          ],
+          "js": ["musicInfoScriptTD.js"]
       }
     ]
 }
