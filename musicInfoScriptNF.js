@@ -67,29 +67,35 @@ var onClose = function() {
 };
 
 var onMessage = function(event) {
-	if (event.data.toLowerCase() == "playpause") {
-		document.getElementsByClassName("player-play-pause")[0].click();
-	}
-	//Possibly add back next support when movie/show is over (There is two different cases or netflix changed the look of that)
-	else if (event.data.toLowerCase().includes("setposition ")) {
-		var position = event.data.toLowerCase();
-		//+9 because "position " is 9 chars
-		position = position.substring(position.indexOf("position ") + 9);
-		//Goto the : at the end of the command, this command is now a compound command the first half is seconds the second is percent
-		position = parseInt(position.substring(0, position.indexOf(":")));
-
-		document.getElementsByTagName('video')[0] = position;
-	}
-	else if (event.data.toLowerCase().includes("setvolume ")) {
-		var volume = event.data.toLowerCase();
-		//+7 because "volume " is 7 chars
-		volume = parseInt(volume.substring(volume.indexOf("volume ") + 7)) / 100;
-
-		if (volume > 0) {
-			document.getElementsByTagName('video')[0].muted = false;
+	try {
+		if (event.data.toLowerCase() == "playpause") {
+			document.getElementsByClassName("player-play-pause")[0].click();
 		}
+		//Possibly add back next support when movie/show is over (There is two different cases or netflix changed the look of that)
+		else if (event.data.toLowerCase().includes("setposition ")) {
+			var position = event.data.toLowerCase();
+			//+9 because "position " is 9 chars
+			position = position.substring(position.indexOf("position ") + 9);
+			//Goto the : at the end of the command, this command is now a compound command the first half is seconds the second is percent
+			position = parseInt(position.substring(0, position.indexOf(":")));
 
-		document.getElementsByTagName('video')[0].volume = volume;
+			document.getElementsByTagName('video')[0] = position;
+		}
+		else if (event.data.toLowerCase().includes("setvolume ")) {
+			var volume = event.data.toLowerCase();
+			//+7 because "volume " is 7 chars
+			volume = parseInt(volume.substring(volume.indexOf("volume ") + 7)) / 100;
+
+			if (volume > 0) {
+				document.getElementsByTagName('video')[0].muted = false;
+			}
+
+			document.getElementsByTagName('video')[0].volume = volume;
+		}
+	}
+	catch (e) {
+		ws.send("Error:" + e);
+		throw e;
 	}
 };
 

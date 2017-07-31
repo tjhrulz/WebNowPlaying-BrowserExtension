@@ -59,112 +59,117 @@ var onClose = function() {
 };
 
 var onMessage = function(event) {
-	if (event.data.toLowerCase() == "playpause") {
-		document.getElementsByClassName("playControl")[0].click();
-	}
-	else if (event.data.toLowerCase() == "next") {
-		document.getElementsByClassName("skipControl__next")[0].click();
-	}
-	else if (event.data.toLowerCase() == "previous") {
-		document.getElementsByClassName("skipControl__previous")[0].click();
-	}
-	else if (event.data.toLowerCase().includes("setprogress ")) {
-		var progress = event.data.toLowerCase();
-		//+9 because "position " is 9 chars
-		progress = progress.substring(progress.indexOf("progress ") + 9);
+	try {
+		if (event.data.toLowerCase() == "playpause") {
+			document.getElementsByClassName("playControl")[0].click();
+		}
+		else if (event.data.toLowerCase() == "next") {
+			document.getElementsByClassName("skipControl__next")[0].click();
+		}
+		else if (event.data.toLowerCase() == "previous") {
+			document.getElementsByClassName("skipControl__previous")[0].click();
+		}
+		else if (event.data.toLowerCase().includes("setprogress ")) {
+			var progress = event.data.toLowerCase();
+			//+9 because "position " is 9 chars
+			progress = progress.substring(progress.indexOf("progress ") + 9);
 
-		var loc = document.getElementsByClassName("playbackTimeline__progressWrapper")[0].getBoundingClientRect();
-		progress = parseFloat(progress.substring(0, progress.indexOf(":"))) * loc.width;
+			var loc = document.getElementsByClassName("playbackTimeline__progressWrapper")[0].getBoundingClientRect();
+			progress = parseFloat(progress.substring(0, progress.indexOf(":"))) * loc.width;
 
-		var a = document.getElementsByClassName("playbackTimeline__progressWrapper")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('mousedown', true, true, window, 1,
-			screenX + loc.left + progress, screenY + loc.top + loc.height / 2,
-			loc.left + progress, loc.top + loc.height / 2,
-			false, false, false, false, 0, null);
-		a.dispatchEvent(e);
-		e.initMouseEvent('mouseup', true, true, window, 1,
-			screenX + loc.left + progress, screenY + loc.top + loc.height / 2,
-			loc.left + progress, loc.top + loc.height / 2,
-			false, false, false, false, 0, null);
-		a.dispatchEvent(e);
-	}
-	else if (event.data.toLowerCase().includes("setvolume ")) {
-		var volume = event.data.toLowerCase();
-		//+7 because "volume " is 7 chars
-		//100- because soundcloud uses verticle bar
-		volume = parseInt(volume.substring(volume.indexOf("volume ") + 7));
+			var a = document.getElementsByClassName("playbackTimeline__progressWrapper")[0];
+			var e = document.createEvent('MouseEvents');
+			e.initMouseEvent('mousedown', true, true, window, 1,
+				screenX + loc.left + progress, screenY + loc.top + loc.height / 2,
+				loc.left + progress, loc.top + loc.height / 2,
+				false, false, false, false, 0, null);
+			a.dispatchEvent(e);
+			e.initMouseEvent('mouseup', true, true, window, 1,
+				screenX + loc.left + progress, screenY + loc.top + loc.height / 2,
+				loc.left + progress, loc.top + loc.height / 2,
+				false, false, false, false, 0, null);
+			a.dispatchEvent(e);
+		}
+		else if (event.data.toLowerCase().includes("setvolume ")) {
+			var volume = event.data.toLowerCase();
+			//+7 because "volume " is 7 chars
+			//100- because soundcloud uses verticle bar
+			volume = parseInt(volume.substring(volume.indexOf("volume ") + 7));
 
-		var a = document.getElementsByClassName("volume")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('mouseover', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
-		var a = document.getElementsByClassName("volume")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('mousemove', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+			var a = document.getElementsByClassName("volume")[0];
+			var e = document.createEvent('MouseEvents');
+			e.initMouseEvent('mouseover', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+			a.dispatchEvent(e);
+			var a = document.getElementsByClassName("volume")[0];
+			var e = document.createEvent('MouseEvents');
+			e.initMouseEvent('mousemove', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+			a.dispatchEvent(e);
 
-		var counter = 0;
-		//@TODO reduce time required for this by making it poll until ready
-		var volumeReadyTest = setInterval(function() {
-			if (document.getElementsByClassName("volume expanded hover").length > 0) {
-				clearInterval(volumeReadyTest);
-				var loc = document.getElementsByClassName("volume__sliderBackground")[0].getBoundingClientRect();
-				volume = volume / 100 * loc.height;
+			var counter = 0;
+			//@TODO reduce time required for this by making it poll until ready
+			var volumeReadyTest = setInterval(function() {
+				if (document.getElementsByClassName("volume expanded hover").length > 0) {
+					clearInterval(volumeReadyTest);
+					var loc = document.getElementsByClassName("volume__sliderBackground")[0].getBoundingClientRect();
+					volume = volume / 100 * loc.height;
 
-				var a = document.getElementsByClassName("volume__sliderBackground")[0];
-				var e = document.createEvent('MouseEvents');
-				//As much as I hate hard coded stuff for some reason the click is always of by 5, no idea where it comes from but it is always exactly 5
-				e.initMouseEvent('mousedown', true, true, window, 1,
-					screenX + loc.left + loc.width / 2, screenY + loc.bottom - volume +5,
-					loc.left + loc.width / 2, loc.bottom - volume +5,
-					false, false, false, false, 0, null);
-				a.dispatchEvent(e);
-				e.initMouseEvent('mouseup', true, true, window, 1,
-					screenX + loc.left + loc.width / 2, screenY + loc.bottom - volume +5,
-					loc.left + loc.width / 2, loc.bottom - volume +5,
-					false, false, false, false, 0, null);
-				a.dispatchEvent(e);
+					var a = document.getElementsByClassName("volume__sliderBackground")[0];
+					var e = document.createEvent('MouseEvents');
+					//As much as I hate hard coded stuff for some reason the click is always of by 5, no idea where it comes from but it is always exactly 5
+					e.initMouseEvent('mousedown', true, true, window, 1,
+						screenX + loc.left + loc.width / 2, screenY + loc.bottom - volume + 5,
+						loc.left + loc.width / 2, loc.bottom - volume + 5,
+						false, false, false, false, 0, null);
+					a.dispatchEvent(e);
+					e.initMouseEvent('mouseup', true, true, window, 1,
+						screenX + loc.left + loc.width / 2, screenY + loc.bottom - volume + 5,
+						loc.left + loc.width / 2, loc.bottom - volume + 5,
+						false, false, false, false, 0, null);
+					a.dispatchEvent(e);
 
-				var a = document.getElementsByClassName("volume")[0];
-				var e = document.createEvent('MouseEvents');
-				e.initMouseEvent('mouseout', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-				a.dispatchEvent(e);
-			}
-			else {
-				counter++;
-					if(counter > 10)
-					{
+					var a = document.getElementsByClassName("volume")[0];
+					var e = document.createEvent('MouseEvents');
+					e.initMouseEvent('mouseout', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+					a.dispatchEvent(e);
+				}
+				else {
+					counter++;
+					if (counter > 10) {
 						clearInterval(volumeReadyTest);
 					}
-			}
-		}, 25);
-	}
-	else if (event.data.toLowerCase() == "repeat") {
-		document.getElementsByClassName("repeatControl")[0].click();
-	}
-	else if (event.data.toLowerCase() == "shuffle") {
-		document.getElementsByClassName("shuffleControl")[0].click();
-	}
-	else if (event.data.toLowerCase() == "togglethumbsup") {
-		document.getElementsByClassName("playbackSoundBadge__like")[0].click();
-	}
-	else if (event.data.toLowerCase().includes("rating ")) {
-		var rating = event.data.toLowerCase();
-		//+7 because "rating " is 7 chars
-		rating = parseInt(rating.substring(rating.indexOf("rating ") + 7));
-		var liked = !document.getElementsByClassName("playbackSoundBadge__like")[0].title.includes("Unlike");
+				}
+			}, 25);
+		}
+		else if (event.data.toLowerCase() == "repeat") {
+			document.getElementsByClassName("repeatControl")[0].click();
+		}
+		else if (event.data.toLowerCase() == "shuffle") {
+			document.getElementsByClassName("shuffleControl")[0].click();
+		}
+		else if (event.data.toLowerCase() == "togglethumbsup") {
+			document.getElementsByClassName("playbackSoundBadge__like")[0].click();
+		}
+		else if (event.data.toLowerCase().includes("rating ")) {
+			var rating = event.data.toLowerCase();
+			//+7 because "rating " is 7 chars
+			rating = parseInt(rating.substring(rating.indexOf("rating ") + 7));
+			var liked = !document.getElementsByClassName("playbackSoundBadge__like")[0].title.includes("Unlike");
 
-		if (rating > 3) {
-			if (!liked) {
-				document.getElementsByClassName("playbackSoundBadge__like")[0].click();
+			if (rating > 3) {
+				if (!liked) {
+					document.getElementsByClassName("playbackSoundBadge__like")[0].click();
+				}
+			}
+			else {
+				if (liked) {
+					document.getElementsByClassName("playbackSoundBadge__like")[0].click();
+				}
 			}
 		}
-		else {
-			if (liked) {
-				document.getElementsByClassName("playbackSoundBadge__like")[0].click();
-			}
-		}
+	}
+	catch (e) {
+		ws.send("Error:" + e);
+		throw e;
 	}
 };
 

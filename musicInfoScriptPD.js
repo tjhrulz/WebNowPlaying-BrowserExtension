@@ -68,75 +68,79 @@ function parseFallback(str) {
 }
 
 var onMessage = function(event) {
-	if (event.data.toLowerCase() == "playpause") {
-		document.getElementsByClassName("PlayButton")[0].click();
-	}
-	else if (event.data.toLowerCase() == "next") {
-		document.getElementsByClassName("SkipButton")[0].click();
-	}
-	else if (event.data.toLowerCase() == "previous") {
-		document.getElementsByClassName("ReplayButton")[0].click();
-	}
-	else if (event.data.toLowerCase().includes("setposition ")) {
-		var position = event.data.toLowerCase();
-		//+9 because "position " is 9 chars
-		position = position.substring(position.indexOf("position ") + 9);
-		//Goto the : at the end of the command, this command is now a compound command the first half is seconds the second is percent
-		position = parseInt(position.substring(0, position.indexOf(":")));
-
-		document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length-1].currentTime = position;
-	}
-	else if (event.data.toLowerCase().includes("setvolume ")) {
-		var volume = event.data.toLowerCase();
-		//+7 because "volume " is 7 chars
-		volume = parseInt(volume.substring(volume.indexOf("volume ") + 7)) / 100;
-		if(volume > 1)
-		{
-			volume = 1;
+	try {
+		if (event.data.toLowerCase() == "playpause") {
+			document.getElementsByClassName("PlayButton")[0].click();
 		}
-		else if (volume < 0)
-		{
-			volume = 0;
+		else if (event.data.toLowerCase() == "next") {
+			document.getElementsByClassName("SkipButton")[0].click();
 		}
+		else if (event.data.toLowerCase() == "previous") {
+			document.getElementsByClassName("ReplayButton")[0].click();
+		}
+		else if (event.data.toLowerCase().includes("setposition ")) {
+			var position = event.data.toLowerCase();
+			//+9 because "position " is 9 chars
+			position = position.substring(position.indexOf("position ") + 9);
+			//Goto the : at the end of the command, this command is now a compound command the first half is seconds the second is percent
+			position = parseInt(position.substring(0, position.indexOf(":")));
 
-		document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length-1].volume = volume;
-	}
-	else if (event.data.toLowerCase() == "shuffle") {
-		document.getElementsByClassName("ShuffleButton__button__shuffleString")[0].click();
-	}
-	else if (event.data.toLowerCase() == "togglethumbsup") {
-		document.getElementsByClassName("ThumbUpButton ")[0].click();
-	}
-	else if (event.data.toLowerCase() == "togglethumbsdown") {
-		document.getElementsByClassName("ThumbDownButton")[0].click();
-	}
-	else if (event.data.toLowerCase().includes("rating ")) {
-		var rating = event.data.toLowerCase();
-		//+7 because "rating " is 7 chars
-		rating = parseInt(rating.substring(rating.indexOf("rating ") + 7));
+			document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length - 1].currentTime = position;
+		}
+		else if (event.data.toLowerCase().includes("setvolume ")) {
+			var volume = event.data.toLowerCase();
+			//+7 because "volume " is 7 chars
+			volume = parseInt(volume.substring(volume.indexOf("volume ") + 7)) / 100;
+			if (volume > 1) {
+				volume = 1;
+			}
+			else if (volume < 0) {
+				volume = 0;
+			}
 
-		if (rating > 3) {
-			if (document.getElementsByClassName("Tuner__Control__ThumbUp__Button--active").length === 0) {
+			document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length - 1].volume = volume;
+		}
+		else if (event.data.toLowerCase() == "shuffle") {
+			document.getElementsByClassName("ShuffleButton__button__shuffleString")[0].click();
+		}
+		else if (event.data.toLowerCase() == "togglethumbsup") {
+			document.getElementsByClassName("ThumbUpButton ")[0].click();
+		}
+		else if (event.data.toLowerCase() == "togglethumbsdown") {
+			document.getElementsByClassName("ThumbDownButton")[0].click();
+		}
+		else if (event.data.toLowerCase().includes("rating ")) {
+			var rating = event.data.toLowerCase();
+			//+7 because "rating " is 7 chars
+			rating = parseInt(rating.substring(rating.indexOf("rating ") + 7));
 
-				document.getElementsByClassName("ThumbUpButton ")[0].click();
+			if (rating > 3) {
+				if (document.getElementsByClassName("Tuner__Control__ThumbUp__Button--active").length === 0) {
+
+					document.getElementsByClassName("ThumbUpButton ")[0].click();
+				}
+			}
+			else if (rating < 3) {
+				if (document.getElementsByClassName("Tuner__Control__ThumbDown__Button--active").length === 0) {
+
+					document.getElementsByClassName("ThumbDownButton")[0].click();
+				}
+			}
+			else {
+				if (document.getElementsByClassName("Tuner__Control__ThumbUp__Button--active").length > 0) {
+
+					document.getElementsByClassName("ThumbUpButton ")[0].click();
+				}
+				else if (document.getElementsByClassName("Tuner__Control__ThumbDown__Button--active").length > 0) {
+
+					document.getElementsByClassName("ThumbDownButton")[0].click();
+				}
 			}
 		}
-		else if (rating < 3) {
-			if (document.getElementsByClassName("Tuner__Control__ThumbDown__Button--active").length === 0) {
-
-				document.getElementsByClassName("ThumbDownButton")[0].click();
-			}
-		}
-		else {
-			if (document.getElementsByClassName("Tuner__Control__ThumbUp__Button--active").length > 0) {
-
-				document.getElementsByClassName("ThumbUpButton ")[0].click();
-			}
-			else if (document.getElementsByClassName("Tuner__Control__ThumbDown__Button--active").length > 0) {
-
-				document.getElementsByClassName("ThumbDownButton")[0].click();
-			}
-		}
+	}
+	catch (e) {
+		ws.send("Error:" + e);
+		throw e;
 	}
 };
 
@@ -206,7 +210,7 @@ function dataCheck() {
 			}
 
 			//For some reason the width of pandora volume is a fixed 80px so it is on a scale of 0-80
-			var newVolume = document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length-1].volume;
+			var newVolume = document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length - 1].volume;
 			if (newVolume != oldVolume) {
 				oldVolume = newVolume;
 				ws.send("VOLUME:" + parseFloat(newVolume) * 100);

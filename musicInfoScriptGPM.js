@@ -67,70 +67,76 @@ var onClose = function() {
 };
 
 var onMessage = function(event) {
-	if (event.data.toLowerCase() == "playpause") {
-		document.getElementById("player-bar-play-pause").click();
-	}
-	else if (event.data.toLowerCase() == "next") {
-		document.getElementsByClassName("material-player-middle")[0].children[4].click();
-	}
-	else if (event.data.toLowerCase() == "previous") {
-		document.getElementsByClassName("material-player-middle")[0].children[2].click();
-	}
-	else if (event.data.toLowerCase().includes("setposition ")) {
-		var position = event.data.toLowerCase();
-		//+9 because "position " is 9 chars
-		position = position.substring(position.indexOf("position ") + 9);
-		//Goto the : at the end of the command, this command is now a compound command the first half is seconds the second is percent
-		position = parseInt(position.substring(0, position.indexOf(":")));
+	try {
+		if (event.data.toLowerCase() == "playpause") {
+			document.getElementById("player-bar-play-pause").click();
+		}
+		else if (event.data.toLowerCase() == "next") {
+			document.getElementsByClassName("material-player-middle")[0].children[4].click();
+		}
+		else if (event.data.toLowerCase() == "previous") {
+			document.getElementsByClassName("material-player-middle")[0].children[2].click();
+		}
+		else if (event.data.toLowerCase().includes("setposition ")) {
+			var position = event.data.toLowerCase();
+			//+9 because "position " is 9 chars
+			position = position.substring(position.indexOf("position ") + 9);
+			//Goto the : at the end of the command, this command is now a compound command the first half is seconds the second is percent
+			position = parseInt(position.substring(0, position.indexOf(":")));
 
-		document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length-1].currentTime = position;
-	}
-	else if (event.data.toLowerCase().includes("setvolume ")) {
-		var volume = event.data.toLowerCase();
-		//+7 because "volume " is 7 chars
-		volume = parseInt(volume.substring(volume.indexOf("volume ") + 7)) / 100;
+			document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length - 1].currentTime = position;
+		}
+		else if (event.data.toLowerCase().includes("setvolume ")) {
+			var volume = event.data.toLowerCase();
+			//+7 because "volume " is 7 chars
+			volume = parseInt(volume.substring(volume.indexOf("volume ") + 7)) / 100;
 
-		document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length-1].volume = volume;
-	}
-	else if (event.data.toLowerCase() == "repeat") {
-		document.getElementsByClassName("material-player-middle")[0].children[1].click();
-	}
-	else if (event.data.toLowerCase() == "shuffle") {
-		document.getElementsByClassName("material-player-middle")[0].children[5].click();
-	}
-	else if (event.data.toLowerCase() == "togglethumbsup") {
-		document.getElementsByClassName("rating-container materialThumbs")[0].children[0].click();
-	}
-	else if (event.data.toLowerCase() == "togglethumbsdown") {
-		document.getElementsByClassName("rating-container materialThumbs")[0].children[1].click();
-	}
-	else if (event.data.toLowerCase().includes("rating ")) {
-		var rating = event.data.toLowerCase();
-		//+7 because "rating " is 7 chars
-		rating = parseInt(rating.substring(rating.indexOf("rating ") + 7));
+			document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length - 1].volume = volume;
+		}
+		else if (event.data.toLowerCase() == "repeat") {
+			document.getElementsByClassName("material-player-middle")[0].children[1].click();
+		}
+		else if (event.data.toLowerCase() == "shuffle") {
+			document.getElementsByClassName("material-player-middle")[0].children[5].click();
+		}
+		else if (event.data.toLowerCase() == "togglethumbsup") {
+			document.getElementsByClassName("rating-container materialThumbs")[0].children[0].click();
+		}
+		else if (event.data.toLowerCase() == "togglethumbsdown") {
+			document.getElementsByClassName("rating-container materialThumbs")[0].children[1].click();
+		}
+		else if (event.data.toLowerCase().includes("rating ")) {
+			var rating = event.data.toLowerCase();
+			//+7 because "rating " is 7 chars
+			rating = parseInt(rating.substring(rating.indexOf("rating ") + 7));
 
-		if (rating > 3) {
-			if (!document.getElementsByClassName("rating-container materialThumbs")[0].children[0].title.includes("Undo")) {
+			if (rating > 3) {
+				if (!document.getElementsByClassName("rating-container materialThumbs")[0].children[0].title.includes("Undo")) {
 
-				document.getElementsByClassName("rating-container materialThumbs")[0].children[0].click();
+					document.getElementsByClassName("rating-container materialThumbs")[0].children[0].click();
+				}
+			}
+			else if (rating < 3) {
+				if (!document.getElementsByClassName("rating-container materialThumbs")[0].children[1].title.includes("Undo")) {
+
+					document.getElementsByClassName("rating-container materialThumbs")[0].children[1].click();
+				}
+			}
+			else {
+				if (document.getElementsByClassName("rating-container materialThumbs")[0].children[0].title.includes("Undo")) {
+
+					document.getElementsByClassName("rating-container materialThumbs")[0].children[0].click();
+				}
+				else if (document.getElementsByClassName("rating-container materialThumbs")[0].children[1].title.includes("Undo")) {
+
+					document.getElementsByClassName("rating-container materialThumbs")[0].children[1].click();
+				}
 			}
 		}
-		else if (rating < 3) {
-			if (!document.getElementsByClassName("rating-container materialThumbs")[0].children[1].title.includes("Undo")) {
-
-				document.getElementsByClassName("rating-container materialThumbs")[0].children[1].click();
-			}
-		}
-		else {
-			if (document.getElementsByClassName("rating-container materialThumbs")[0].children[0].title.includes("Undo")) {
-
-				document.getElementsByClassName("rating-container materialThumbs")[0].children[0].click();
-			}
-			else if (document.getElementsByClassName("rating-container materialThumbs")[0].children[1].title.includes("Undo")) {
-
-				document.getElementsByClassName("rating-container materialThumbs")[0].children[1].click();
-			}
-		}
+	}
+	catch (e) {
+		ws.send("Error:" + e);
+		throw e;
 	}
 };
 
@@ -173,13 +179,13 @@ function dataCheck() {
 				ws.send("DURATION:" + newDur);
 			}
 
-			var newPos = parseInt(document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length-1].currentTime / 60) + ":" + pad(parseInt(document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length-1].currentTime) % 60, 2);
+			var newPos = parseInt(document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length - 1].currentTime / 60) + ":" + pad(parseInt(document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length - 1].currentTime) % 60, 2);
 			if (newPos != oldPos) {
 				oldPos = newPos;
 				ws.send("POSITION:" + newPos);
 			}
 
-			var newVolume = document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length-1].volume * 100;
+			var newVolume = document.getElementsByTagName('audio')[document.getElementsByTagName('audio').length - 1].volume * 100;
 			if (newVolume != oldVolume) {
 				oldVolume = newVolume;
 				ws.send("VOLUME:" + newVolume);

@@ -61,89 +61,69 @@ var onClose = function() {
 };
 
 var onMessage = function(event) {
-	if (event.data.toLowerCase() == "playpause") {
-		document.getElementsByClassName("player-controls__buttons")[0].children[2].click();
-	}
-	else if (event.data.toLowerCase() == "next") {
-		document.getElementsByClassName("spoticon-skip-forward-16")[0].click();
-	}
-	else if (event.data.toLowerCase() == "previous") {
-		document.getElementsByClassName("spoticon-skip-back-16")[0].click();
-	}
-	else if (event.data.toLowerCase().includes("setprogress ")) {
-		var progress = event.data.toLowerCase();
-		//+9 because "position " is 9 chars
-		progress = progress.substring(progress.indexOf("progress ") + 9);
+	try {
+		if (event.data.toLowerCase() == "playpause") {
+			document.getElementsByClassName("player-controls__buttons")[0].children[2].click();
+		}
+		else if (event.data.toLowerCase() == "next") {
+			document.getElementsByClassName("spoticon-skip-forward-16")[0].click();
+		}
+		else if (event.data.toLowerCase() == "previous") {
+			document.getElementsByClassName("spoticon-skip-back-16")[0].click();
+		}
+		else if (event.data.toLowerCase().includes("setprogress ")) {
+			var progress = event.data.toLowerCase();
+			//+9 because "position " is 9 chars
+			progress = progress.substring(progress.indexOf("progress ") + 9);
 
-		var loc = document.getElementsByClassName("playback-bar")[0].children[1].getBoundingClientRect();
-		progress = parseFloat(progress.substring(0, progress.indexOf(":")))* loc.width;
+			var loc = document.getElementsByClassName("playback-bar")[0].children[1].getBoundingClientRect();
+			progress = parseFloat(progress.substring(0, progress.indexOf(":"))) * loc.width;
 
-    var a = document.getElementsByClassName("playback-bar")[0].children[1];
-    var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('mousedown', true, true, window, 1,
-			screenX + loc.left + progress, screenY + loc.top + loc.height / 2,
-			loc.left + progress, loc.top + loc.height / 2,
-			false, false, false, false, 0, null);
-    a.dispatchEvent(e);
-		e.initMouseEvent('mouseup', true, true, window, 1,
-			screenX + loc.left + progress, screenY + loc.top + loc.height / 2,
-			loc.left + progress, loc.top + loc.height / 2,
-			false, false, false, false, 0, null);
-    a.dispatchEvent(e);
-	}
-	else if (event.data.toLowerCase().includes("setvolume ")) {
-		var volume = event.data.toLowerCase();
-		//+7 because "volume " is 7 chars
-		volume = parseInt(volume.substring(volume.indexOf("volume ") + 7));
+			var a = document.getElementsByClassName("playback-bar")[0].children[1];
+			var e = document.createEvent('MouseEvents');
+			e.initMouseEvent('mousedown', true, true, window, 1,
+				screenX + loc.left + progress, screenY + loc.top + loc.height / 2,
+				loc.left + progress, loc.top + loc.height / 2,
+				false, false, false, false, 0, null);
+			a.dispatchEvent(e);
+			e.initMouseEvent('mouseup', true, true, window, 1,
+				screenX + loc.left + progress, screenY + loc.top + loc.height / 2,
+				loc.left + progress, loc.top + loc.height / 2,
+				false, false, false, false, 0, null);
+			a.dispatchEvent(e);
+		}
+		else if (event.data.toLowerCase().includes("setvolume ")) {
+			var volume = event.data.toLowerCase();
+			//+7 because "volume " is 7 chars
+			volume = parseInt(volume.substring(volume.indexOf("volume ") + 7));
 
-		var loc = document.getElementsByClassName("volume-bar")[0].children[1].getBoundingClientRect();
-		volume = volume / 100 * loc.width;
+			var loc = document.getElementsByClassName("volume-bar")[0].children[1].getBoundingClientRect();
+			volume = volume / 100 * loc.width;
 
-    var a = document.getElementsByClassName("volume-bar")[0].children[1];
-    var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('mousedown', true, true, window, 1,
-			screenX + loc.left + volume, screenY + loc.top + loc.height / 2,
-			loc.left + volume, loc.top + loc.height / 2,
-			false, false, false, false, 0, null);
-    a.dispatchEvent(e);
-		e.initMouseEvent('mouseup', true, true, window, 1,
-			screenX + loc.left + volume, screenY + loc.top + loc.height / 2,
-			loc.left + volume, loc.top + loc.height / 2,
-			false, false, false, false, 0, null);
-    a.dispatchEvent(e);
-	}
-	else if (event.data.toLowerCase() == "repeat") {
-		if (document.getElementsByClassName("spoticon-repeat-16").length > 0) {
-			 document.getElementsByClassName("spoticon-repeat-16")[0].click();
+			var a = document.getElementsByClassName("volume-bar")[0].children[1];
+			var e = document.createEvent('MouseEvents');
+			e.initMouseEvent('mousedown', true, true, window, 1,
+				screenX + loc.left + volume, screenY + loc.top + loc.height / 2,
+				loc.left + volume, loc.top + loc.height / 2,
+				false, false, false, false, 0, null);
+			a.dispatchEvent(e);
+			e.initMouseEvent('mouseup', true, true, window, 1,
+				screenX + loc.left + volume, screenY + loc.top + loc.height / 2,
+				loc.left + volume, loc.top + loc.height / 2,
+				false, false, false, false, 0, null);
+			a.dispatchEvent(e);
 		}
-	}
-	else if (event.data.toLowerCase() == "shuffle") {
-		if (document.getElementsByClassName("spoticon-shuffle-16").length > 0) {
-			 document.getElementsByClassName("spoticon-shuffle-16")[0].click();
+		else if (event.data.toLowerCase() == "repeat") {
+			if (document.getElementsByClassName("spoticon-repeat-16").length > 0) {
+				document.getElementsByClassName("spoticon-repeat-16")[0].click();
+			}
 		}
-	}
-	else if (event.data.toLowerCase() == "togglethumbsup") {
-		if (document.getElementsByClassName("spoticon-heart-16").length > 0) {
-			document.getElementsByClassName("spoticon-heart-16")[0].click();
+		else if (event.data.toLowerCase() == "shuffle") {
+			if (document.getElementsByClassName("spoticon-shuffle-16").length > 0) {
+				document.getElementsByClassName("spoticon-shuffle-16")[0].click();
+			}
 		}
-		else if (document.getElementsByClassName("spoticon-add-16").length > 0) {
-			document.getElementsByClassName("spoticon-add-16")[0].click();
-		}
-	}
-	else if (event.data.toLowerCase() == "togglethumbsdown") {
-		if (document.getElementsByClassName("spoticon-ban-16").length > 0) {
-			document.getElementsByClassName("spoticon-ban-16")[0].click();
-		}
-		else if (document.getElementsByClassName("spoticon-added-16").length > 0) {
-			document.getElementsByClassName("spoticon-added-16")[0].click();
-		}
-	}
-	else if (event.data.toLowerCase().includes("rating ")) {
-		var rating = event.data.toLowerCase();
-		//+7 because "rating " is 7 chars
-		rating = parseInt(rating.substring(rating.indexOf("rating ") + 7));
-
-		if (rating > 3) {
+		else if (event.data.toLowerCase() == "togglethumbsup") {
 			if (document.getElementsByClassName("spoticon-heart-16").length > 0) {
 				document.getElementsByClassName("spoticon-heart-16")[0].click();
 			}
@@ -151,7 +131,7 @@ var onMessage = function(event) {
 				document.getElementsByClassName("spoticon-add-16")[0].click();
 			}
 		}
-		else if (rating < 3) {
+		else if (event.data.toLowerCase() == "togglethumbsdown") {
 			if (document.getElementsByClassName("spoticon-ban-16").length > 0) {
 				document.getElementsByClassName("spoticon-ban-16")[0].click();
 			}
@@ -159,6 +139,32 @@ var onMessage = function(event) {
 				document.getElementsByClassName("spoticon-added-16")[0].click();
 			}
 		}
+		else if (event.data.toLowerCase().includes("rating ")) {
+			var rating = event.data.toLowerCase();
+			//+7 because "rating " is 7 chars
+			rating = parseInt(rating.substring(rating.indexOf("rating ") + 7));
+
+			if (rating > 3) {
+				if (document.getElementsByClassName("spoticon-heart-16").length > 0) {
+					document.getElementsByClassName("spoticon-heart-16")[0].click();
+				}
+				else if (document.getElementsByClassName("spoticon-add-16").length > 0) {
+					document.getElementsByClassName("spoticon-add-16")[0].click();
+				}
+			}
+			else if (rating < 3) {
+				if (document.getElementsByClassName("spoticon-ban-16").length > 0) {
+					document.getElementsByClassName("spoticon-ban-16")[0].click();
+				}
+				else if (document.getElementsByClassName("spoticon-added-16").length > 0) {
+					document.getElementsByClassName("spoticon-added-16")[0].click();
+				}
+			}
+		}
+	}
+	catch (e) {
+		ws.send("Error:" + e);
+		throw e;
 	}
 };
 

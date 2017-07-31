@@ -67,95 +67,101 @@ var onClose = function() {
 };
 
 var onMessage = function(event) {
-	if (event.data.toLowerCase() == "playpause") {
-		document.getElementsByClassName("ytp-play-button")[0].click();
-	}
-	else if (event.data.toLowerCase() == "next") {
-		document.getElementsByClassName("ytp-next-button")[0].click();
-	}
-	//Make go to beginning of video if not in playlist
-	else if (event.data.toLowerCase() == "previous") {
-		//If able to go back
-		if (document.getElementsByClassName("ytp-prev-button")[0].getAttribute("aria-disabled") == "false") {
-			document.getElementsByClassName("ytp-prev-button")[0];
-			var e = document.createEvent('MouseEvents');
-			e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-			a.dispatchEvent(e);
+	try {
+		if (event.data.toLowerCase() == "playpause") {
+			document.getElementsByClassName("ytp-play-button")[0].click();
 		}
-		else {
-			window.history.back();
+		else if (event.data.toLowerCase() == "next") {
+			document.getElementsByClassName("ytp-next-button")[0].click();
 		}
-	}
-	else if (event.data.toLowerCase().includes("setposition ")) {
-		var position = event.data.toLowerCase();
-		//+9 because "position " is 9 chars
-		position = position.substring(position.indexOf("position ") + 9);
-		//Goto the : at the end of the command, this command is now a compound command the first half is seconds the second is percent
-		position = parseInt(position.substring(0, position.indexOf(":")));
-
-		document.getElementsByClassName("video-stream html5-main-video")[0].currentTime = position;
-	}
-	else if (event.data.toLowerCase().includes("setvolume ")) {
-		var volume = event.data.toLowerCase();
-		//+7 because "volume " is 7 chars
-		volume = parseInt(volume.substring(volume.indexOf("volume ") + 7)) / 100;
-
-		if (volume > 0) {
-			document.getElementsByClassName("video-stream html5-main-video")[0].muted = false;
-		}
-
-		document.getElementsByClassName("video-stream html5-main-video")[0].volume = volume;
-	}
-	else if (document.getElementsByClassName("yt-playlist-buttons").length > 0 && (event.data.toLowerCase() == "repeat" || event.data.toLowerCase() == "shuffle")) {
-		if (event.data.toLowerCase() == "repeat") {
-			document.getElementsByClassName("yt-playlist-buttons")[0].children[0].children[0];
-			var e = document.createEvent('MouseEvents');
-			e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-			a.dispatchEvent(e);
-		}
-		else if (event.data.toLowerCase() == "shuffle") {
-			document.getElementsByClassName("yt-playlist-buttons")[0].children[0].children[1];
-			var e = document.createEvent('MouseEvents');
-			e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-			a.dispatchEvent(e);
-		}
-	}
-	else if (event.data.toLowerCase() == "togglethumbsup") {
-		document.getElementById("menu-container").children[0].children[0].children[0].children[0].click();
-	}
-	else if (event.data.toLowerCase() == "togglethumbsdown") {
-		document.getElementById("menu-container").children[0].children[0].children[0].children[1].click();
-	}
-	else if (event.data.toLowerCase().includes("rating ")) {
-		var rating = event.data.toLowerCase();
-		//+7 because "rating " is 7 chars
-		rating = parseInt(rating.substring(rating.indexOf("rating ") + 7));
-
-		//Still just as lovely
-		var thumbsUp = document.getElementById("menu-container").children[0].children[0].children[0].children[0].children[0].children[0].getAttribute("aria-pressed");
-		var thumbsDown = document.getElementById("menu-container").children[0].children[0].children[0].children[1].children[0].children[0].getAttribute("aria-pressed");
-		if (rating > 3) {
-			if (thumbsUp != "true") {
-
-				document.getElementById("menu-container").children[0].children[0].children[0].children[0].click();
+		//Make go to beginning of video if not in playlist
+		else if (event.data.toLowerCase() == "previous") {
+			//If able to go back
+			if (document.getElementsByClassName("ytp-prev-button")[0].getAttribute("aria-disabled") == "false") {
+				document.getElementsByClassName("ytp-prev-button")[0];
+				var e = document.createEvent('MouseEvents');
+				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+				a.dispatchEvent(e);
+			}
+			else {
+				window.history.back();
 			}
 		}
-		else if (rating < 3) {
-			if (thumbsDown != "true") {
+		else if (event.data.toLowerCase().includes("setposition ")) {
+			var position = event.data.toLowerCase();
+			//+9 because "position " is 9 chars
+			position = position.substring(position.indexOf("position ") + 9);
+			//Goto the : at the end of the command, this command is now a compound command the first half is seconds the second is percent
+			position = parseInt(position.substring(0, position.indexOf(":")));
 
-				document.getElementById("menu-container").children[0].children[0].children[0].children[1].click();
+			document.getElementsByClassName("video-stream html5-main-video")[0].currentTime = position;
+		}
+		else if (event.data.toLowerCase().includes("setvolume ")) {
+			var volume = event.data.toLowerCase();
+			//+7 because "volume " is 7 chars
+			volume = parseInt(volume.substring(volume.indexOf("volume ") + 7)) / 100;
+
+			if (volume > 0) {
+				document.getElementsByClassName("video-stream html5-main-video")[0].muted = false;
+			}
+
+			document.getElementsByClassName("video-stream html5-main-video")[0].volume = volume;
+		}
+		else if (document.getElementsByClassName("yt-playlist-buttons").length > 0 && (event.data.toLowerCase() == "repeat" || event.data.toLowerCase() == "shuffle")) {
+			if (event.data.toLowerCase() == "repeat") {
+				document.getElementsByClassName("yt-playlist-buttons")[0].children[0].children[0];
+				var e = document.createEvent('MouseEvents');
+				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+				a.dispatchEvent(e);
+			}
+			else if (event.data.toLowerCase() == "shuffle") {
+				document.getElementsByClassName("yt-playlist-buttons")[0].children[0].children[1];
+				var e = document.createEvent('MouseEvents');
+				e.initMouseEvent('click', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+				a.dispatchEvent(e);
 			}
 		}
-		else {
-			if (thumbsUp == "true") {
+		else if (event.data.toLowerCase() == "togglethumbsup") {
+			document.getElementById("menu-container").children[0].children[0].children[0].children[0].click();
+		}
+		else if (event.data.toLowerCase() == "togglethumbsdown") {
+			document.getElementById("menu-container").children[0].children[0].children[0].children[1].click();
+		}
+		else if (event.data.toLowerCase().includes("rating ")) {
+			var rating = event.data.toLowerCase();
+			//+7 because "rating " is 7 chars
+			rating = parseInt(rating.substring(rating.indexOf("rating ") + 7));
 
-				document.getElementById("menu-container").children[0].children[0].children[0].children[0].click();
+			//Still just as lovely
+			var thumbsUp = document.getElementById("menu-container").children[0].children[0].children[0].children[0].children[0].children[0].getAttribute("aria-pressed");
+			var thumbsDown = document.getElementById("menu-container").children[0].children[0].children[0].children[1].children[0].children[0].getAttribute("aria-pressed");
+			if (rating > 3) {
+				if (thumbsUp != "true") {
+
+					document.getElementById("menu-container").children[0].children[0].children[0].children[0].click();
+				}
 			}
-			else if (thumbsDown == "true") {
+			else if (rating < 3) {
+				if (thumbsDown != "true") {
 
-				document.getElementById("menu-container").children[0].children[0].children[0].children[1].click();
+					document.getElementById("menu-container").children[0].children[0].children[0].children[1].click();
+				}
+			}
+			else {
+				if (thumbsUp == "true") {
+
+					document.getElementById("menu-container").children[0].children[0].children[0].children[0].click();
+				}
+				else if (thumbsDown == "true") {
+
+					document.getElementById("menu-container").children[0].children[0].children[0].children[1].click();
+				}
 			}
 		}
+	}
+	catch (e) {
+		ws.send("Error:" + e);
+		throw e;
 	}
 };
 

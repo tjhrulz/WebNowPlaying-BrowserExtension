@@ -68,76 +68,82 @@ var onClose = function() {
 };
 
 var onMessage = function(event) {
-	if (event.data.toLowerCase() == "playpause") {
-		document.getElementsByClassName("playButton")[0].click();
-	}
-	else if (event.data.toLowerCase() == "next") {
-		document.getElementsByClassName("nextButton")[0].click();
-	}
-	else if (event.data.toLowerCase() == "previous") {
-		document.getElementsByClassName("previousButton")[0].click();
-	}
-	else if (event.data.toLowerCase().includes("setprogress ")) {
-		var progress = event.data.toLowerCase();
-		//+9 because "position " is 9 chars
-		progress = progress.substring(progress.indexOf("progress ") + 9);
+	try {
+		if (event.data.toLowerCase() == "playpause") {
+			document.getElementsByClassName("playButton")[0].click();
+		}
+		else if (event.data.toLowerCase() == "next") {
+			document.getElementsByClassName("nextButton")[0].click();
+		}
+		else if (event.data.toLowerCase() == "previous") {
+			document.getElementsByClassName("previousButton")[0].click();
+		}
+		else if (event.data.toLowerCase().includes("setprogress ")) {
+			var progress = event.data.toLowerCase();
+			//+9 because "position " is 9 chars
+			progress = progress.substring(progress.indexOf("progress ") + 9);
 
-		var loc = document.getElementsByClassName("sliderTrack scrubberTrack")[0].getBoundingClientRect();
-		progress = parseFloat(progress.substring(0, progress.indexOf(":"))) * loc.width;
+			var loc = document.getElementsByClassName("sliderTrack scrubberTrack")[0].getBoundingClientRect();
+			progress = parseFloat(progress.substring(0, progress.indexOf(":"))) * loc.width;
 
-		var a = document.getElementsByClassName("sliderTrack scrubberTrack")[0];
-		var e = document.createEvent('MouseEvents');
-		e.initMouseEvent('mousedown', true, true, window, 1,
-			screenX + loc.left + progress, screenY + loc.top + loc.height / 2,
-			loc.left + progress, loc.top + loc.height / 2,
-			false, false, false, false, 0, null);
-		a.dispatchEvent(e);
-		e.initMouseEvent('mouseup', true, true, window, 1,
-			screenX + loc.left + progress, screenY + loc.top + loc.height / 2,
-			loc.left + progress, loc.top + loc.height / 2,
-			false, false, false, false, 0, null);
-		a.dispatchEvent(e);
+			var a = document.getElementsByClassName("sliderTrack scrubberTrack")[0];
+			var e = document.createEvent('MouseEvents');
+			e.initMouseEvent('mousedown', true, true, window, 1,
+				screenX + loc.left + progress, screenY + loc.top + loc.height / 2,
+				loc.left + progress, loc.top + loc.height / 2,
+				false, false, false, false, 0, null);
+			a.dispatchEvent(e);
+			e.initMouseEvent('mouseup', true, true, window, 1,
+				screenX + loc.left + progress, screenY + loc.top + loc.height / 2,
+				loc.left + progress, loc.top + loc.height / 2,
+				false, false, false, false, 0, null);
+			a.dispatchEvent(e);
+		}
+		else if (event.data.toLowerCase().includes("setvolume ")) {
+			ws.send("Error: Sorry Amazon Music's web interface has some issues in it so volume never works right");
+			//var volume = event.data.toLowerCase();
+			//+7 because "volume " is 7 chars
+			//100- because amazon flipped their slider
+			//volume = 100 - parseInt(volume.substring(volume.indexOf("volume ") + 7));
+			//
+			//if (document.getElementsByClassName("sliderTrack volumeTrack").length == 0) {
+			//	document.getElementsByClassName("volume")[0].click();
+			//}
+			//
+			//
+			//setTimeout(function() {
+			//	if (document.getElementsByClassName("sliderTrack volumeTrack").length > 0) {
+			//		var loc = document.getElementsByClassName("sliderTrack volumeTrack")[0].getBoundingClientRect();
+			//		volume = volume / 100 * loc.height;
+			//
+			//		var a = document.getElementsByClassName("sliderTrack volumeTrack")[0];
+			//		var e = document.createEvent('MouseEvents');
+			//		e.initMouseEvent('mousedown', true, true, window, 1,
+			//			screenX + loc.left + loc.width / 2, screenY + loc.top + volume,
+			//			loc.left + loc.width / 2, loc.top + volume,
+			//			false, false, false, false, 0, null);
+			//		a.dispatchEvent(e)
+			//		e.initMouseEvent('mouseup', true, true, window, 1,
+			//			screenX + loc.left + loc.width / 2, screenY + loc.top + volume,
+			//			loc.left + loc.width / 2, loc.top + volume,
+			//			false, false, false, false, 0, null);
+			//		a.dispatchEvent(e);
+			//
+			//		document.getElementsByClassName("volume")[0].click();
+			//	}
+			//
+			//}, 33);
+		}
+		else if (event.data.toLowerCase() == "repeat") {
+			document.getElementsByClassName("repeatButton")[0].click();
+		}
+		else if (event.data.toLowerCase() == "shuffle") {
+			document.getElementsByClassName("shuffleButton")[0].click();
+		}
 	}
-	else if (event.data.toLowerCase().includes("setvolume ")) {
-		ws.send("Error: Sorry Amazon Music's web interface has some issues in it so volume never works right");
-		//var volume = event.data.toLowerCase();
-		//+7 because "volume " is 7 chars
-		//100- because amazon flipped their slider
-		//volume = 100 - parseInt(volume.substring(volume.indexOf("volume ") + 7));
-		//
-		//if (document.getElementsByClassName("sliderTrack volumeTrack").length == 0) {
-		//	document.getElementsByClassName("volume")[0].click();
-		//}
-		//
-		//
-		//setTimeout(function() {
-		//	if (document.getElementsByClassName("sliderTrack volumeTrack").length > 0) {
-		//		var loc = document.getElementsByClassName("sliderTrack volumeTrack")[0].getBoundingClientRect();
-		//		volume = volume / 100 * loc.height;
-		//
-		//		var a = document.getElementsByClassName("sliderTrack volumeTrack")[0];
-		//		var e = document.createEvent('MouseEvents');
-		//		e.initMouseEvent('mousedown', true, true, window, 1,
-		//			screenX + loc.left + loc.width / 2, screenY + loc.top + volume,
-		//			loc.left + loc.width / 2, loc.top + volume,
-		//			false, false, false, false, 0, null);
-		//		a.dispatchEvent(e)
-		//		e.initMouseEvent('mouseup', true, true, window, 1,
-		//			screenX + loc.left + loc.width / 2, screenY + loc.top + volume,
-		//			loc.left + loc.width / 2, loc.top + volume,
-		//			false, false, false, false, 0, null);
-		//		a.dispatchEvent(e);
-		//
-		//		document.getElementsByClassName("volume")[0].click();
-		//	}
-		//
-		//}, 33);
-	}
-	else if (event.data.toLowerCase() == "repeat") {
-		document.getElementsByClassName("repeatButton")[0].click();
-	}
-	else if (event.data.toLowerCase() == "shuffle") {
-		document.getElementsByClassName("shuffleButton")[0].click();
+	catch (e) {
+		ws.send("Error:" + e);
+		throw e;
 	}
 };
 
