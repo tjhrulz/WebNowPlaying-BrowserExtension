@@ -121,7 +121,6 @@ var onMessage = function(event) {
 		}
 	}
 	else if (event.data.toLowerCase() == "togglethumbsup") {
-		console.log("togglethumbsup");
 		document.getElementById("menu-container").children[0].children[0].children[0].children[0].click();
 	}
 	else if (event.data.toLowerCase() == "togglethumbsdown") {
@@ -194,7 +193,6 @@ function dataCheck() {
 					oldRepeat = newRepeat;
 					var repeat = 0;
 
-					console.log(newRepeat);
 					if (newRepeat === true) {
 						repeat = 2;
 					}
@@ -214,7 +212,7 @@ function dataCheck() {
 
 			}
 			else {
-				//Come up with a better fallback album
+				//Come up with a better fallback album (Possibly catagory but it is stripped from page when showing less may need to use API)
 				var newAlbum = "Youtube";
 				if (newAlbum != oldAlbum) {
 					oldAlbum = newAlbum;
@@ -275,7 +273,6 @@ function dataCheck() {
 				ws.send("RATING:" + rating);
 			}
 
-			console.log(document.getElementsByClassName("html5-main-video")[0].played.length);
 			var newState = document.getElementsByClassName("html5-main-video")[0].paused;
 			//If playing and some video has been played (If no video has been played the video is "playing" but has not started)
 			if (!newState && document.getElementsByClassName("html5-main-video")[0].played.length > 0) {
