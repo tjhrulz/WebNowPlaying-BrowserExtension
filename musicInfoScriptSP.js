@@ -276,6 +276,7 @@ function dataCheck() {
 	}
 	catch (e) {
 		ws.send("Error:" + e);
+		throw e;
 	}
 }
 open();

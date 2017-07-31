@@ -110,7 +110,7 @@ function dataCheck() {
 
 			//Possibly use https://netflixroulette.net/api/
 			//Get director
-			var newArtist = "Movie";
+			var newArtist = "Netflix";
 			if (newArtist != oldArtist) {
 				oldArtist = newArtist;
 				ws.send("ARTIST:" + newArtist);
@@ -175,6 +175,7 @@ function dataCheck() {
 	}
 	catch (e) {
 		ws.send("Error:" + e);
+		throw e;
 	}
 }
 open();
