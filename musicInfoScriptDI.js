@@ -107,7 +107,7 @@ function dataCheck() {
 			}
 
 			//I was only able to reverse engineer the posters not the banners
-			var newAlbumArt = document.querySelector(".context-region .artwork img").src;
+			var newAlbumArt = document.querySelector(".track-region .artwork img").src;
 			if (newAlbumArt != oldAlbumArt) {
 				oldAlbumArt = newAlbumArt;
 				ws.send("COVER:" + oldAlbumArt);
