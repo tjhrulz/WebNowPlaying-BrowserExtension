@@ -66,6 +66,12 @@
               "https://listen.tidal.com/*"
           ],
           "js": ["musicInfoScriptTD.js"]
-      }
+      },
+      {
+          "matches": [ 
+              "https://www.di.fm/*" 
+          ],
+          "js": ["musicInfoScriptDI.js"]
+      } 
     ]
 }
