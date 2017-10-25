@@ -140,51 +140,27 @@ function setup()
 	{
 		ws.send("Error: Sorry Deezer's mouse event to trigger the volume slider does not work if I do it programatically");
 
-		//if (document.getElementsByClassName("volumeSlider").length == 0)
-		//{
-		//	var loc = document.getElementsByClassName("player-controls")[0].getBoundingClientRect();
-		//
-		//	var a = document.getElementsByClassName("player-controls")[0];
-		//	var e = document.createEvent('MouseEvents');
-		//	e.initMouseEvent('mouseover', true, true, window, 0,
-		//		screenX + loc.left + loc.width / 2, screenY + loc.top / 2,
-		//		loc.left + loc.width / 2, loc.top / 2,
-		//		false, false, false, false, 0, null);
-		//	a.dispatchEvent(e);
-		//
-		//	var loc = document.getElementsByClassName("volume")[0].getBoundingClientRect();
-		//
-		//	var a = document.getElementsByClassName("volume")[0];
-		//	var e = document.createEvent('MouseEvents');
-		//	e.initMouseEvent('mouseover', true, true, window, 0,
-		//		screenX + loc.left + loc.width / 2, screenY + loc.top / 2,
-		//		loc.left + loc.width / 2, loc.top / 2,
-		//		false, false, false, false, 0, null);
-		//	a.dispatchEvent(e);
-		//}
-		//
-		//var volumeReadyTest = setInterval(function()
-		//{
-		//	if (window.getComputedStyle(document.getElementsByClassName("volume-progress")[0]).display !== "none")
-		//	{
-		//		clearInterval(volumeReadyTest);
-		//		var loc = document.getElementsByClassName("volume-progress")[0].getBoundingClientRect();
-		//		volume = volume * loc.height;
-		//
-		//		var a = document.getElementsByClassName("volume-progress")[0];
-		//		var e = document.createEvent('MouseEvents');
-		//		e.initMouseEvent('click', true, true, window, 1,
-		//			screenX + loc.left + loc.width / 2, screenY + loc.top + volume,
-		//			loc.left + loc.width / 2, loc.top + volume,
-		//			false, false, false, false, 0, null);
-		//		a.dispatchEvent(e);
-		//
-		//		var a = document.getElementsByClassName("volume")[0];
-		//		var e = document.createEvent('MouseEvents');
-		//		e.initMouseEvent('mouseleave', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-		//		a.dispatchEvent(e);
-		//	}
-		//}, 33);
+		document.getElementsByClassName("volume-progress")[0].style.display = 'inline-block';
+
+		var volumeReadyTest = setInterval(function()
+		{
+			if (window.getComputedStyle(document.getElementsByClassName("volume-progress")[0]).display !== "none")
+			{
+				clearInterval(volumeReadyTest);
+				var loc = document.getElementsByClassName("volume-progress")[0].getBoundingClientRect();
+				volume = volume * loc.width;
+
+				var a = document.getElementsByClassName("volume-progress")[0];
+				var e = document.createEvent('MouseEvents');
+				e.initMouseEvent('click', true, true, window, 1,
+					screenX + loc.left + volume, screenY + loc.top / 2,
+					loc.left + volume, loc.top / 2,
+					false, false, false, false, 0, null);
+				a.dispatchEvent(e);
+
+				document.getElementsByClassName("volume-progress")[0].style.display = '';
+			}
+		}, 33);
 	};
 	deezerEventHandler.repeat = function()
 	{
