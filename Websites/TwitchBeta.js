@@ -1,14 +1,14 @@
-var oldTitle = "";
-var oldArtist = "";
-var oldAlbum = "";
-var oldAlbumArt = "";
-var oldPos = "";
-var oldDur = "";
-var oldVolume = "";
-var oldLiked = "";
-var oldRepeat = "";
-var oldShuffle = "";
-var oldState = "";
+var oldTitle;
+var oldArtist;
+var oldAlbum;
+var oldAlbumArt;
+var oldPos;
+var oldDur;
+var oldVolume;
+var oldLiked;
+var oldRepeat;
+var oldShuffle;
+var oldState;
 
 var ws;
 var connected = false;
@@ -32,17 +32,17 @@ function open() {
 		ws.onmessage = onMessage;
 		ws.onerror = onError;
 
-		oldTitle = "";
-		oldArtist = "";
-		oldAlbum = "";
-		oldAlbumArt = "";
-		oldPos = "";
-		oldDur = "";
-		oldVolume = "";
-		oldLiked = "";
-		oldRepeat = "";
-		oldShuffle = "";
-		oldState = "";
+		oldTitle = null;
+		oldArtist = null;
+		oldAlbum = null;
+		oldAlbumArt = null;
+		oldPos = null;
+		oldDur = null;
+		oldVolume = null;
+		oldLiked = null;
+		oldRepeat = null;
+		oldShuffle = null;
+		oldState = null;
 	}
 	catch (error) {
 		console.log("Error:" + error);
@@ -126,21 +126,15 @@ var onError = function(event) {
 
 function dataCheck() {
 	try {
-		if (document.getElementsByClassName("js-card__title").length > 0) {
-			var newTitle = document.getElementsByClassName("js-card__title")[0].innerText;
+		if (document.getElementsByClassName("channel-header").length > 0) {
+			var newTitle = document.getElementsByClassName("tw-card-body")[0].children[0].innerText;
 			if (newTitle != oldTitle) {
 				oldTitle = newTitle;
-
-				if (newTitle.indexOf(" • ") > 0) {
-					ws.send("TITLE:" + newTitle.substring(0, newTitle.indexOf(" • ")));
-				}
-				else {
-					ws.send("TITLE:" + newTitle);
-				}
+				ws.send("TITLE:" + newTitle);
 			}
 
 
-			var newArtist = document.getElementsByClassName("cn-bar__displayname")[0].innerText;
+			var newArtist = document.getElementsByClassName("channel-header__user")[0].children[1].innerText;
 			if (newArtist != oldArtist) {
 				oldArtist = newArtist;
 				ws.send("ARTIST:" + newArtist);

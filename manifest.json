@@ -1,71 +1,97 @@
 {
-    "manifest_version": 2,
+  "manifest_version": 2,
 
-    "name": "WebNowPlaying Companion",
-    "short_name": "WebNowPlaying",
-    "description": "Ever wished music info from your web browser could be used in Rainmeter? Well now it can!",
-    "version": "0.3.1",
-    "icons": { "16": "icon16.png",
-           "48": "icon48.png",
-          "128": "icon128.png" },
-    "content_scripts": [
-      {
-          "matches": [
-              "https://play.google.com/music/*"
-          ],
-          "js": [
-              "musicInfoScriptGPM.js"
-          ]
-      },
-      {
-          "matches": [
-              "https://soundcloud.com/*"
-          ],
-          "js": ["musicInfoScriptSC.js"]
-      },
-      {
-          "matches": [
-              "https://open.spotify.com/*"
-          ],
-          "js": ["musicInfoScriptSP.js"]
-      },
-      {
-          "matches": [
-              "https://www.twitch.tv/*"
-          ],
-          "js": ["musicInfoScriptTW.js"]
-      },
-      {
-          "matches": [
-              "https://www.youtube.com/*"
-          ],
-          "js": [
-              "musicInfoScriptYT.js"
-          ]
-      },
-      {
-          "matches": [
-              "https://music.amazon.com/*"
-          ],
-          "js": ["musicInfoScriptAZ.js"]
-      },
-      {
-          "matches": [
-              "https://www.pandora.com/*"
-          ],
-          "js": ["musicInfoScriptPD.js"]
-      },
-      {
-          "matches": [
-              "https://www.netflix.com/*"
-          ],
-          "js": ["musicInfoScriptNF.js"]
-      },
-      {
-          "matches": [
-              "https://listen.tidal.com/*"
-          ],
-          "js": ["musicInfoScriptTD.js"]
-      }
+  "name": "WebNowPlaying Companion",
+  "short_name": "WebNowPlaying",
+  "description": "Ever wished music info from your web browser could be used in Rainmeter? Well now it can!",
+  "version": "0.4.0",
+  "icons":
+  {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "permissions": [
+    "tabs",
+    "webNavigation"
+  ],
+  //"background":
+  //{
+  //  "scripts": ["Websites/YoutubeTabHistory.js"]
+  //},
+  "content_scripts": [
+  {
+    "matches": [
+      "*://play.google.com/music/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/GooglePlayMusic.js"
     ]
+  },
+  {
+    "matches": [
+      "*://www.youtube.com/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/Youtube.js",
+      "Websites/YoutubeNew.js",
+      "Websites/YoutubeSelector.js"
+    ]
+  },
+  {
+    "matches": [
+      "*://soundcloud.com/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/Soundcloud.js"
+    ]
+  },
+  {
+    "matches": [
+      "*://listen.tidal.com/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/Tidal.js"
+    ]
+  },
+  {
+    "matches": [
+      "*://music.amazon.com/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/AmazonMusic.js"
+    ]
+  },
+  {
+    "matches": [
+      "*://www.pandora.com/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/Pandora.js"
+    ]
+  },
+  {
+    "matches": [
+      "*://open.spotify.com/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/Spotify.js"
+    ]
+  },
+  {
+    "matches": [
+      "*://www.deezer.com/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/Deezer.js"
+    ]
+  }]
 }
