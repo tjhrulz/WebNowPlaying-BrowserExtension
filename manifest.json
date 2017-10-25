@@ -22,6 +22,15 @@
   "content_scripts": [
   {
     "matches": [
+      "<all_urls>"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/Generic.js"
+    ]
+  },
+  {
+    "matches": [
       "*://play.google.com/music/*"
     ],
     "js": [

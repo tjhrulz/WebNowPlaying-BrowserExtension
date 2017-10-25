@@ -2,6 +2,8 @@
 //This will only run if given permissions on all sites.
 //Note: Having an image is not guaranteed
 
+var possibleArtist = "";
+
 function setup(element)
 {
 	var genericInfoHandler = createNewMusicInfo();
@@ -24,13 +26,74 @@ function setup(element)
 	};
 	genericInfoHandler.title = function()
 	{
-		return document.title;
+		var title = "";
+		if (document.querySelector('meta[property="og:title"]') !== null)
+		{
+			title = document.querySelector('meta[property="og:title"]').content;
+		}
+		else if (document.querySelector('meta[name="title"]') !== null)
+		{
+			title = document.querySelector('meta[name="title"]').content;
+		}
+		else
+		{
+			title = document.title;
+
+			//@TODO Possibly strip stupid chars like ◼ ❙❙ ❚❚ ► ▮▮ ▶ ▷ ❘ ❘ ▷
+		}
+
+		//Try to inteligently parse title to see if it contains the artist info
+		//This errors on the side of not getting the artist to prevent messing up the title
+		//ie it does not just look for the word by in the title
+		var temp = title.toLowerCase();
+		if (temp.includes(", by"))
+		{
+			//@TODO I probably could make this a function that takes a search string in the future
+
+			//Find cutoff points
+			var cutStart = temp.indexOf(", by");
+			var cutEnd = temp.indexOf(", by") + 4; //+4 because I am lazy and ", by" is 4 chars
+			temp = temp.substring(cutEnd);
+			//Skip the space the the beginning if their is one
+			if (temp.charAt(0) === " ")
+			{
+				cutEnd++;
+			}
+
+			possibleArtist = title.substring(cutEnd);
+			title = title.substring(0, cutStart);
+		}
+		else if (temp.includes("by:"))
+		{
+			//Find cutoff points
+			var cutStart = temp.indexOf("by:");
+			var cutEnd = temp.indexOf("by:") + 3; //+3 because I am lazy and "by:" is 3 chars
+			temp = temp.substring(cutEnd);
+			//Skip the space the the beginning if their is one
+			if (temp.charAt(0) === " ")
+			{
+				cutEnd++;
+			}
+
+			possibleArtist = title.substring(cutEnd);
+			title = title.substring(0, cutStart);
+		}
+		//Possible additions that may be too aggressive "|" "-"
+
+
+		return title;
 	};
 	genericInfoHandler.artist = function()
 	{
+		if (possibleArtist.length > 0)
+		{
+			return possibleArtist;
+		}
+
 		var temp = document.domain;
 		temp = temp.substring(0, temp.lastIndexOf("."));
 		temp = temp.substring(temp.lastIndexOf(".") + 1);
+		temp = temp.charAt(0).toUpperCase() + temp.slice(1);
 
 		if (temp == "")
 		{
@@ -40,11 +103,24 @@ function setup(element)
 	};
 	genericInfoHandler.album = function()
 	{
-		return " ";
+		var temp = document.domain;
+		temp = temp.substring(0, temp.lastIndexOf("."));
+		temp = temp.substring(temp.lastIndexOf(".") + 1);
+		temp = temp.charAt(0).toUpperCase() + temp.slice(1);
+
+		if (temp == "")
+		{
+			temp = "Localhost"
+		}
+		return temp;
 	};
 	genericInfoHandler.cover = function()
 	{
-		return element.poster;
+		if (element.poster !== undefined)
+		{
+			return element.poster;
+		}
+		return document.querySelector('meta[property="og:image"]').content;
 	};
 	genericInfoHandler.duration = function()
 	{
