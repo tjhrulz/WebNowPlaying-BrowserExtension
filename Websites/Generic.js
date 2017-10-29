@@ -4,20 +4,120 @@
 
 var possibleArtist = "";
 
-function setup(element)
+var element = null;
+var elements = [];
+
+
+//Proposed solution for dynamic instancing of content:
+//Came up with for Pandora and improved to make it more dynamic
+
+//Basically it adds to every element a function to call on time update
+//This then accumulates sources that have updated until the current element is requested
+//If the last returned element is in the updated list then it is returned
+//If it is not then whatever element was updated the most recently is returned
+//If the list is empty then it returns the last used element
+//If no element has been used in the past then it returns the first video element in that page
+//If there is no video element then it returns the first audio element in that page
+//If these is no elements at all then it returns null
+//At that point in time the accumlated elements are purged from the list
+
+//Adds an audio or video source to a list of elements
+function addToChangedList(source)
+{
+	elements.push(source)
+}
+
+function updateCurrentElement()
+{
+	//If any elements have been updated since last check
+	if (elements.length > 0)
+	{
+		//If last used element does not exist in array select a new one
+		if (elements.indexOf(element) < 0)
+		{
+			//Update element to the element that came in most recently
+			//@TODO make this ignore elements that are muted or have no sound
+			//@TODO prioritize elements in the list that had a state or src change more recently to break ties
+			element = elements[elements.length - 1];
+			//console.log("Found new element based on update " + element.src);
+		}
+	}
+	//No elements have been updated, only try to change element if it is null
+	else if (element === null || element === undefined)
+	{
+		//Check all audio elements and set element to the first one with any length
+		for (i = 0; i < document.getElementsByTagName("audio").length; i++)
+		{
+			if (document.getElementsByTagName("audio")[i].duration > 0)
+			{
+				element = document.getElementsByTagName("audio")[i];
+				//console.log("Found new audio element by default " + element.src);
+				break;
+			}
+		}
+		//If no suitable audio element was found try to check for video elements
+		if (element === null)
+		{
+			//@TODO check if there is a way to see if a video has audio
+			for (i = 0; i < document.getElementsByTagName("video").length; i++)
+			{
+				if (document.getElementsByTagName("video")[i].duration > 0)
+				{
+					element = document.getElementsByTagName("video")[i];
+					//console.log("Found new video element by default " + element.src);
+					break;
+				}
+			}
+		}
+	}
+
+	//Clear array of updated elements
+	elements = [];
+}
+
+function setupElementEvents()
+{
+	for (i = 0; i < document.getElementsByTagName("video").length; i++)
+	{
+		if (document.getElementsByTagName("video")[i].ontimeupdate === null)
+		{
+			document.getElementsByTagName("video")[i].ontimeupdate = function()
+			{
+				console.log("Setup new video element");
+				addToChangedList(this);
+			}
+		}
+	}
+	for (i = 0; i < document.getElementsByTagName("audio").length; i++)
+	{
+		//@TODO may have to not check if null in case someone else has a time update event already (Although in those cases I may break their site)
+		if (document.getElementsByTagName("audio")[i].ontimeupdate === null)
+		{
+			console.log("Setup new audio element");
+			document.getElementsByTagName("audio")[i].ontimeupdate = function()
+			{
+				addToChangedList(this);
+			}
+		}
+	}
+}
+
+function setup()
 {
 	var genericInfoHandler = createNewMusicInfo();
 	//@TODO possibly monitor all audio and video tags in a page for changes
 
 	genericInfoHandler.player = function()
 	{
-		return "Generic";
+		return document.domain;
 	};
 
 	//Define custom check logic to make sure you are not trying to update info when nothing is playing
 	genericInfoHandler.readyCheck = function()
 	{
-		return element !== null && element.duration > 0;
+		//Most elements will already have events attached but this will add it to any new elements
+		setupElementEvents();
+		return element !== undefined && element !== null && element.duration > 0;
 	};
 
 	genericInfoHandler.state = function()
@@ -27,6 +127,7 @@ function setup(element)
 	genericInfoHandler.title = function()
 	{
 		var title = "";
+		//@TODO Send all of these to the artist guesser?
 		if (document.querySelector('meta[property="og:title"]') !== null)
 		{
 			title = document.querySelector('meta[property="og:title"]').content;
@@ -199,30 +300,15 @@ function setup(element)
 	genericEventHandler.rating = null;
 }
 
-if (document.getElementsByTagName("audio").length > 0)
-{
-	setup(document.getElementsByTagName("audio")[0]);
-	init();
-}
-else if (document.getElementsByTagName("video").length > 0)
-{
-	setup(document.getElementsByTagName("video")[0]);
-	init();
-}
+//Setup events on all elements to get when updated (Also called in readyCheck)
+setupElementEvents();
 
+//This will update which element is selected to display
+setInterval(function()
+{
+	updateCurrentElement();
+}, 1000);
 
-//Proposed solution for dynamic instancing of content:
-//Came up with for Pandora, however on the web I would have to account for both video and audio
-//Also there is the possibility of content fighting, I may want to have some sort of accumulator list
-//Then I would just pick from the list whichever content had a state/duration change the most recently
-//Also I wonder if I can check if a video has audio so I can ignore animations (Although most people use source for that these days)
-//for (i = 0; i < document.getElementsByTagName("video").length; i++)
-//{
-//	if (document.getElementsByTagName("video")[i].ontimeupdate === null)
-//	{
-//		document.getElementsByTagName("video")[i].ontimeupdate = function()
-//		{
-//			currElement = this;
-//		}
-//	}
-//}
+//Standard setup
+setup();
+init();

@@ -45,9 +45,20 @@ function pad(number, length)
 	return str;
 }
 
+//Convert seconds to a time string acceptable to Rainmeter
 function convertTimeToString(timeInSeconds)
 {
 	return parseInt(timeInSeconds / 60) + ":" + pad(parseInt(timeInSeconds % 60), 2);
+}
+
+//Convert every words to start with captial (Note: Does NOT ignore words that should not be)
+function capitalize(str)
+{
+	str = str.replace(/-/g, ' ');
+	return str.replace(/\w\S*/g, function(txt)
+	{
+		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+	});
 }
 
 /*
@@ -87,6 +98,7 @@ function init()
 		currTrackID = null;
 		currArtistID = null;
 		currAlbumID = null;
+		console.log("Websocket" + ws.onopen);
 	}
 	catch (error)
 	{
@@ -96,10 +108,11 @@ function init()
 
 var onOpen = function()
 {
+	console.log("Opened connection");
 	connected = true;
 	currPlayer = musicInfo.player();
 	ws.send("PLAYER:" + currPlayer);
-	//@TODO Possibly send all know data right away on open
+	//@TODO Dynamic update rate based on success rate
 	sendData = setInterval(function()
 	{
 		updateInfo();
