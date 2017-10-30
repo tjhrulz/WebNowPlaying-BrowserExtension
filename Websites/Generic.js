@@ -39,7 +39,6 @@ function updateCurrentElement()
 			//@TODO make this ignore elements that are muted or have no sound
 			//@TODO prioritize elements in the list that had a state or src change more recently to break ties
 			element = elements[elements.length - 1];
-			//console.log("Found new element based on update " + element.src);
 		}
 	}
 	//No elements have been updated, only try to change element if it is null
@@ -51,7 +50,6 @@ function updateCurrentElement()
 			if (document.getElementsByTagName("audio")[i].duration > 0)
 			{
 				element = document.getElementsByTagName("audio")[i];
-				//console.log("Found new audio element by default " + element.src);
 				break;
 			}
 		}
@@ -64,7 +62,6 @@ function updateCurrentElement()
 				if (document.getElementsByTagName("video")[i].duration > 0)
 				{
 					element = document.getElementsByTagName("video")[i];
-					//console.log("Found new video element by default " + element.src);
 					break;
 				}
 			}
@@ -83,7 +80,6 @@ function setupElementEvents()
 		{
 			document.getElementsByTagName("video")[i].ontimeupdate = function()
 			{
-				console.log("Setup new video element");
 				addToChangedList(this);
 			}
 		}
@@ -93,7 +89,6 @@ function setupElementEvents()
 		//@TODO may have to not check if null in case someone else has a time update event already (Although in those cases I may break their site)
 		if (document.getElementsByTagName("audio")[i].ontimeupdate === null)
 		{
-			console.log("Setup new audio element");
 			document.getElementsByTagName("audio")[i].ontimeupdate = function()
 			{
 				addToChangedList(this);
@@ -309,6 +304,40 @@ setInterval(function()
 	updateCurrentElement();
 }, 1000);
 
-//Standard setup
-setup();
-init();
+
+//Standard setup but check settings first
+// Use default value color = 'red' and likesColor = true.
+chrome.storage.sync.get(
+{
+	doGeneric: false,
+	useGenericList: false,
+	whitelistOrBlacklist: 'whitelist',
+	genericList: ["streamable.com", "www.adultswim.com"]
+}, function(items)
+{
+	//If set to use generic
+	if (items.doGeneric)
+	{
+		if (items.useGenericList)
+		{
+			for (var i = 0; i < items.genericList.length; i++)
+			{
+				isInList = items.genericList[i].includes(window.location.hostname);
+				if (isInList)
+				{
+					break
+				};
+			}
+			if ((isInList && items.whitelistOrBlacklist == "whitelist") || (!isInList && items.whitelistOrBlacklist == "blacklist"))
+			{
+				setup();
+				init();
+			}
+		}
+		else
+		{
+			setup();
+			init();
+		}
+	}
+});

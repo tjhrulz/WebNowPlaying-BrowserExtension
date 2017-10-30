@@ -98,7 +98,6 @@ function init()
 		currTrackID = null;
 		currArtistID = null;
 		currAlbumID = null;
-		console.log("Websocket" + ws.onopen);
 	}
 	catch (error)
 	{
@@ -108,7 +107,6 @@ function init()
 
 var onOpen = function()
 {
-	console.log("Opened connection");
 	connected = true;
 	currPlayer = musicInfo.player();
 	ws.send("PLAYER:" + currPlayer);
@@ -131,6 +129,27 @@ var onClose = function()
 
 var onMessage = function(event)
 {
+	var versionNumber = event.data.toLowerCase().split(":");
+	if (versionNumber[0].includes("version"))
+	{
+		//Check that version number is the same major version
+		if (versionNumber[1].split(".")[1] < 4)
+		{
+			console.log("Using outdated WebNowPlaying plugin");
+			chrome.runtime.sendMessage(
+			{
+				method: "flagAsOutdated"
+			});
+		}
+		else
+		{
+
+			chrome.runtime.sendMessage(
+			{
+				method: "unflagAsOutdated"
+			});
+		}
+	}
 	try
 	{
 		fireEvent(event);

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>WebNowPlaying Companion Extension Options</title>
+
+  <style>
+    html {
+      height: 100%;
+    }
+
+    body {
+      padding: 0;
+      margin: 0;
+      font-family: 'Segoe UI';
+      background: linear-gradient(to top left, rgb(12, 182, 196), rgb(29, 53, 143));
+      background-attachment: fixed;
+      overflow-x: hidden;
+    }
+
+    #mainContent {
+      padding-left: 10%;
+      padding-right: 10%;
+      color: rgba(255, 255, 255, 0.75);
+      font-weight: 400;
+    }
+
+    label {
+      display: block;
+    }
+
+    .suboptions {
+      padding-left: 25px;
+    }
+
+    .disabled {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    footer {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      padding: 1rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.75);
+      background-color: rgba(0, 0, 0, .25);
+      padding-left: 10%;
+      padding-right: 10%;
+    }
+
+    footer a:link {
+      /* Applies to all unvisited links */
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    footer a:visited {
+      /* Applies to all visited links */
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    footer a:hover {
+      /* Applies to links under the pointer */
+      text-decoration: underline;
+      color: rgba(255, 255, 255, 1);
+    }
+
+    footer a:active {
+      /* Applies to activated links */
+      text-decoration: underline;
+      color: rgba(255, 255, 255, 1);
+    }
+
+    footer div.left {
+      float: left;
+    }
+
+    footer div.right {
+      float: right;
+    }
+
+    h1 {
+      margin-left: -5%;
+      color: rgba(255, 255, 255, 1);
+      line-height: 1.5rem;
+      font-weight: 400;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      color: rgba(255, 255, 255, 1);
+      line-height: 1.5rem;
+      font-size: 1.5rem;
+      font-weight: 300;
+      margin-top: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+
+
+    select {
+      border: none;
+      color: rgba(255, 255, 255, 1);
+      background-color: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    select option {
+      color: rgba(255, 255, 255, 1);
+      background: rgba(81, 106, 171, 1);
+    }
+
+    textarea {
+      border: none;
+      color: rgba(255, 255, 255, 1);
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    @media screen and (max-height: 450px) {
+      footer {
+        position: unset;
+        width: 100%;
+        display: block;
+        padding-right: 0;
+      }
+
+      footer div.left,
+      footer div.right {
+        float: none;
+        clear: both;
+        width: fit-content;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="mainContent">
+    <h1>WebNowPlaying Options</h1>
+    <p>Generic script settings</p>
+    <div id="genericOptions" class="suboptions">
+      <label>
+          <input type="checkbox" id="generic" /> Attempt to support unknown websites using the generic script
+        </label>
+      <div class="suboptions">
+        <label>
+            <input type="checkbox" id="useGenericList" /> Only hostnames in the
+            <select id="listType">
+              <option value="whitelist">whitelist</option>
+              <option value="blacklist">blacklist</option>
+            </select>
+            (Seperate with newline)
+          </label>
+        <textarea rows="4" cols="52" id="genericList">streamable.com/*</textarea>
+      </div>
+    </div>
+
+    <p style="float:left;">Websocket connection settings</p>
+    <p style="font-size: 1rem;font-weight: 300;">&#160;(Not yet implemented)</p>
+    <div id="websocketOptions" class="disabled suboptions">
+      <label>
+          <input type="checkbox" id="WNP" disabled="disabled" checked="checked" /> Send detected music info to the WebNowPlaying Rainmeter plugin
+        </label>
+      <label>
+          <input type="checkbox" id="UNP" disabled="disabled" /> Send detected music info to the UnNowPlaying Rainmeter plugin (Unreleased)
+        </label>
+      <label>
+          <input type="checkbox" id="Twitch" disabled="disabled" /> Send detected music info to the WebNowPlaying Twitch extension (Unreleased)
+        </label>
+    </div>
+
+    <h3 style="margin-top: 50px;">Note: Please reload affected pages in order for changes to take affect</h3>
+  </div>
+  <footer>
+    <div class="left">Made by tjhrulz</div>
+    <div class="right">
+      <a href="https://www.patreon.com/tjhrulz">Feel free to support the extension and other plugins I make </a>
+    </div>
+  </footer>
+
+  <script src="Options.js"></script>
+</body>
+
+</html>

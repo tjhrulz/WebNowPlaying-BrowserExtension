@@ -11,115 +11,131 @@
     "48": "icon48.png",
     "128": "icon128.png"
   },
+  "browser_action":
+  {},
   "permissions": [
     "tabs",
-    "webNavigation"
+    "webNavigation",
+    "storage"
   ],
-  //"background":
-  //{
-  //  "scripts": ["Websites/YoutubeTabHistory.js"]
-  //},
+  "background":
+  {
+    "scripts": ["Background.js"],
+    "persistent": false
+  },
+  "options_page": "Options.html",
   "content_scripts": [
-    //{
-    //  "matches": [
-    //    "<all_urls>"
-    //  ],
-    //  "js": [
-    //    "WebNowPlaying.js",
-    //    "Websites/Generic.js"
-    //  ]
-    //},
-    {
-      "matches": [
-        "*://play.google.com/music/*"
-      ],
-      "js": [
-        "WebNowPlaying.js",
-        "Websites/GooglePlayMusic.js"
-      ]
-    },
-    {
-      "matches": [
-        "*://www.youtube.com/*"
-      ],
-      "js": [
-        "WebNowPlaying.js",
-        "Websites/Youtube.js",
-        "Websites/YoutubeNew.js",
-        "Websites/YoutubeSelector.js"
-      ]
-    },
-    {
-      "matches": [
-        "*://soundcloud.com/*"
-      ],
-      "js": [
-        "WebNowPlaying.js",
-        "Websites/Soundcloud.js"
-      ]
-    },
-    {
-      "matches": [
-        "*://listen.tidal.com/*"
-      ],
-      "js": [
-        "WebNowPlaying.js",
-        "Websites/Tidal.js"
-      ]
-    },
-    {
-      "matches": [
-        "*://music.amazon.com/*"
-      ],
-      "js": [
-        "WebNowPlaying.js",
-        "Websites/AmazonMusic.js"
-      ]
-    },
-    {
-      "matches": [
-        "*://www.pandora.com/*"
-      ],
-      "js": [
-        "WebNowPlaying.js",
-        "Websites/Pandora.js"
-      ]
-    },
-    {
-      "matches": [
-        "*://open.spotify.com/*"
-      ],
-      "js": [
-        "WebNowPlaying.js",
-        "Websites/Spotify.js"
-      ]
-    },
-    {
-      "matches": [
-        "*://www.deezer.com/*"
-      ],
-      "js": [
-        "WebNowPlaying.js",
-        "Websites/Deezer.js"
-      ]
-    },
-    {
-      "matches": [
-        "*://play.pocketcasts.com/*"
-      ],
-      "js": [
-        "WebNowPlaying.js",
-        "Websites/PocketCasts.js"
-      ]
-    },
-    {
-      "matches": [
-        "*://app.plex.tv/*"
-      ],
-      "js": [
-        "WebNowPlaying.js",
-        "Websites/Plex.js"
-      ]
-    }
-  ]
+  {
+    "matches": [
+      "*://play.google.com/music/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/GooglePlayMusic.js"
+    ]
+  },
+  {
+    "matches": [
+      "*://www.youtube.com/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/Youtube.js",
+      "Websites/YoutubeNew.js",
+      "Websites/YoutubeSelector.js"
+    ]
+  },
+  {
+    "matches": [
+      "*://soundcloud.com/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/Soundcloud.js"
+    ]
+  },
+  {
+    "matches": [
+      "*://listen.tidal.com/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/Tidal.js"
+    ]
+  },
+  {
+    "matches": [
+      "*://music.amazon.com/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/AmazonMusic.js"
+    ]
+  },
+  {
+    "matches": [
+      "*://www.pandora.com/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/Pandora.js"
+    ]
+  },
+  {
+    "matches": [
+      "*://open.spotify.com/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/Spotify.js"
+    ]
+  },
+  {
+    "matches": [
+      "*://www.deezer.com/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/Deezer.js"
+    ]
+  },
+  {
+    "matches": [
+      "*://play.pocketcasts.com/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/PocketCasts.js"
+    ]
+  },
+  {
+    "matches": [
+      "*://app.plex.tv/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/Plex.js"
+    ]
+  },
+  {
+    "matches": [
+      "<all_urls>"
+    ],
+    "exclude_matches": [
+      "*://play.google.com/music/*",
+      "*://www.youtube.com/*",
+      "*://soundcloud.com/*",
+      "*://listen.tidal.com/*",
+      "*://music.amazon.com/*",
+      "*://www.pandora.com/*",
+      "*://open.spotify.com/*",
+      "*://www.deezer.com/*",
+      "*://play.pocketcasts.com/*",
+      "*://app.plex.tv/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/Generic.js"
+    ]
+  }]
 }

@@ -1,7 +1,6 @@
 //Decides which version of youtube the user is using.
 if (document.getElementById("yt-masthead-content") === null)
 {
-	console.log("Hello");
 	setupNew();
 	init();
 }
@@ -12,10 +11,11 @@ else
 }
 
 
-chrome.runtime.sendMessage(
-{
-	method: "getURL"
-}, function(response)
-{
-	console.log(response.ID);
-});
+//chrome.runtime.sendMessage(
+//{
+//	method: "getURL"
+//}, function(response)
+//{
+//	console.log(response.ID);
+//});
+//
