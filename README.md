@@ -9,20 +9,20 @@ Other browsers will be supported as requested. Please feel free to report any bu
 
 ### List of supported sites:
 - Youtube (Both new and old layouts)
-- Twitch
 - Soundcloud
 - Google Play Music
 - Amazon Music
 - Pandora
 - Spotify
 - Tidal
+- Deezer
+- Plex (Music)
+- PocketCasts
+- Generic site support that can be turned on in the settings
 
 ### List of sites with support planned:
-- Deezer
-- Bandcamp
-- Napster?
-- PocketCasts?
-- DI.FM?
-
-### Current state:
-A rewrite of the extension is in the works that will merge the two extensions and make contributing new sites easier. Please hold off on all pull requests till then.  
+- Redo Twich support (For new and old)
+- Improved youtube next/prev
+- Bandcamp 
+- Napster
+- DI.FM
