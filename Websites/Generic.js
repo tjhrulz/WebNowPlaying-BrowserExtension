@@ -1,6 +1,7 @@
 //This is a generic handler for unsupported sites.
 //This will only run if given permissions on all sites.
 //Note: Having an image is not guaranteed
+/*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString capitalize*/
 
 var possibleArtist = "";
 
@@ -24,7 +25,7 @@ var elements = [];
 //Adds an audio or video source to a list of elements
 function addToChangedList(source)
 {
-	elements.push(source)
+	elements.push(source);
 }
 
 function updateCurrentElement()
@@ -45,7 +46,7 @@ function updateCurrentElement()
 	else if (element === null || element === undefined)
 	{
 		//Check all audio elements and set element to the first one with any length
-		for (i = 0; i < document.getElementsByTagName("audio").length; i++)
+		for (var i = 0; i < document.getElementsByTagName("audio").length; i++)
 		{
 			if (document.getElementsByTagName("audio")[i].duration > 0)
 			{
@@ -57,7 +58,7 @@ function updateCurrentElement()
 		if (element === null)
 		{
 			//@TODO check if there is a way to see if a video has audio
-			for (i = 0; i < document.getElementsByTagName("video").length; i++)
+			for (var i = 0; i < document.getElementsByTagName("video").length; i++)
 			{
 				if (document.getElementsByTagName("video")[i].duration > 0)
 				{
@@ -74,17 +75,17 @@ function updateCurrentElement()
 
 function setupElementEvents()
 {
-	for (i = 0; i < document.getElementsByTagName("video").length; i++)
+	for (var i = 0; i < document.getElementsByTagName("video").length; i++)
 	{
 		if (document.getElementsByTagName("video")[i].ontimeupdate === null)
 		{
 			document.getElementsByTagName("video")[i].ontimeupdate = function()
 			{
 				addToChangedList(this);
-			}
+			};
 		}
 	}
-	for (i = 0; i < document.getElementsByTagName("audio").length; i++)
+	for (var i = 0; i < document.getElementsByTagName("audio").length; i++)
 	{
 		//@TODO may have to not check if null in case someone else has a time update event already (Although in those cases I may break their site)
 		if (document.getElementsByTagName("audio")[i].ontimeupdate === null)
@@ -92,7 +93,7 @@ function setupElementEvents()
 			document.getElementsByTagName("audio")[i].ontimeupdate = function()
 			{
 				addToChangedList(this);
-			}
+			};
 		}
 	}
 }
@@ -193,7 +194,7 @@ function setup()
 
 		if (temp == "")
 		{
-			temp = "Localhost"
+			temp = "Localhost";
 		}
 		return temp;
 	};
@@ -206,7 +207,7 @@ function setup()
 
 		if (temp == "")
 		{
-			temp = "Localhost"
+			temp = "Localhost";
 		}
 		return temp;
 	};
@@ -309,10 +310,10 @@ setInterval(function()
 // Use default value color = 'red' and likesColor = true.
 chrome.storage.sync.get(
 {
-	doGeneric: false,
-	useGenericList: false,
-	whitelistOrBlacklist: 'whitelist',
-	genericList: ["streamable.com", "www.adultswim.com"]
+	"doGeneric": false,
+	"useGenericList": false,
+	"whitelistOrBlacklist": 'whitelist',
+	"genericList": ["streamable.com", "www.adultswim.com"]
 }, function(items)
 {
 	//If set to use generic
@@ -320,15 +321,16 @@ chrome.storage.sync.get(
 	{
 		if (items.useGenericList)
 		{
+			var isInList = false;
 			for (var i = 0; i < items.genericList.length; i++)
 			{
 				isInList = items.genericList[i].includes(window.location.hostname);
 				if (isInList)
 				{
-					break
-				};
+					break;
+				}
 			}
-			if ((isInList && items.whitelistOrBlacklist == "whitelist") || (!isInList && items.whitelistOrBlacklist == "blacklist"))
+			if (isInList && items.whitelistOrBlacklist == "whitelist" || !isInList && items.whitelistOrBlacklist == "blacklist")
 			{
 				setup();
 				init();
@@ -340,4 +342,5 @@ chrome.storage.sync.get(
 			init();
 		}
 	}
-});
+}
+);

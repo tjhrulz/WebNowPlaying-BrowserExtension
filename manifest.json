@@ -23,7 +23,10 @@
     "scripts": ["Background.js"],
     "persistent": false
   },
-  "options_page": "Options.html",
+  "options_ui":
+  {
+    "page": "options.html"
+  },
   "content_scripts": [
   {
     "matches": [

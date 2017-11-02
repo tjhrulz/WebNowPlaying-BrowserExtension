@@ -1,4 +1,5 @@
 //Adds support for Plex
+/*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString capitalize*/
 
 var element;
 var lastCover = null;
@@ -9,7 +10,7 @@ function blobToDataURL(blob)
 	a.onload = function(e)
 	{
 		lastCover = e.target.result;
-	}
+	};
 	a.readAsDataURL(blob);
 }
 
@@ -26,7 +27,7 @@ function setup()
 	{
 		if (document.getElementsByTagName('audio').length > 0)
 		{
-			for (i = 0; i < document.getElementsByTagName('audio').length; i++)
+			for (var i = 0; i < document.getElementsByTagName('audio').length; i++)
 			{
 				if (document.getElementsByTagName('audio')[i].duration > 0)
 				{
@@ -73,7 +74,7 @@ function setup()
 		{
 			if (this.status == 200)
 			{
-				myBlob = this.response;
+				var myBlob = this.response;
 				blobToDataURL(myBlob);
 			}
 		};

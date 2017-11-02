@@ -1,4 +1,5 @@
 //Adds support for Spotify
+/*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString capitalize*/
 
 var lastKnownAlbum = "";
 var lastKnownAlbumArt = "";
@@ -44,7 +45,6 @@ function setup()
 				if (ajaxReq.readyState == 4)
 				{
 					lastKnownAlbum = ajaxReq.response.querySelector('meta[property="og:title"]').content;
-					console.log(ajaxReq.querySelector('meta[property="og:title"]').content);
 				}
 			};
 			ajaxReq.responseType = "document";
@@ -127,7 +127,7 @@ function setup()
 	spotifyEventHandler.progress = function(progress)
 	{
 		var loc = document.getElementsByClassName("playback-bar")[0].children[1].getBoundingClientRect();
-		progress = progress * loc.width;
+		progress *= loc.width;
 
 		var a = document.getElementsByClassName("playback-bar")[0].children[1];
 		var e = document.createEvent('MouseEvents');
@@ -145,7 +145,7 @@ function setup()
 	spotifyEventHandler.volume = function(volume)
 	{
 		var loc = document.getElementsByClassName("volume-bar")[0].children[1].getBoundingClientRect();
-		volume = volume * loc.width;
+		volume *= loc.width;
 
 		var a = document.getElementsByClassName("volume-bar")[0].children[1];
 		var e = document.createEvent('MouseEvents');

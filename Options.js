@@ -1,35 +1,36 @@
-var doGeneric = false;
-var useGenericList = false;
-var whitelistOrBlacklist = 'whitelist';
-var genericList = ["streamable.com", "www.adultswim.com"];
+var thisDoGeneric = false;
+var thisUseGenericList = false;
+var thisWhitelistOrBlacklist = 'whitelist';
+var thisGenericList = ["streamable.com", "www.adultswim.com"];
 
 // Saves options to chrome.storage
-function save_options()
+function saveOptions()
 {
-	doGeneric = document.getElementById('generic').checked;
-	useGenericList = document.getElementById('useGenericList').checked;
-	whitelistOrBlacklist = document.getElementById('listType').value;
-	genericList = document.getElementById('genericList').value.split("\n");
+	thisDoGeneric = document.getElementById('generic').checked;
+	thisUseGenericList = document.getElementById('useGenericList').checked;
+	thisWhitelistOrBlacklist = document.getElementById('listType').value;
+	thisGenericList = document.getElementById('genericList').value.split("\n");
 	chrome.storage.sync.set(
 	{
-		doGeneric: doGeneric,
-		useGenericList: useGenericList,
-		whitelistOrBlacklist: whitelistOrBlacklist,
-		genericList: genericList
-	});
+		"doGeneric": thisDoGeneric,
+		"useGenericList": thisUseGenericList,
+		"whitelistOrBlacklist": thisWhitelistOrBlacklist,
+		"genericList": thisGenericList
+	}
+);
 }
 
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.
-function restore_options()
+function restoreOptions()
 {
 	// Use default value color = 'red' and likesColor = true.
 	chrome.storage.sync.get(
 	{
-		doGeneric: false,
-		useGenericList: false,
-		whitelistOrBlacklist: 'whitelist',
-		genericList: ["streamable.com", "www.adultswim.com"]
+		"doGeneric": false,
+		"useGenericList": false,
+		"whitelistOrBlacklist": 'whitelist',
+		"genericList": ["streamable.com", "www.adultswim.com"]
 	}, function(items)
 	{
 		document.getElementById('generic').checked = items.doGeneric;
@@ -38,29 +39,30 @@ function restore_options()
 		document.getElementById('genericList').value = items.genericList.join("\n");
 
 
-		doGeneric = document.getElementById('generic').checked;
-		useGenericList = document.getElementById('useGenericList').checked;
-		whitelistOrBlacklist = document.getElementById('listType').value;
-		genericList = document.getElementById('genericList').value.split("\n");
-	});
+		thisDoGeneric = document.getElementById('generic').checked;
+		thisUseGenericList = document.getElementById('useGenericList').checked;
+		thisWhitelistOrBlacklist = document.getElementById('listType').value;
+		thisGenericList = document.getElementById('genericList').value.split("\n");
+	}
+);
 }
 
 function checkSaveOptions()
 {
-	var isChanged = doGeneric != document.getElementById('generic').checked;
-	isChanged = isChanged || useGenericList != document.getElementById('useGenericList').checked;
-	isChanged = isChanged || whitelistOrBlacklist != document.getElementById('listType').value;
-	isChanged = isChanged || genericList.toString() != document.getElementById('genericList').value.split("\n").toString();
+	var isChanged = thisDoGeneric != document.getElementById('generic').checked;
+	isChanged = isChanged || thisUseGenericList != document.getElementById('useGenericList').checked;
+	isChanged = isChanged || thisWhitelistOrBlacklist != document.getElementById('listType').value;
+	isChanged = isChanged || thisGenericList.toString() != document.getElementById('genericList').value.split("\n").toString();
 	if (isChanged)
 	{
-		save_options();
+		saveOptions();
 	}
 }
 
-document.addEventListener('DOMContentLoaded', restore_options);
+document.addEventListener('DOMContentLoaded', restoreOptions);
 window.onbeforeunload = function(e)
 {
-	save_options();
+	saveOptions();
 };
 
 //Check if changed before saving so rate limit should not be hit

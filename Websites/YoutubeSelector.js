@@ -1,4 +1,5 @@
 //Decides which version of youtube the user is using.
+/*global init setupNew setupOld*/
 if (document.getElementById("yt-masthead-content") === null)
 {
 	setupNew();

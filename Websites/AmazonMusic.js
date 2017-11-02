@@ -1,8 +1,9 @@
 //Adds support for Amazon Music
+/*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString capitalize*/
 
-var volume = null;
+var lastVolume = null;
 
-//Amazon's new volume for some stupid reason only goes up to 93.75, They should be greatful I was even willing to support it
+//Amazon's new volume for some stupid reason only goes up to 93.75, They should be grateful I was even willing to support it
 var AMAZONVOLUMESCALE = 93;
 
 function setup()
@@ -66,22 +67,22 @@ function setup()
 	{
 		if (document.getElementsByClassName("volumeSlider").length > 0)
 		{
-			volume = parseInt(document.getElementsByClassName("volumeSlider")[0].children[0].children[2].style.height) / AMAZONVOLUMESCALE;
+			lastVolume = parseInt(document.getElementsByClassName("volumeSlider")[0].children[0].children[2].style.height) / AMAZONVOLUMESCALE;
 		}
 		//If we dont have a volume to return then return null
-		else if (volume === null)
+		else if (lastVolume === null)
 		{
 			//Quickly open the volume record the result and close it
 			document.getElementsByClassName("volume")[0].click();
 			setTimeout(function()
 			{
-				volume = parseInt(document.getElementsByClassName("volumeSlider")[0].children[0].children[2].style.height) / AMAZONVOLUMESCALE;
+				lastVolume = parseInt(document.getElementsByClassName("volumeSlider")[0].children[0].children[2].style.height) / AMAZONVOLUMESCALE;
 				document.getElementsByClassName("volume")[0].click();
 			}, 40);
 		}
 
 		//Can be null if timeout has not fired yet
-		return volume;
+		return lastVolume;
 	};
 	amzmInfoHandler.repeat = function()
 	{
@@ -116,7 +117,7 @@ function setup()
 	amzmEventHandler.progress = function(progress)
 	{
 		var loc = document.getElementsByClassName("sliderTrack scrubberTrack")[0].getBoundingClientRect();
-		progress = progress * loc.width;
+		progress *= loc.width;
 
 		var a = document.getElementsByClassName("sliderTrack scrubberTrack")[0];
 		var e = document.createEvent('MouseEvents');
@@ -133,7 +134,6 @@ function setup()
 	};
 	amzmEventHandler.volume = function(volume)
 	{
-		ws.send("Error: Sorry Amazon Music's web interface has some issues in it so volume never works right");
 		////Amazon's volume is flipped
 		volume = 1 - volume;
 
@@ -148,7 +148,7 @@ function setup()
 			{
 				clearInterval(volumeReadyTest);
 				var loc = document.getElementsByClassName("sliderTrack volumeTrack")[0].getBoundingClientRect();
-				volume = volume * loc.height;
+				volume *= loc.height;
 
 				var a = document.getElementsByClassName("sliderTrack volumeTrack")[0];
 				var e = document.createEvent('MouseEvents');

@@ -1,4 +1,5 @@
 //Adds support for Pocket Casts
+/*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString capitalize*/
 
 
 function setup()

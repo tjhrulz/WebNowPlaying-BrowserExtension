@@ -1,4 +1,5 @@
 //Adds support for Google Play Music
+/*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString capitalize*/
 
 var element;
 
@@ -15,7 +16,7 @@ function setup()
 	{
 		if (document.getElementsByTagName('audio').length > 0)
 		{
-			for (i = 0; i < document.getElementsByTagName('audio').length; i++)
+			for (var i = 0; i < document.getElementsByTagName('audio').length; i++)
 			{
 				if (document.getElementsByTagName('audio')[i].duration > 0)
 				{

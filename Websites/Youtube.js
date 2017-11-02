@@ -1,4 +1,5 @@
-//Adds support for Google Play Music
+//Adds support forthe old Youtube layout
+/*global createNewMusicInfo createNewMusicEventHandler convertTimeToString capitalize*/
 
 var lastVideoID = false;
 var currIMG = "";

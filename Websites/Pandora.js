@@ -1,13 +1,5 @@
 //Adds support for Pandora
-
-function capitalize(str)
-{
-	str = str.replace(/-/g, ' ');
-	return str.replace(/\w\S*/g, function(txt)
-	{
-		return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-	});
-}
+/*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString capitalize*/
 
 var lastKnownAlbum = "";
 var currAudioElement;
@@ -24,19 +16,19 @@ function setup()
 	pandoraInfoHandler.readyCheck = function()
 	{
 		//Makes sure the current music element used is up to date
-		for (i = 0; i < document.getElementsByTagName("audio").length; i++)
+		for (var i = 0; i < document.getElementsByTagName("audio").length; i++)
 		{
 			if (document.getElementsByTagName("audio")[i].ontimeupdate === null)
 			{
 				document.getElementsByTagName("audio")[i].ontimeupdate = function()
 				{
 					currAudioElement = this;
-				}
+				};
 			}
 		}
 
 		return document.getElementsByClassName("Tuner__Audio__TrackDetail__title").length > 0 &&
-			currAudioElement != null;
+			currAudioElement !== null;
 	};
 
 	pandoraInfoHandler.state = function()
@@ -52,6 +44,7 @@ function setup()
 	{
 		//Avoid using the titles from WebNowPlaying.js wherever possible
 		//This is done so we know when we need to reset the tag used for the album
+		/*global currTitle:true*/
 		if (currTitle !== document.getElementsByClassName("Tuner__Audio__TrackDetail__title")[0].innerText)
 		{
 			lastKnownAlbum = "";
@@ -62,6 +55,7 @@ function setup()
 	{
 		//Avoid using the titles from WebNowPlaying.js wherever possible
 		//This is done so we know when we need to reset the tag used for the album
+		/*global currAlbum:true*/
 		if (currAlbum !== document.getElementsByClassName("Tuner__Audio__TrackDetail__artist")[0].innerText)
 		{
 			lastKnownAlbum = "";
@@ -75,11 +69,11 @@ function setup()
 			lastKnownAlbum = document.getElementsByClassName("nowPlayingTopInfo__current__albumName")[0].innerText;
 			return lastKnownAlbum;
 		}
-		//Fallback for it album is not visable, note that it is url formatted so I have to do extra parsing
+		//Fallback for it album is not visible, note that it is url formatted so I have to do extra parsing
 		//This will only run if the album has changed
 		else if (lastKnownAlbum === "")
 		{
-			//Do all extra pasing in advance so string check works accross both if I already have the string set correctly
+			//Do all extra passing in advance so string check works across both if I already have the string set correctly
 			var albumURL = document.getElementsByClassName("Tuner__Audio__TrackDetail__title")[0].children[0].href.replace("://www.pandora.com/artist/", "");
 			albumURL = albumURL.substring(albumURL.indexOf("/") + 1);
 			return capitalize(albumURL.substring(0, albumURL.indexOf("/")));
@@ -149,7 +143,7 @@ function setup()
 	};
 	pandoraEventHandler.progressSeconds = function(position)
 	{
-		currAudioElement.currentTime = position;;
+		currAudioElement.currentTime = position;
 	};
 	pandoraEventHandler.volume = function(volume)
 	{

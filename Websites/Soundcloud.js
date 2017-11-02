@@ -1,4 +1,5 @@
 //Adds support for Soundcloud
+/*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString capitalize*/
 
 var lastKnownTag = "";
 
@@ -24,6 +25,7 @@ function setup()
 	{
 		//Avoid using the titles from WebNowPlaying.js wherever possible
 		//This is done so we know when we need to reset the tag used for the album
+		/*global currTitle:true*/
 		if (currTitle !== document.getElementsByClassName("playbackSoundBadge__titleLink")[0].title)
 		{
 			lastKnownTag = "";
@@ -51,7 +53,8 @@ function setup()
 	soundcloudInfoHandler.cover = function()
 	{
 		var currCover = document.getElementsByClassName("playbackSoundBadge__avatar sc-media-image")[0].children[0].children[0].style.backgroundImage;
-		return currCover.substring(currCover.indexOf("(") + 2, currCover.indexOf(")") - 1).replace("50x50", "500x500").replace("120x120", "500x500");
+		return currCover.substring(currCover.indexOf("(") + 2, currCover.indexOf(")") - 1).replace("50x50", "500x500").
+replace("120x120", "500x500");
 	};
 	soundcloudInfoHandler.durationString = function()
 	{
@@ -118,7 +121,7 @@ function setup()
 	soundcloudEventHandler.progress = function(progress)
 	{
 		var loc = document.getElementsByClassName("playbackTimeline__progressWrapper")[0].getBoundingClientRect();
-		progress = progress * loc.width;
+		progress *= loc.width;
 
 		var a = document.getElementsByClassName("playbackTimeline__progressWrapper")[0];
 		var e = document.createEvent('MouseEvents');
@@ -149,10 +152,10 @@ function setup()
 			{
 				clearInterval(volumeReadyTest);
 				var loc = document.getElementsByClassName("volume__sliderBackground")[0].getBoundingClientRect();
-				volume = volume * loc.height;
+				volume *= loc.height;
 
-				var a = document.getElementsByClassName("volume__sliderBackground")[0];
-				var e = document.createEvent('MouseEvents');
+				a = document.getElementsByClassName("volume__sliderBackground")[0];
+				e = document.createEvent('MouseEvents');
 				//As much as I hate hard coded stuff for some reason the click is always of by 5, no idea where it comes from but it is always exactly 5
 				e.initMouseEvent('mousedown', true, true, window, 1,
 					screenX + loc.left + loc.width / 2, screenY + loc.bottom - volume + 5,
@@ -165,8 +168,8 @@ function setup()
 					false, false, false, false, 0, null);
 				a.dispatchEvent(e);
 
-				var a = document.getElementsByClassName("volume")[0];
-				var e = document.createEvent('MouseEvents');
+				a = document.getElementsByClassName("volume")[0];
+				e = document.createEvent('MouseEvents');
 				e.initMouseEvent('mouseout', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 				a.dispatchEvent(e);
 			}
@@ -200,14 +203,14 @@ function setup()
 			//If thumbs up is not active
 			if (!document.getElementsByClassName("playbackSoundBadge__like")[0].className.includes("selected"))
 			{
-				document.getElementsByClassName("playbackSoundBadge__like")[0].click()
+				document.getElementsByClassName("playbackSoundBadge__like")[0].click();
 			}
 		}
 		else
 		{
 			if (document.getElementsByClassName("playbackSoundBadge__like")[0].className.includes("selected"))
 			{
-				document.getElementsByClassName("playbackSoundBadge__like")[0].click()
+				document.getElementsByClassName("playbackSoundBadge__like")[0].click();
 			}
 		}
 	};

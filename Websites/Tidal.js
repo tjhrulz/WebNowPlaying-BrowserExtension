@@ -1,4 +1,5 @@
 //Adds support for Tidal
+/*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString capitalize*/
 
 function setup()
 {
@@ -105,7 +106,7 @@ function setup()
 	tidalEventHandler.progress = function(progress)
 	{
 		var loc = document.getElementsByClassName("progressbar__interaction-layer")[0].getBoundingClientRect();
-		progress = progress * loc.width;
+		progress *= loc.width;
 
 		var a = document.getElementsByClassName("progressbar__interaction-layer")[0];
 		var e = document.createEvent('MouseEvents');
@@ -136,10 +137,10 @@ function setup()
 			{
 				clearInterval(volumeReadyTest);
 				var loc = document.getElementsByClassName("volume-slider")[0].getBoundingClientRect();
-				volume = volume * loc.height;
+				volume *= loc.height;
 
-				var a = document.getElementsByClassName("volume-slider")[0];
-				var e = document.createEvent('MouseEvents');
+				a = document.getElementsByClassName("volume-slider")[0];
+				e = document.createEvent('MouseEvents');
 				//As much as I hate hard coded stuff for some reason the click is always of by 5, no idea where it comes from but it is always exactly 5
 				e.initMouseEvent('mousedown', true, true, window, 1,
 					screenX + loc.left + loc.width / 2, screenY + loc.bottom - volume + 5,
@@ -152,8 +153,8 @@ function setup()
 					false, false, false, false, 0, null);
 				a.dispatchEvent(e);
 
-				var a = document.getElementsByClassName("js-volume-status")[0];
-				var e = document.createEvent('MouseEvents');
+				a = document.getElementsByClassName("js-volume-status")[0];
+				e = document.createEvent('MouseEvents');
 				e.initMouseEvent('mouseout', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 				a.dispatchEvent(e);
 			}

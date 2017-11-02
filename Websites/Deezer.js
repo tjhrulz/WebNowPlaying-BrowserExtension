@@ -1,4 +1,5 @@
 //Adds support for Deezer
+/*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString capitalize*/
 
 var lastAlbumURL = "";
 var lastKnownAlbum = "";
@@ -125,7 +126,7 @@ function setup()
 	deezerEventHandler.progress = function(progress)
 	{
 		var loc = document.getElementsByClassName("progress progress-background")[0].getBoundingClientRect();
-		progress = progress * loc.width;
+		progress *= loc.width;
 
 		var a = document.getElementsByClassName("progress-seek")[0];
 		var e = document.createEvent('MouseEvents');
@@ -138,8 +139,6 @@ function setup()
 	};
 	deezerEventHandler.volume = function(volume)
 	{
-		ws.send("Error: Sorry Deezer's mouse event to trigger the volume slider does not work if I do it programatically");
-
 		document.getElementsByClassName("volume-progress")[0].style.display = 'inline-block';
 
 		var volumeReadyTest = setInterval(function()
@@ -148,7 +147,7 @@ function setup()
 			{
 				clearInterval(volumeReadyTest);
 				var loc = document.getElementsByClassName("volume-progress")[0].getBoundingClientRect();
-				volume = volume * loc.width;
+				volume *= loc.width;
 
 				var a = document.getElementsByClassName("volume-progress")[0];
 				var e = document.createEvent('MouseEvents');

@@ -1,4 +1,5 @@
-//Adds support for Google Play Music
+//Adds support for the new youtube layout
+/*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString capitalize*/
 
 var lastImgVideoID = false;
 var lastAlbumVideoID = false;
