@@ -100,7 +100,7 @@ function setupTV()
 	youtubeInfoHandler.repeat = function()
 	{
 		//Youtube TV has no repeat function so I made my own using video looping
-		return document.getElementsByClassName("html5-main-video")[0].loop;
+		return document.getElementsByClassName("html5-main-video")[0].loop ? 1 : 0;
 	};
 	youtubeInfoHandler.shuffle = function()
 	{
