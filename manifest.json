@@ -45,6 +45,7 @@
       "WebNowPlaying.js",
       "Websites/Youtube.js",
       "Websites/YoutubeNew.js",
+      "Websites/YoutubeTV.js",
       "Websites/YoutubeSelector.js"
     ]
   },
