@@ -164,7 +164,8 @@ function setupTV()
 	};
 	youtubeEventHandler.repeat = function()
 	{
-		document.getElementsByClassName("html5-main-video")[0].loop = !document.getElementsByClassName("html5-main-video")[0].loop;
+		var repeat = !document.getElementsByClassName("html5-main-video")[0].loop;
+		document.getElementsByClassName("html5-main-video")[0].loop = repeat;
 	};
 	youtubeEventHandler.shuffle = null;
 }
