@@ -25,7 +25,7 @@
   },
   "options_ui":
   {
-    "page": "options.html"
+    "page": "Options.html"
   },
   "content_scripts": [
   {
