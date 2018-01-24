@@ -49,7 +49,12 @@ function pad(number, length)
 //Convert seconds to a time string acceptable to Rainmeter
 function convertTimeToString(timeInSeconds)
 {
-	return parseInt(timeInSeconds / 60) + ":" + pad(parseInt(timeInSeconds % 60), 2);
+	var timeInMinutes = parseInt(timeInSeconds / 60);
+	if (timeInMinutes < 60)
+	{
+		return timeInMinutes + ":" + pad(parseInt(timeInSeconds % 60), 2);
+	}
+	return parseInt(timeInMinutes / 60) + ":" + pad(parseInt(timeInMinutes % 60), 2) + ":" + pad(parseInt(timeInSeconds % 60), 2);
 }
 
 //Convert every words to start with capital (Note: Does NOT ignore words that should not be)
