@@ -4,7 +4,7 @@
 var lastImgVideoID = false;
 var lastAlbumVideoID = false;
 var currIMG = "";
-var currCatagory = "";
+var currCategory = "";
 
 function setupNew()
 {
@@ -50,23 +50,25 @@ function setupNew()
 		{
 			return document.getElementsByClassName("ytd-playlist-panel-renderer title")[0].innerText;
 		}
-		else if (document.getElementsByClassName("sticky ytd-video-secondary-info-renderer")[0].innerText.length > 0)
+		//Check if the secondary info has our info we need and is visible
+		else if (document.getElementsByClassName("sticky ytd-video-secondary-info-renderer")[0].innerText.length > 0 &&
+			document.getElementsByClassName("sticky ytd-video-secondary-info-renderer")[0].children[1].children.length > 0)
 		{
-			//Return category if visable else
-			currCatagory = document.getElementsByClassName("sticky ytd-video-secondary-info-renderer")[0].children[1].children[0].children[1].children[0].innerText;
-			return currCatagory;
+			//Return category if visible else
+			currCategory = document.getElementsByClassName("sticky ytd-video-secondary-info-renderer")[0].children[1].children[0].children[1].children[0].innerText;
+			return currCategory;
 		}
 		var videoID = window.location.href.substring(window.location.href.indexOf("v=") + 2, window.location.href.indexOf("v=") + 2 + 11);
 
 		if (lastAlbumVideoID !== videoID &&
 			document.getElementsByClassName("more-button ytd-video-secondary-info-renderer")[0].clientHeight > 0)
 		{
-			//If it is the first time open the info box and find the catagory
+			//If it is the first time open the info box and find the category
 			document.getElementsByClassName("more-button ytd-video-secondary-info-renderer")[0].click();
 			lastAlbumVideoID = videoID;
 		}
-		//Return no album/last catagory
-		return currCatagory;
+		//Return no album/last category
+		return currCategory;
 	};
 	youtubeInfoHandler.cover = function()
 	{
