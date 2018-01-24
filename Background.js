@@ -1,37 +1,72 @@
+function updateEvent()
+{
+	var newURL = "https://github.com/tjhrulz/WebNowPlaying/releases/latest";
+	chrome.tabs.create(
+		{"url": newURL}
+	);
+}
+function helpEvent()
+{
+	var newURL = "https://github.com/tjhrulz/WebNowPlaying-BrowserExtension/wiki/Troubleshooting";
+	chrome.tabs.create(
+		{"url": newURL}
+	);
+}
+
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse)
 {
 	if (request.method && request.method == "flagAsOutdated")
 	{
 		chrome.browserAction.setBadgeText(
-		{"text": "!"}
+			{"text": "!"}
 		);
 		// Red, Green, Blue, Alpha
 		chrome.browserAction.setBadgeBackgroundColor(
-		{"color": [255, 0, 0, 255]}
+			{"color": [255, 0, 0, 255]}
 		);
 
 		chrome.browserAction.setTitle(
-		{"title": "WebNowPlaying Rainmeter plugin out of date"}
+			{"title": "Connected but plugin is outdated. Click to update"}
 		);
-		if (!chrome.browserAction.onClicked.hasListeners())
+
+		if (chrome.browserAction.onClicked.hasListeners())
 		{
-			chrome.browserAction.onClicked.addListener(function(activeTab)
-			{
-				var newURL = "https://github.com/tjhrulz/WebNowPlaying/releases/latest";
-				chrome.tabs.create(
-				{"url": newURL}
-				);
-			});
+			chrome.browserAction.onClicked.removeListener(updateEvent);
+			chrome.browserAction.onClicked.removeListener(helpEvent);
 		}
+		chrome.browserAction.onClicked.addListener(updateEvent);
 	}
-	else if (request.method && request.method == "unflagAsOutdated")
+	else if (request.method && request.method == "flagAsNotConnected")
 	{
 		chrome.browserAction.setBadgeText(
-		{"text": ''}
+			{"text": ''}
 		);
 
 		chrome.browserAction.setTitle(
-		{"title": "WebNowPlaying is up to date and connected"}
+			{"title": "Not connected to Rainmeter. Click to troubleshoot"}
 		);
+
+		if (chrome.browserAction.onClicked.hasListeners())
+		{
+			chrome.browserAction.onClicked.removeListener(updateEvent);
+			chrome.browserAction.onClicked.removeListener(helpEvent);
+		}
+		chrome.browserAction.onClicked.addListener(helpEvent);
+	}
+	else if (request.method && request.method == "flagAsConnected")
+	{
+		chrome.browserAction.setBadgeText(
+			{"text": ''}
+		);
+
+		chrome.browserAction.setTitle(
+			{"title": "Connected and sending info"}
+		);
+
+		if (chrome.browserAction.onClicked.hasListeners())
+		{
+			chrome.browserAction.onClicked.removeListener(updateEvent);
+			chrome.browserAction.onClicked.removeListener(helpEvent);
+		}
 	}
 });

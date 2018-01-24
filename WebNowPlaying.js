@@ -23,6 +23,7 @@ var ws;
 var connected = false;
 var reconnect;
 var sendData;
+var outdatedCheck;
 
 var musicEvents;
 var musicInfo;
@@ -546,6 +547,13 @@ function init()
 			connected = true;
 			currPlayer = musicInfo.player();
 			ws.send("PLAYER:" + currPlayer);
+			//If this is not cleared in 1000 seconds then assume plugin version is so old it has no version send
+			outdatedCheck = setTimeout(function()
+			{
+				chrome.runtime.sendMessage(
+					{"method": "flagAsOutdated"}
+				);
+			}, 500);
 			//@TODO Dynamic update rate based on success rate
 			sendData = setInterval(function()
 			{
@@ -555,6 +563,9 @@ function init()
 		ws.onclose = function()
 		{
 			connected = false;
+			chrome.runtime.sendMessage(
+				{"method": "flagAsNotConnected"}
+			);
 			clearInterval(sendData);
 			reconnect = setTimeout(function()
 			{
@@ -570,15 +581,17 @@ function init()
 				if (versionNumber[1].split(".")[1] < 4)
 				{
 					chrome.runtime.sendMessage(
-					{"method": "flagAsOutdated"}
-);
+						{"method": "flagAsOutdated"}
+					);
 				}
 				else
 				{
+					//Clear timeout set above
+					clearTimeout(outdatedCheck);
 
 					chrome.runtime.sendMessage(
-					{"method": "unflagAsOutdated"}
-);
+						{"method": "flagAsConnected"}
+					);
 				}
 			}
 			try
