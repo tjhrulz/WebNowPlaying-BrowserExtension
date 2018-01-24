@@ -84,13 +84,36 @@ function setup()
 		//Can be null if timeout has not fired yet
 		return lastVolume;
 	};
+	amzmInfoHandler.rating = function()
+	{
+		if (document.getElementsByClassName("thumbsUpButton").length > 0)
+		{
+			if (document.getElementsByClassName("thumbsUpButton")[0].className.includes(" on"))
+			{
+				return 5;
+			}
+			if (document.getElementsByClassName("thumbsDownButton")[0].className.includes(" on"))
+			{
+				return 1;
+			}
+		}
+		return 0;
+	};
 	amzmInfoHandler.repeat = function()
 	{
-		return document.getElementsByClassName("repeatButton")[0].getAttribute("aria-checked") == "true" ? 1 : 0;
+		if (document.getElementsByClassName("repeatButton").length > 0)
+		{
+			return document.getElementsByClassName("repeatButton")[0].getAttribute("aria-checked") == "true" ? 1 : 0;
+		}
+		return 0;
 	};
 	amzmInfoHandler.shuffle = function()
 	{
-		return document.getElementsByClassName("shuffleButton")[0].getAttribute("aria-checked") == "true" ? 1 : 0;
+		if (document.getElementsByClassName("shuffleButton").length > 0)
+		{
+			return document.getElementsByClassName("shuffleButton")[0].getAttribute("aria-checked") == "true" ? 1 : 0;
+		}
+		return 1;
 	};
 
 
@@ -176,11 +199,65 @@ function setup()
 	};
 	amzmEventHandler.repeat = function()
 	{
-		document.getElementsByClassName("repeatButton")[0].click();
+		if (document.getElementsByClassName("repeatButton").length > 0)
+		{
+			document.getElementsByClassName("repeatButton")[0].click();
+		}
 	};
 	amzmEventHandler.shuffle = function()
 	{
-		document.getElementsByClassName("shuffleButton")[0].click();
+		if (document.getElementsByClassName("shuffleButton").length > 0)
+		{
+			document.getElementsByClassName("shuffleButton")[0].click();
+		}
+	};
+	amzmEventHandler.toggleThumbsUp = function()
+	{
+		if (document.getElementsByClassName("thumbsUpButton").length > 0)
+		{
+			document.getElementsByClassName("thumbsUpButton")[0].click();
+		}
+	};
+	amzmEventHandler.toggleThumbsDown = function()
+	{
+		if (document.getElementsByClassName("thumbsDownButton").length > 0)
+		{
+			document.getElementsByClassName("thumbsDownButton")[0].click();
+		}
+	};
+	amzmEventHandler.rating = function(rating)
+	{
+		if (document.getElementsByClassName("thumbsUpButton").length > 0)
+		{
+			//Check if thumbs has two paths, if it does not then it is active
+			if (rating > 3)
+			{
+				//If thumbs up is not active
+				if (!document.getElementsByClassName("thumbsUpButton")[0].className.includes(" on"))
+				{
+					document.getElementsByClassName("thumbsUpButton")[0].click();
+				}
+			}
+			else if (rating < 3 && rating > 0)
+			{
+				//If thumbs down is not active
+				if (!document.getElementsByClassName("thumbsDownButton")[0].className.includes(" on"))
+				{
+					document.getElementsByClassName("thumbsDownButton")[0].click();
+				}
+			}
+			else
+			{
+				if (!document.getElementsByClassName("thumbsUpButton")[0].className.includes(" on"))
+				{
+					document.getElementsByClassName("thumbsUpButton")[0].click();
+				}
+				if (!document.getElementsByClassName("thumbsDownButton")[0].className.includes(" on"))
+				{
+					document.getElementsByClassName("thumbsDownButton")[0].click();
+				}
+			}
+		}
 	};
 }
 
