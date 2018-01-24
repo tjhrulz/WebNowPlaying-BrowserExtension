@@ -29,7 +29,7 @@ function setup()
 		return document.getElementById("currently-playing-title") !== null &&
 			document.getElementById("currently-playing-title").innerText.length > 0 &&
 			document.getElementsByTagName('audio').length > 0 &&
-			element !== null;
+			element !== undefined;
 	};
 
 	gpmInfoHandler.state = function()
@@ -43,14 +43,20 @@ function setup()
 	gpmInfoHandler.artist = function()
 	{
 		return document.getElementById("player-artist").innerText;
+
 	};
 	gpmInfoHandler.album = function()
 	{
-		return document.getElementsByClassName("player-album")[0].innerText;
+		if (document.getElementsByClassName("player-album").length > 0)
+		{
+			return document.getElementsByClassName("player-album")[0].innerText;
+		}
+		return "Podcast";
 	};
 	gpmInfoHandler.cover = function()
 	{
-		return document.getElementById("playerBarArt").src.replace("=s90-c-e100", "");
+		var albumArtTemp = document.getElementById("playerBarArt").src;
+		return albumArtTemp.substring(0, albumArtTemp.indexOf("=s90-c-e100"));
 	};
 	gpmInfoHandler.durationString = function()
 	{
