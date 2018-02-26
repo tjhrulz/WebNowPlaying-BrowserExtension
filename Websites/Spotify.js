@@ -126,10 +126,10 @@ function setup()
 	};
 	spotifyEventHandler.progress = function(progress)
 	{
-		var loc = document.getElementsByClassName("playback-bar")[0].children[1].getBoundingClientRect();
+		var loc = document.getElementsByClassName("progress-bar")[0].getBoundingClientRect();
 		progress *= loc.width;
 
-		var a = document.getElementsByClassName("playback-bar")[0].children[1];
+		var a = document.getElementsByClassName("progress-bar")[0];
 		var e = document.createEvent('MouseEvents');
 		e.initMouseEvent('mousedown', true, true, window, 1,
 			screenX + loc.left + progress, screenY + loc.top + loc.height / 2,
