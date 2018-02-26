@@ -537,103 +537,96 @@ oo     .d8P  888       o      888       `88.    .8'   888
 
 function init()
 {
-	try
+	//@TODO allow custom ports
+	var url = "ws://127.0.0.1:8974/";
+	ws = new WebSocket(url);
+	ws.onopen = function()
 	{
-		//@TODO allow custom ports
-		var url = "ws://127.0.0.1:8974/";
-		ws = new WebSocket(url);
-		ws.onopen = function()
+		connected = true;
+		currPlayer = musicInfo.player();
+		ws.send("PLAYER:" + currPlayer);
+		//If this is not cleared in 1000 seconds then assume plugin version is so old it has no version send
+		outdatedCheck = setTimeout(function()
 		{
-			connected = true;
-			currPlayer = musicInfo.player();
-			ws.send("PLAYER:" + currPlayer);
-			//If this is not cleared in 1000 seconds then assume plugin version is so old it has no version send
-			outdatedCheck = setTimeout(function()
+			chrome.runtime.sendMessage(
+				{"method": "flagAsOutdated"}
+			);
+		}, 500);
+		//@TODO Dynamic update rate based on success rate
+		sendData = setInterval(function()
+		{
+			updateInfo();
+		}, 50);
+	};
+	ws.onclose = function()
+	{
+		connected = false;
+		chrome.runtime.sendMessage(
+			{"method": "flagAsNotConnected"}
+		);
+		clearInterval(sendData);
+		reconnect = setTimeout(function()
+		{
+			init();
+		}, 5000);
+	};
+	ws.onmessage = function(event)
+	{
+		var versionNumber = event.data.toLowerCase().split(":");
+		if (versionNumber[0].includes("version"))
+		{
+			//Check that version number is the same major version
+			if (versionNumber[1].split(".")[1] < 4)
 			{
 				chrome.runtime.sendMessage(
 					{"method": "flagAsOutdated"}
 				);
-			}, 500);
-			//@TODO Dynamic update rate based on success rate
-			sendData = setInterval(function()
+			}
+			else
 			{
-				updateInfo();
-			}, 50);
-		};
-		ws.onclose = function()
+				//Clear timeout set above
+				clearTimeout(outdatedCheck);
+
+				chrome.runtime.sendMessage(
+					{"method": "flagAsConnected"}
+				);
+			}
+		}
+		try
 		{
-			connected = false;
-			chrome.runtime.sendMessage(
-				{"method": "flagAsNotConnected"}
-			);
-			clearInterval(sendData);
-			reconnect = setTimeout(function()
-			{
-				init();
-			}, 5000);
-		};
-		ws.onmessage = function(event)
+			fireEvent(event);
+		}
+		catch (e)
 		{
-			var versionNumber = event.data.toLowerCase().split(":");
-			if (versionNumber[0].includes("version"))
-			{
-				//Check that version number is the same major version
-				if (versionNumber[1].split(".")[1] < 4)
-				{
-					chrome.runtime.sendMessage(
-						{"method": "flagAsOutdated"}
-					);
-				}
-				else
-				{
-					//Clear timeout set above
-					clearTimeout(outdatedCheck);
-
-					chrome.runtime.sendMessage(
-						{"method": "flagAsConnected"}
-					);
-				}
-			}
-			try
-			{
-				fireEvent(event);
-			}
-			catch (e)
-			{
-				ws.send("Error:" + e);
-				throw e;
-			}
-		};
-		ws.onerror = function(event)
-		{
-			if (typeof event.data != 'undefined')
-			{
-				console.log("Websocket Error:" + event.data);
-			}
-		};
-
-		currPlayer = null;
-
-		currTitle = null;
-		currArtist = null;
-		currAlbum = null;
-		currCover = null;
-		currPos = null;
-		currDur = null;
-		currVolume = null;
-		currRating = null;
-		currRepeat = null;
-		currShuffle = null;
-		currState = null;
-
-		currTrackID = null;
-		currArtistID = null;
-		currAlbumID = null;
-	}
-	catch (error)
+			ws.send("Error:" + e);
+			throw e;
+		}
+	};
+	ws.onerror = function(event)
 	{
-		console.log("Error:" + error);
-	}
+		if (typeof event.data != 'undefined')
+		{
+			console.log("Websocket Error:" + event.data);
+		}
+	};
+
+	currPlayer = null;
+
+	currTitle = null;
+	currArtist = null;
+	currAlbum = null;
+	currCover = null;
+	currPos = null;
+	currDur = null;
+	currVolume = null;
+	currRating = null;
+	currRepeat = null;
+	currShuffle = null;
+	currState = null;
+
+	currTrackID = null;
+	currArtistID = null;
+	currAlbumID = null;
 }
 
 window.onbeforeunload = function()
