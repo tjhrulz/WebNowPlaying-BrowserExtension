@@ -41,7 +41,7 @@ function setupNew()
 	};
 	youtubeInfoHandler.artist = function()
 	{
-		return document.getElementById("owner-name").innerText;
+		return document.getElementById("owner-container").children[0].innerText;
 	};
 	youtubeInfoHandler.album = function()
 	{
