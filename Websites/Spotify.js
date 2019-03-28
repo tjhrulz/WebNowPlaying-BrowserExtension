@@ -91,6 +91,10 @@ function setup()
 		{
 			return document.getElementsByClassName("spoticon-repeat-16")[0].className.includes("active") ? 1 : 0;
 		}
+		else if (document.getElementsByClassName("spoticon-repeatonce-16").length > 0)
+		{
+			return 2;
+		}
 		return 0;
 	};
 	spotifyInfoHandler.shuffle = function()
@@ -165,6 +169,10 @@ function setup()
 		if (document.getElementsByClassName("spoticon-repeat-16").length > 0)
 		{
 			document.getElementsByClassName("spoticon-repeat-16")[0].click();
+		}
+		else if (document.getElementsByClassName("spoticon-repeatonce-16").length > 0)
+		{
+			document.getElementsByClassName("spoticon-repeatonce-16")[0].click();
 		}
 	};
 	spotifyEventHandler.shuffle = function()

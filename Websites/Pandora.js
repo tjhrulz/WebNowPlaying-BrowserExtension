@@ -38,7 +38,7 @@ function setup()
 		{
 			return 2;
 		}
-		return document.getElementsByClassName("PlayButton__Icon")[0].children[0].getAttribute("xlink:href").includes("pause") ? 1 : 2;
+		return document.getElementsByClassName("PlayButton__Icon")[0].children[0].getAttribute("d").includes("22.5v-21l16.5") ? 2 : 1;
 	};
 	pandoraInfoHandler.title = function()
 	{

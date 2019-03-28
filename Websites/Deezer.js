@@ -78,12 +78,16 @@ function setup()
 		{
 			return 5;
 		}
+		else if (document.getElementsByClassName("svg-icon-cancel").length > 0 && document.getElementsByClassName("svg-icon-cancel")[0].className.baseVal.includes("active"))
+		{
+			return 1;
+		}
 
 		return 0;
 	};
 	deezerInfoHandler.repeat = function()
 	{
-		if (document.getElementsByClassName("control-repeat")[0].children[0].className.baseVal.includes("active"))
+		if (document.getElementsByClassName("control-repeat").length > 0 && document.getElementsByClassName("control-repeat")[0].children[0].className.baseVal.includes("active"))
 		{
 			if (document.getElementsByClassName("control-repeat")[0].children[0].className.baseVal.includes("one"))
 			{
@@ -95,7 +99,12 @@ function setup()
 	};
 	deezerInfoHandler.shuffle = function()
 	{
-		if (document.getElementsByClassName("svg-icon-shuffle")[0].className.baseVal.includes("active"))
+		if (document.getElementsByClassName("control-repeat").length > 0 && document.getElementsByClassName("svg-icon-shuffle")[0].className.baseVal.includes("active"))
+		{
+			return 1;
+		}
+		//Return shuffle true if using flow or a radio station
+		else if (document.getElementsByClassName("svg-icon-cancel").length > 0)
 		{
 			return 1;
 		}
@@ -163,15 +172,25 @@ function setup()
 	};
 	deezerEventHandler.repeat = function()
 	{
-		document.getElementsByClassName("control-repeat")[0].click();
+		if (document.getElementsByClassName("control-repeat").length > 0)
+		{
+			document.getElementsByClassName("control-repeat")[0].click();
+		}
 	};
 	deezerEventHandler.shuffle = function()
 	{
-		document.getElementsByClassName("control-shuffle")[0].click();
+		if (document.getElementsByClassName("control-shuffle").length > 0)
+		{
+			document.getElementsByClassName("control-shuffle")[0].click();
+		}
 	};
 	deezerEventHandler.toggleThumbsUp = function()
 	{
 		document.getElementsByClassName("player-actions")[0].children[0].children[0].click();
+	};
+	deezerEventHandler.toggleThumbsDown = function()
+	{
+		document.getElementsByClassName("player-actions")[0].children[1].children[0].click();
 	};
 	deezerEventHandler.rating = function(rating)
 	{
@@ -181,6 +200,14 @@ function setup()
 			if (!document.getElementsByClassName("svg-icon-love-outline")[0].className.baseVal.includes("active"))
 			{
 				document.getElementsByClassName("player-actions")[0].children[0].children[0].click();
+			}
+		}
+		else if (rating < 3 && rating > 0)
+		{
+			//If thumbs down is not active
+			if (!document.getElementsByClassName("svg-icon-cancel")[0].className.baseVal.includes("active"))
+			{
+				document.getElementsByClassName("player-actions")[0].children[1].children[0].click();
 			}
 		}
 		else

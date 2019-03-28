@@ -5,6 +5,7 @@ var lastImgVideoID = false;
 var lastAlbumVideoID = false;
 var currIMG = "";
 var currCategory = "";
+var wasMadeVisable = false;
 
 function setupNew()
 {
@@ -45,27 +46,43 @@ function setupNew()
 	};
 	youtubeInfoHandler.album = function()
 	{
+
 		//If using a playlist just use the title of that
-		if (document.getElementsByClassName("ytd-playlist-panel-renderer title").length > 0)
+		if (document.getElementsByClassName("ytd-playlist-panel-renderer title")[0].innerText !== "")
 		{
 			return document.getElementsByClassName("ytd-playlist-panel-renderer title")[0].innerText;
 		}
-		//Check if the secondary info has our info we need and is visible
-		else if (document.getElementsByClassName("sticky ytd-video-secondary-info-renderer")[0].innerText.length > 0 &&
+
+		//If playing a video with a hashtag use that
+		if (document.getElementsByClassName("super-title")[0].children.length > 0)
+		{
+			return document.getElementsByClassName("super-title")[0].children[0].innerText;
+		}
+
+		//Check if the secondary info has a category and is visible
+		if (document.getElementsByClassName("sticky ytd-video-secondary-info-renderer")[0].innerText.length > 0 &&
 			document.getElementsByClassName("sticky ytd-video-secondary-info-renderer")[0].children[1].children.length > 0)
 		{
+			//Check if we made the category visable, if we did undo that
+			if (wasMadeVisable)
+			{
+				document.getElementsByClassName("less-button ytd-video-secondary-info-renderer")[0].click();
+				wasMadeVisable = false;
+			}
 			//Return category if visible else
 			currCategory = document.getElementsByClassName("sticky ytd-video-secondary-info-renderer")[0].children[1].children[0].children[1].children[0].innerText;
 			return currCategory;
 		}
-		var videoID = window.location.href.substring(window.location.href.indexOf("v=") + 2, window.location.href.indexOf("v=") + 2 + 11);
 
+		//If the category is not visable make it
+		var videoID = window.location.href.substring(window.location.href.indexOf("v=") + 2, window.location.href.indexOf("v=") + 2 + 11);
 		if (lastAlbumVideoID !== videoID &&
-			document.getElementsByClassName("more-button ytd-video-secondary-info-renderer")[0].clientHeight > 0)
+			document.getElementById("more") !== null)
 		{
 			//If it is the first time open the info box and find the category
 			document.getElementsByClassName("more-button ytd-video-secondary-info-renderer")[0].click();
 			lastAlbumVideoID = videoID;
+			wasMadeVisable = true;
 		}
 		//Return no album/last category
 		return currCategory;
@@ -74,7 +91,7 @@ function setupNew()
 	{
 		var videoID = window.location.href.substring(window.location.href.indexOf("v=") + 2, window.location.href.indexOf("v=") + 2 + 11);
 
-		if (lastImgVideoID !== videoID)
+		if (lastImgVideoID !== videoID && videoID !== "ttps://www.")
 		{
 			lastImgVideoID = videoID;
 			var img = document.createElement('img');
@@ -125,17 +142,21 @@ function setupNew()
 	};
 	youtubeInfoHandler.repeat = function()
 	{
-		if (document.getElementById("top-level-buttons").children.length > 1)
+		if (document.getElementsByClassName("html5-main-video")[0].loop == true)
 		{
-			return document.getElementById("top-level-buttons").children[0].getAttribute("class").includes("active") ? 1 : 0;
+			return 2;
+		}
+		if (document.getElementById("playlist-actions").children[0].children[0].children.length > 0)
+		{
+			return document.getElementById("playlist-actions").children[0].children[0].children[0].getAttribute("class").includes("active") ? 1 : 0;
 		}
 		return 0;
 	};
 	youtubeInfoHandler.shuffle = function()
 	{
-		if (document.getElementById("top-level-buttons").children.length > 1)
+		if (document.getElementById("playlist-actions").children[0].children[0].children.length > 0)
 		{
-			return document.getElementById("top-level-buttons").children[1].getAttribute("class").includes("active") ? 1 : 0;
+			return document.getElementById("playlist-actions").children[0].children[0].children[1].getAttribute("class").includes("active") ? 1 : 0;
 		}
 		return 0;
 	};
@@ -180,16 +201,37 @@ function setupNew()
 	};
 	youtubeEventHandler.repeat = function()
 	{
-		if (document.getElementById("top-level-buttons").children.length > 1)
+		//If no repeat button on the page then use video's loop element to loop the video
+		if (document.getElementById("playlist-actions") === null)
 		{
-			document.getElementById("top-level-buttons").children[0].click();
+			document.getElementsByClassName("html5-main-video")[0].loop = !document.getElementsByClassName("html5-main-video")[0].loop;
+		}
+		else
+		{
+			//Each if is a different state, first is loop none, second is loop one, last is loop all order triggered is still the usual none->all->one
+			if (document.getElementsByClassName("html5-main-video")[0].loop == true)
+			{
+				document.getElementsByClassName("html5-main-video")[0].loop = false;
+				if (document.getElementById("playlist-actions").children[0].children[0].children[0].getAttribute("class").includes("active"))
+				{
+					document.getElementById("playlist-actions").children[0].children[0].children[0].click();
+				}
+			}
+			else if (document.getElementById("playlist-actions").children[0].children[0].children[0].getAttribute("class").includes("active"))
+			{
+				document.getElementsByClassName("html5-main-video")[0].loop = true;
+			}
+			else
+			{
+				document.getElementById("playlist-actions").children[0].children[0].children[0].click();
+			}
 		}
 	};
 	youtubeEventHandler.shuffle = function()
 	{
-		if (document.getElementById("top-level-buttons").children.length > 1)
+		if (document.getElementById("playlist-actions") !== null)
 		{
-			document.getElementById("top-level-buttons").children[1].click();
+			document.getElementById("playlist-actions").children[0].children[0].children[1].click();
 		}
 	};
 	youtubeEventHandler.toggleThumbsUp = function()

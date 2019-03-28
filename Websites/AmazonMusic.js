@@ -193,7 +193,11 @@ function setup()
 					false, false, false, false, 0, null);
 				a.dispatchEvent(e);
 
-				document.getElementsByClassName("volume")[0].click();
+				//Because somehow if you don't leave it open for a moment it won't always stick *shrugs*
+				setTimeout(function()
+				{
+					document.getElementsByClassName("volume")[0].click();
+				}, 34);
 			}
 		}, 33);
 	};
