@@ -1,8 +1,8 @@
 //Adds support for the new youtube layout
 /*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString capitalize*/
 
-var lastImgVideoID = false;
-var lastAlbumVideoID = false;
+var lastImgVideoID = "";
+var lastAlbumVideoID = "";
 var currIMG = "";
 var currCategory = "";
 var wasMadeVisable = false;

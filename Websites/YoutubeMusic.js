@@ -1,7 +1,7 @@
 //Adds support for Youtube Music
 /*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString*/
 
-var lastImgVideoID = false;
+var lastImgVideoID = "";
 var currIMG = "";
 
 function setup()
@@ -65,32 +65,38 @@ function setup()
 	};
 	ymInfoHandler.cover = function()
 	{
-		var videoID = window.location.href.substring(window.location.href.indexOf("v=") + 2, window.location.href.indexOf("v=") + 2 + 11);
+		var videoID = document.getElementsByClassName("ytp-title")[0].children[1].children[0].href;
+		videoID = videoID.substring(videoID.lastIndexOf("=") + 1);
+		var cover = document.getElementsByClassName("image ytmusic-player-bar")[0].src;
 
-		if (lastImgVideoID !== videoID && videoID !== "ttps://www.")
+		//Check if cover is from youtube if it is some work need done first
+		if (cover.includes("ytimg"))
 		{
-			lastImgVideoID = videoID;
-			var img = document.createElement('img');
-			img.setAttribute('src', "https://i.ytimg.com/vi/" + videoID + "/maxresdefault.jpg?");
-			img.addEventListener('load', function()
+			if (lastImgVideoID !== videoID && videoID !== "ttps://www.")
 			{
-				if (img.height > 90)
+				lastImgVideoID = videoID;
+				var img = document.createElement('img');
+				img.setAttribute('src', "https://i.ytimg.com/vi/" + videoID + "/maxresdefault.jpg?");
+				img.addEventListener('load', function()
 				{
-					currIMG = "https://i.ytimg.com/vi/" + videoID + "/maxresdefault.jpg?";
-				}
-				else
+					if (img.height > 90)
+					{
+						currIMG = "https://i.ytimg.com/vi/" + videoID + "/maxresdefault.jpg?";
+					}
+					else
+					{
+						currIMG = "https://i.ytimg.com/vi/" + videoID + "/mqdefault.jpg?";
+					}
+				});
+				img.addEventListener('error', function()
 				{
 					currIMG = "https://i.ytimg.com/vi/" + videoID + "/mqdefault.jpg?";
-				}
-			});
-			img.addEventListener('error', function()
-			{
-				currIMG = "https://i.ytimg.com/vi/" + videoID + "/mqdefault.jpg?";
-			});
+				});
+			}
+			return currIMG;
 		}
-
-		return currIMG;
-
+		cover = cover.substring(0, cover.lastIndexOf("="));
+		return cover;
 	};
 	ymInfoHandler.durationString = function()
 	{
