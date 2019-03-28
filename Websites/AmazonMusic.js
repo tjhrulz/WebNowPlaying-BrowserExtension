@@ -3,6 +3,10 @@
 
 var lastVolume = null;
 
+var lastBigCover = "";
+var lastSmallCover = "";
+var useBigCover = false;
+
 //Amazon's new volume for some stupid reason only goes up to 93.75, They should be grateful I was even willing to support it
 var AMAZONVOLUMESCALE = 93;
 
@@ -17,7 +21,7 @@ function setup()
 
 	amzmInfoHandler.readyCheck = function()
 	{
-		return document.getElementsByClassName("trackTitle").length > 1;
+		return document.getElementsByClassName("trackTitle").length > 0;
 	};
 
 	amzmInfoHandler.state = function()
@@ -38,12 +42,43 @@ function setup()
 	};
 	amzmInfoHandler.cover = function()
 	{
-		var cover = document.getElementsByClassName("largeAlbumArtContainer")[0].children[0].style.backgroundImage;
-		if (cover.indexOf("placeholder-album") < 0)
+		//Amazon did some optimization on their end and now only loads (Or updated) the big image when it is visable
+		//Thus we need to figure out if it has been loaded and then once it has if it is from the same album as current album
+		var bigCover = document.getElementsByClassName("largeAlbumArtContainer")[0].children[0].style.backgroundImage.replace('url("', "").replace('")', "");
+		var smallCover = document.getElementsByClassName("trackAlbumArt")[0].children[0].children[0].children[0].src;
+
+		//If the small cover has changed then we know it is a new album art
+		if (smallCover !== lastSmallCover)
 		{
-			return cover.replace('url("', "").replace('")', "");
+			//If the big cover changed at the same time then we know it is also the same album art
+			if (bigCover !== lastBigCover)
+			{
+				lastSmallCover = smallCover;
+				lastBigCover = bigCover;
+				useBigCover = true;
+				return bigCover;
+			}
+
+			//If it has not changed it should be ignored as it is out of date
+			lastSmallCover = smallCover;
+			useBigCover = false;
+			return smallCover;
 		}
-		return null;
+
+		//If the big cover has changed then we know that is now visable and is also up to date
+		if (bigCover !== lastBigCover)
+		{
+			lastBigCover = bigCover;
+			useBigCover = true;
+			return bigCover;
+		}
+
+		if (useBigCover)
+		{
+			return bigCover;
+		}
+		return smallCover;
+
 	};
 	amzmInfoHandler.duration = function()
 	{
@@ -122,7 +157,7 @@ function setup()
 	//Define custom check logic to make sure you are not trying to update info when nothing is playing
 	amzmEventHandler.readyCheck = function()
 	{
-		return document.getElementsByClassName("trackTitle").length > 1;
+		return document.getElementsByClassName("trackTitle").length > 0;
 	};
 
 	amzmEventHandler.playpause = function()
