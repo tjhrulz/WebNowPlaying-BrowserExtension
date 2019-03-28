@@ -195,6 +195,7 @@ replace("120x120", "500x500");
 	{
 		document.getElementsByClassName("playbackSoundBadge__like")[0].click();
 	};
+	soundcloudEventHandler.toggleThumbsDown = null;
 	soundcloudEventHandler.rating = function(rating)
 	{
 		//Check if thumbs has two paths, if it does not then it is active
