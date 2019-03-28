@@ -64,7 +64,7 @@ function setup()
 	};
 	tidalInfoHandler.volume = function()
 	{
-		return parseInt(document.querySelector('[class^="volumeSlider"]').getAttribute("aria-valuenow")) / 100;
+		return element.volume;
 	};
 	tidalInfoHandler.rating = function()
 	{
