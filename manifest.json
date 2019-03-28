@@ -39,6 +39,15 @@
   },
   {
     "matches": [
+      "*://music.youtube.com/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/YoutubeMusic.js"
+    ]
+  },
+  {
+    "matches": [
       "*://www.youtube.com/*"
     ],
     "js": [
