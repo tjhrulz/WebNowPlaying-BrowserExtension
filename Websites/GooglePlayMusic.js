@@ -1,5 +1,5 @@
 //Adds support for Google Play Music
-/*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString*/
+/*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString capitalize*/
 
 var element;
 
