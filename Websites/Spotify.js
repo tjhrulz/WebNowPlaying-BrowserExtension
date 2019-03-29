@@ -61,7 +61,7 @@ function setup()
 	};
 	spotifyInfoHandler.cover = function()
 	{
-		var currCover = document.getElementsByClassName("cover-art-image")[document.getElementsByClassName("cover-art-image").length - 1].style.backgroundImage;
+		var currCover = document.getElementsByClassName("cover-art-image cover-art-image-loaded")[document.getElementsByClassName("cover-art-image cover-art-image-loaded").length - 1].style.backgroundImage;
 		return currCover.substring(currCover.indexOf("(") + 2, currCover.indexOf(")") - 1);
 	};
 	spotifyInfoHandler.durationString = function()
@@ -74,7 +74,10 @@ function setup()
 	};
 	spotifyInfoHandler.volume = function()
 	{
-		return parseFloat(document.getElementsByClassName("progress-bar__fg")[1].style.width) / 100;
+		var temp = document.getElementsByClassName("progress-bar__fg")[1].style.transform;
+		temp = temp.substring(temp.indexOf("(") + 1, temp.indexOf("%"));
+
+		return (100 + parseFloat(temp)) / 100;
 	};
 	spotifyInfoHandler.rating = function()
 	{
