@@ -2,7 +2,7 @@
 /*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString capitalize*/
 
 var lastKnownAlbum = "";
-var currAudioElement;
+var currAudioElement = null;
 
 function setup()
 {
@@ -20,6 +20,7 @@ function setup()
 		{
 			if (document.getElementsByTagName("audio")[i].ontimeupdate === null)
 			{
+				//Yes I know this is a hacky way to do this but it works and is rather quite efficient
 				document.getElementsByTagName("audio")[i].ontimeupdate = function()
 				{
 					currAudioElement = this;
@@ -74,7 +75,7 @@ function setup()
 		else if (lastKnownAlbum === "")
 		{
 			//Do all extra passing in advance so string check works across both if I already have the string set correctly
-			var albumURL = document.getElementsByClassName("Tuner__Audio__TrackDetail__title")[0].children[0].href.replace("://www.pandora.com/artist/", "");
+			var albumURL = document.getElementsByClassName("Tuner__Audio__TrackDetail__title")[0].href.replace("://www.pandora.com/artist/", "");
 			albumURL = albumURL.substring(albumURL.indexOf("/") + 1);
 			return capitalize(albumURL.substring(0, albumURL.indexOf("/")));
 		}
@@ -83,15 +84,30 @@ function setup()
 	};
 	pandoraInfoHandler.cover = function()
 	{
-		return document.getElementsByClassName("ImageLoader__cover")[document.getElementsByClassName("ImageLoader__cover").length - 1].src.replace("90W_90H", "500W_500H");
+		var cover = document.getElementsByClassName("ImageLoader__cover")[document.getElementsByClassName("ImageLoader__cover").length - 1].src;
+
+		//If cover is default return to use default in Rainmeter
+		if (cover === "https://www.pandora.com/web-version/1.58.0/images/album_90.png")
+		{
+			return "";
+		}
+		return cover.replace("90W_90H", "500W_500H");
 	};
 	pandoraInfoHandler.durationString = function()
 	{
-		return document.getElementsByClassName("VolumeDurationControl__Duration")[0].children[2].innerText;
+		if (document.getElementsByClassName("VolumeDurationControl__Duration")[0].children[2].innerText !== "")
+		{
+			return document.getElementsByClassName("VolumeDurationControl__Duration")[0].children[2].innerText;
+		}
+		return null;
 	};
 	pandoraInfoHandler.positionString = function()
 	{
-		return document.getElementsByClassName("VolumeDurationControl__Duration")[0].children[0].innerText;
+		if (document.getElementsByClassName("VolumeDurationControl__Duration")[0].children[0].innerText !== "")
+		{
+			return document.getElementsByClassName("VolumeDurationControl__Duration")[0].children[0].innerText;
+		}
+		return null;
 	};
 	pandoraInfoHandler.volume = function()
 	{
@@ -112,7 +128,11 @@ function setup()
 	pandoraInfoHandler.repeat = null;
 	pandoraInfoHandler.shuffle = function()
 	{
-		return document.getElementsByClassName("ShuffleButton__button__shuffleString")[0].innerText.includes("On") ? 1 : 0;
+		if (document.getElementsByClassName("ShuffleButton__button__shuffleString").length > 0)
+		{
+			return document.getElementsByClassName("ShuffleButton__button__shuffleString")[0].innerText.includes("On") ? 1 : 0;
+		}
+		return null;
 	};
 
 
@@ -160,7 +180,11 @@ function setup()
 	pandoraEventHandler.repeat = null;
 	pandoraEventHandler.shuffle = function()
 	{
-		document.getElementsByClassName("ShuffleButton__button__shuffleString")[0].click();
+		//We only can change shuffle state if it is visable
+		if (document.getElementsByClassName("ShuffleButton__button__shuffleString").length > 0)
+		{
+			document.getElementsByClassName("ShuffleButton__button__shuffleString")[0].click();
+		}
 	};
 	pandoraEventHandler.toggleThumbsUp = function()
 	{
