@@ -31,6 +31,16 @@
   {
     "matches":        ["*://*/*"],
     "include_globs": [
+      "*://music.yandex.*/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/YandexMusic.js"
+    ]
+  },
+  {
+    "matches":        ["*://*/*"],
+    "include_globs": [
       "*://play.google.*/music/*"
     ],
     "js": [
