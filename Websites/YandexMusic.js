@@ -30,7 +30,7 @@ function setup()
 
 	yandexMusicInfoHandler.artist = function()
 	{
-		return document.getElementsByClassName("track__name-wrap")[0].children[1].innerText;
+		return document.getElementsByClassName("track__artists")[0].innerText;
 	};
 
 	yandexMusicInfoHandler.album = function()
