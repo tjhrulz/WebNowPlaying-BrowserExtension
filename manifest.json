@@ -156,6 +156,7 @@
       "<all_urls>"
     ],
     "exclude_globs": [
+      "*://music.yandex.*/*",
       "*://play.google.*/music/*",
       "*://music.youtube.*/*",
       "*://www.youtube.*/*",
