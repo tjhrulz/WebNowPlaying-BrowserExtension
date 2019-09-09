@@ -42,7 +42,7 @@ function setupNew()
 	};
 	youtubeInfoHandler.artist = function()
 	{
-		return document.getElementById("owner-container").children[0].innerText;
+		return document.querySelector(".ytd-video-secondary-info-renderer .ytd-channel-name").innerText;
 	};
 	youtubeInfoHandler.album = function()
 	{
