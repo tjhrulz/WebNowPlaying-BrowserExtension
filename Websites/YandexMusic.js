@@ -57,7 +57,7 @@ function setup()
 
 	yandexMusicInfoHandler.cover = function()
 	{
-		return document.getElementsByClassName("track-cover__wrapper")[0].children[0].src.replace("50x50", "1000x1000");
+		return document.getElementsByClassName('track_type_player')[0].getElementsByClassName('entity-cover__image')[0].src.replace("50x50", "1000x1000");
 	};
 
 	yandexMusicInfoHandler.durationString = function()
