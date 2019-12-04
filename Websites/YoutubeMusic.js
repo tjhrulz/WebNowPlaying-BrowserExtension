@@ -65,9 +65,9 @@ function setup()
 	};
 	ymInfoHandler.cover = function()
 	{
-		var videoID = document.getElementsByClassName("ytp-title")[0].children[1].children[0].href;
+		var videoID = document.getElementsByClassName("ytp-title")[0].children[0].children[0].href;
 		videoID = videoID.substring(videoID.lastIndexOf("=") + 1);
-		var cover = document.getElementsByClassName("image ytmusic-player-bar")[0].src;
+		var cover = document.getElementById("song-image").children[0].children[0].src;
 
 		//Check if cover is from youtube if it is some work need done first
 		if (cover.includes("ytimg"))
