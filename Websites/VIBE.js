@@ -36,7 +36,8 @@ function setup()
 	};
 	VIBEInfoHandler.artist = function()
 	{
-		return document.getElementsByClassName("link_artist")[0].innerText;
+		var artists = document.getElementsByClassName("artist")[0].innerText;
+		return artists.substring(6);
 	};
 	VIBEInfoHandler.cover = function()
 	{
