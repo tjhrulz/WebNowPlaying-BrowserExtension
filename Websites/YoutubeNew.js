@@ -130,11 +130,11 @@ function setupNew()
 	youtubeInfoHandler.rating = function()
 	{
 		//Check if thumbs button is active
-		if (document.getElementById("menu-container").children[0].children[0].children[0].children[0].children[0].children[0].getAttribute("aria-pressed") == "true")
+		if (document.getElementById("menu-container").children[0].children[0].children[0].children[0].children[0].children[0].children[0].getAttribute("aria-pressed") == "true")
 		{
 			return 5;
 		}
-		if (document.getElementById("menu-container").children[0].children[0].children[0].children[1].children[0].children[0].getAttribute("aria-pressed") == "true")
+		if (document.getElementById("menu-container").children[0].children[0].children[0].children[1].children[0].children[0].children[0].getAttribute("aria-pressed") == "true")
 		{
 			return 1;
 		}
@@ -202,36 +202,38 @@ function setupNew()
 	youtubeEventHandler.repeat = function()
 	{
 		//If no repeat button on the page then use video's loop element to loop the video
-		if (document.getElementById("playlist-actions") === null)
+		if (document.getElementById("playlist-action-menu") === null)
 		{
 			document.getElementsByClassName("html5-main-video")[0].loop = !document.getElementsByClassName("html5-main-video")[0].loop;
 		}
 		else
 		{
-			//Each if is a different state, first is loop none, second is loop one, last is loop all order triggered is still the usual none->all->one
+			//Each if is a different state, first is loop none, second is loop all, last is loop one order triggered is the usual none->all->one
 			if (document.getElementsByClassName("html5-main-video")[0].loop == true)
 			{
 				document.getElementsByClassName("html5-main-video")[0].loop = false;
-				if (document.getElementById("playlist-actions").children[0].children[0].children[0].getAttribute("class").includes("active"))
+				if (document.getElementById("playlist-action-menu").children[0].children[0].children[0].children[0].children[0].children[0].getAttribute("aria-pressed") == "true")
 				{
-					document.getElementById("playlist-actions").children[0].children[0].children[0].click();
+					document.getElementById("playlist-action-menu").children[0].children[0].children[0].children[0].children[0].children[0].click();
 				}
 			}
-			else if (document.getElementById("playlist-actions").children[0].children[0].children[0].getAttribute("class").includes("active"))
+			else if (document.getElementById("playlist-action-menu").children[0].children[0].children[0].children[0].children[0].children[0].getAttribute("aria-pressed") == "false")
 			{
-				document.getElementsByClassName("html5-main-video")[0].loop = true;
+				document.getElementById("playlist-action-menu").children[0].children[0].children[0].children[0].children[0].children[0].click();
+				document.getElementsByClassName("html5-main-video")[0].loop = false;
 			}
 			else
 			{
-				document.getElementById("playlist-actions").children[0].children[0].children[0].click();
+				document.getElementsByClassName("html5-main-video")[0].loop = true;
+				document.getElementById("playlist-action-menu").children[0].children[0].children[0].children[0].children[0].children[0].click();
 			}
 		}
 	};
 	youtubeEventHandler.shuffle = function()
 	{
-		if (document.getElementById("playlist-actions") !== null)
+		if (document.getElementById("playlist-action-menu") !== null)
 		{
-			document.getElementById("playlist-actions").children[0].children[0].children[1].click();
+			document.getElementById("playlist-action-menu").children[0].children[0].children[1].children[0].children[0].click();
 		}
 	};
 	youtubeEventHandler.toggleThumbsUp = function()
@@ -245,13 +247,13 @@ function setupNew()
 	youtubeEventHandler.rating = function(rating)
 	{
 		//Still just as lovely
-		var thumbsUp = document.getElementsByClassName("like-button-renderer")[0].children[0].children[0].getAttribute("class").includes("hid");
-		var thumbsDown = document.getElementsByClassName("like-button-renderer")[0].children[2].children[0].getAttribute("class").includes("hid");
+		var thumbsUp = document.getElementById("menu-container").children[0].children[0].children[0].children[0].children[0].children[0].children[0].getAttribute("aria-pressed") == "true";
+		var thumbsDown = document.getElementById("menu-container").children[0].children[0].children[0].children[1].children[0].children[0].children[0].getAttribute("aria-pressed") == "true";
 		if (rating > 3)
 		{
 			if (!thumbsUp)
 			{
-				document.getElementsByClassName("like-button-renderer")[0].children[0].children[0].click();
+				document.getElementById("menu-container").children[0].children[0].children[0].children[0].children[0].children[0].click();
 			}
 		}
 		else if (rating < 3)
@@ -259,18 +261,18 @@ function setupNew()
 			if (!thumbsDown)
 			{
 
-				document.getElementsByClassName("like-button-renderer")[0].children[2].children[0].click();
+				document.getElementById("menu-container").children[0].children[0].children[0].children[1].children[0].children[0].click();
 			}
 		}
 		else
 		{
 			if (thumbsUp)
 			{
-				document.getElementsByClassName("like-button-renderer")[0].children[1].children[0].click();
+				document.getElementById("menu-container").children[0].children[0].children[0].children[0].children[0].children[0].click();
 			}
 			else if (thumbsDown)
 			{
-				document.getElementsByClassName("like-button-renderer")[0].children[3].children[0].click();
+				document.getElementById("menu-container").children[0].children[0].children[0].children[1].children[0].children[0].click();
 			}
 		}
 	};
