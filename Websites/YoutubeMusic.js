@@ -46,7 +46,7 @@ function setup()
 		//If has both artist and album return album
 		if (document.getElementsByClassName("byline ytmusic-player-bar")[0].children.length > 1)
 		{
-			return document.getElementsByClassName("byline ytmusic-player-bar")[0].children[1].innerText;
+			return document.getElementsByClassName("byline ytmusic-player-bar")[0].children[2].innerText;
 		}
 		//Google stopped putting the name of the album at the end of the queue
 		//If queue has a name use that
