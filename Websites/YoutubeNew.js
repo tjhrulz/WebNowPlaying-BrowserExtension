@@ -146,17 +146,17 @@ function setupNew()
 		{
 			return 2;
 		}
-		if (document.getElementById("playlist-actions").children[0].children[0].children.length > 0)
+		if (document.getElementById("playlist-action-menu").children[0].children[0].children[0].children[0].children[0].children[0].getAttribute("aria-pressed") == "true")
 		{
-			return document.getElementById("playlist-actions").children[0].children[0].children[0].getAttribute("class").includes("active") ? 1 : 0;
+			return 1;
 		}
 		return 0;
 	};
 	youtubeInfoHandler.shuffle = function()
 	{
-		if (document.getElementById("playlist-actions").children[0].children[0].children.length > 0)
+		if (document.getElementById("playlist-action-menu").children[0].children[0].children[1].children[0].children[0].children[0].getAttribute("aria-pressed") == "true")
 		{
-			return document.getElementById("playlist-actions").children[0].children[0].children[1].getAttribute("class").includes("active") ? 1 : 0;
+			return 1;
 		}
 		return 0;
 	};
