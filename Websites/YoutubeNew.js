@@ -202,7 +202,7 @@ function setupNew()
 	youtubeEventHandler.repeat = function()
 	{
 		//If no repeat button on the page then use video's loop element to loop the video
-		if (document.getElementById("playlist-action-menu") === null)
+		if (document.querySelector("#content #playlist-action-menu") === null)
 		{
 			document.getElementsByClassName("html5-main-video")[0].loop = !document.getElementsByClassName("html5-main-video")[0].loop;
 		}
@@ -231,7 +231,7 @@ function setupNew()
 	};
 	youtubeEventHandler.shuffle = function()
 	{
-		if (document.getElementById("playlist-action-menu") !== null)
+		if (document.querySelector("#content #playlist-action-menu") !== null)
 		{
 			document.getElementById("playlist-action-menu").children[0].children[0].children[1].children[0].children[0].click();
 		}
