@@ -1,4 +1,4 @@
-//Adds support for Pocket Casts
+//Adds support for Jet Set Radio Live
 /*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString capitalize*/
 
 let songInfoEl;
