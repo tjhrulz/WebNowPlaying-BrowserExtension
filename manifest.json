@@ -152,6 +152,16 @@
     ]
   },
   {
+    "matches":        ["*://*/*"],
+    "include_globs": [
+      "*://*.bandcamp.com/album/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/Bandcamp.js"
+    ]
+  },
+  {
     "matches": [
       "<all_urls>"
     ],
@@ -167,7 +177,8 @@
       "*://open.spotify.*/*",
       "*://www.deezer.*/*",
       "*://play.pocketcasts.*/*",
-      "*://app.plex.tv/*"
+      "*://app.plex.tv/*",
+      "*://*.bandcamp.com/album/*"
     ],
     "js": [
       "WebNowPlaying.js",
