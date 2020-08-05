@@ -152,6 +152,16 @@
     ]
   },
   {
+    "matches":        ["*://*/*"],
+    "include_globs": [
+      "*://www.twitch.tv/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/TwitchNew.js"
+    ]
+  },
+  {
     "matches": [
       "<all_urls>"
     ],
@@ -167,7 +177,8 @@
       "*://open.spotify.*/*",
       "*://www.deezer.*/*",
       "*://play.pocketcasts.*/*",
-      "*://app.plex.tv/*"
+	  "*://app.plex.tv/*",
+	  "*://www.twitch.tv/*"
     ],
     "js": [
       "WebNowPlaying.js",
