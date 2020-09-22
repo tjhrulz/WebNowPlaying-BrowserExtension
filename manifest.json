@@ -152,6 +152,16 @@
     ]
   },
   {
+    "matches":        ["*://*/*"],
+    "include_globs": [
+      "*://player.fm/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/PlayerFM.js"
+    ]
+  },
+  {
     "matches": [
       "<all_urls>"
     ],
@@ -167,7 +177,8 @@
       "*://open.spotify.*/*",
       "*://www.deezer.*/*",
       "*://play.pocketcasts.*/*",
-      "*://app.plex.tv/*"
+      "*://app.plex.tv/*",
+      "*://player.fm/*"
     ],
     "js": [
       "WebNowPlaying.js",
