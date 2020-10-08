@@ -1,6 +1,7 @@
 //Adds support for Spotify
 /*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString capitalize*/
 
+var lastKnownTitle = "";
 var lastKnownAlbum = "";
 var lastKnownAlbumArt = "";
 
@@ -27,7 +28,12 @@ function setup()
 	};
 	spotifyInfoHandler.title = function()
 	{
-		return document.getElementsByClassName("now-playing")[0].children[1].children[0].innerText;
+		if(lastKnownTitle != document.getElementsByClassName("now-playing")[0].children[1].children[0].innerText)
+		{
+			lastKnownAlbum = "";
+			lastKnownTitle = document.getElementsByClassName("now-playing")[0].children[1].children[0].innerText;
+		}
+		return lastKnownTitle;
 	};
 	spotifyInfoHandler.artist = function()
 	{
@@ -35,9 +41,9 @@ function setup()
 	};
 	spotifyInfoHandler.album = function()
 	{
-		if (lastKnownAlbumID !== document.getElementsByClassName("track-info__name")[0].children[0].children[0].href)
+		if (lastKnownAlbumID !== document.getElementsByClassName("now-playing")[0].children[1].children[0].children[0].children[0].children[0].href)
 		{
-			lastKnownAlbumID = document.getElementsByClassName("track-info__name")[0].children[0].children[0].href;
+			lastKnownAlbumID = document.getElementsByClassName("now-playing")[0].children[1].children[0].children[0].children[0].children[0].href;
 			var ajaxReq = new XMLHttpRequest();
 			ajaxReq.onreadystatechange = function()
 			{
@@ -47,15 +53,16 @@ function setup()
 				}
 			};
 			ajaxReq.responseType = "document";
-			ajaxReq.open('get', document.getElementsByClassName("track-info__name")[0].children[0].children[0].href);
+			ajaxReq.open('get', document.getElementsByClassName("now-playing")[0].children[1].children[0].children[0].children[0].children[0].href);
 			ajaxReq.send();
 		}
 
-		if (lastKnownAlbum === "")
-		{
-			//Placeholder album
-			return document.getElementsByClassName("react-contextmenu-wrapper")[0].children[0].children[0].title;
-		}
+		//Spotify no long shows the name of the last played queue on the side of the page so there is no good placeholder
+		//if (lastKnownAlbum === "")
+		//{
+		//	  //Placeholder album
+		//	  return document.getElementsByClassName("react-contextmenu-wrapper")[0].children[0].children[0].title;
+		//}
 		return lastKnownAlbum;
 	};
 	spotifyInfoHandler.cover = function()
