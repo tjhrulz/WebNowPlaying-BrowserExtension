@@ -18,8 +18,7 @@ function setup()
 
 	spotifyInfoHandler.readyCheck = function()
 	{
-		return document.getElementsByClassName("track-info__name").length > 0 &&
-			document.getElementsByClassName("track-info__name")[0].innerText.length > 0;
+		return document.getElementsByClassName("now-playing").length > 0 && document.getElementsByClassName("now-playing")[0].innerText.length > 0;
 	};
 
 	spotifyInfoHandler.state = function()
@@ -28,11 +27,11 @@ function setup()
 	};
 	spotifyInfoHandler.title = function()
 	{
-		return document.getElementsByClassName("track-info__name")[0].innerText;
+		return document.getElementsByClassName("now-playing")[0].children[1].children[0].innerText;
 	};
 	spotifyInfoHandler.artist = function()
 	{
-		return document.getElementsByClassName("track-info__artists")[0].innerText;
+		return document.getElementsByClassName("now-playing")[0].children[1].children[1].innerText;
 	};
 	spotifyInfoHandler.album = function()
 	{
@@ -61,8 +60,7 @@ function setup()
 	};
 	spotifyInfoHandler.cover = function()
 	{
-		var currCover = document.getElementsByClassName("cover-art-image cover-art-image-loaded")[document.getElementsByClassName("cover-art-image cover-art-image-loaded").length - 1].style.backgroundImage;
-		return currCover.substring(currCover.indexOf("(") + 2, currCover.indexOf(")") - 1);
+		return document.getElementsByClassName("cover-art")[0].children[0].children[1].src;
 	};
 	spotifyInfoHandler.durationString = function()
 	{
@@ -81,8 +79,7 @@ function setup()
 	};
 	spotifyInfoHandler.rating = function()
 	{
-		if (document.getElementsByClassName("spoticon-heart-active-16").length > 0 ||
-			document.getElementsByClassName("spoticon-added-16").length > 0)
+		if (document.getElementsByClassName("now-playing")[0].children[2].children[0].children[0].children[0].className == "spoticon-heart-active-16")
 		{
 			return 5;
 		}
@@ -115,13 +112,12 @@ function setup()
 	//Define custom check logic to make sure you are not trying to update info when nothing is playing
 	spotifyEventHandler.readyCheck = function()
 	{
-		return document.getElementsByClassName("track-info__name").length > 0 &&
-			document.getElementsByClassName("track-info__name")[0].innerText.length > 0;
+		return document.getElementsByClassName("now-playing").length > 0 && document.getElementsByClassName("now-playing")[0].innerText.length > 0;
 	};
 
 	spotifyEventHandler.playpause = function()
 	{
-		document.getElementsByClassName("player-controls__buttons")[0].children[2].click();
+		document.getElementsByClassName("player-controls__buttons")[0].children[2].children[0].click();
 	};
 	spotifyEventHandler.next = function()
 	{
