@@ -43,11 +43,15 @@ function setup()
 	};
 	ymInfoHandler.album = function()
 	{
-		//If has both artist and album return album
-		if (document.getElementsByClassName("byline ytmusic-player-bar")[0].children.length > 1)
+		//If the song being played where we would usually find the album and where we would usually find the year of release we find the words view and like then it is likely a video
+		if (document.getElementsByClassName("byline ytmusic-player-bar")[0].children[2].innerText.includes("view") &&
+			document.getElementsByClassName("byline ytmusic-player-bar")[0].children[4].innerText.includes("like"))
 		{
-			return document.getElementsByClassName("byline ytmusic-player-bar")[0].children[1].innerText;
+			return "";
 		}
+		
+		return document.getElementsByClassName("byline ytmusic-player-bar")[0].children[2].innerText;
+
 		//Google stopped putting the name of the album at the end of the queue
 		//If queue has a name use that
 		//else if (document.getElementsByClassName("queue-title ytmusic-player-page")[0].children.length > 0)
@@ -61,13 +65,12 @@ function setup()
 		//	return temp;
 		//}
 		//Otherwise just return it as blank and let the skin handle it
-		return "";
 	};
 	ymInfoHandler.cover = function()
 	{
 		var videoID = document.getElementsByClassName("ytp-title")[0].children[0].children[0].href;
 		videoID = videoID.substring(videoID.lastIndexOf("=") + 1);
-		var cover = document.getElementById("song-image").children[0].children[0].src;
+		var cover = document.getElementsByClassName("image ytmusic-player-bar")[0].src;
 
 		//Check if cover is from youtube if it is some work need done first
 		if (cover.includes("ytimg"))

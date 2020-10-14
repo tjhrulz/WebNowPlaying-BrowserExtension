@@ -36,8 +36,13 @@ function setup()
 	};
 	pocketInfoHandler.cover = function()
 	{
-		var coverSmall = document.getElementsByClassName("podcast-image image-clickable image-grow")[0].children[0].children[0].getAttribute("src");
-		var cover = coverSmall.replace("130", "400")
+		var cover = document.getElementsByClassName("player_artwork")[0].children[0].getAttribute("data-fallback-src");
+
+		if (cover === null || cover.length == 0)
+		{
+			cover = document.getElementsByClassName("player_artwork")[0].children[0].src;
+		}
+
 		return cover;
 	};
 	pocketInfoHandler.duration = function()
