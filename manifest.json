@@ -154,6 +154,16 @@
   {
     "matches":        ["*://*/*"],
     "include_globs": [
+      "*://vibe.naver.com/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/VIBE.js"
+    ]
+  },
+  {
+    "matches":        ["*://*/*"],
+    "include_globs": [
       "*://jetsetradio.live/*"
     ],
     "js": [
@@ -188,6 +198,7 @@
       "*://www.deezer.*/*",
       "*://play.pocketcasts.*/*",
       "*://app.plex.tv/*",
+      "*://vibe.naver.com/*",
       "*://jetsetradio.live/*",
       "*://player.fm/*"
     ],

@@ -18,6 +18,7 @@ Other browsers will be supported as requested. Please feel free to report any bu
 - Deezer
 - Plex (Music)
 - PocketCasts
+- VIBE
 - Generic site support that can be turned on in the settings
 
 ### List of sites with support planned:
