@@ -305,14 +305,7 @@ function setup()
 	{
 		document.querySelector('[class^="mediaActions"]').children[1].click();
 	};
-	tidalEventHandler.toggleThumbsDown = function()
-	{
-		//Nevermind, the block button does not work the way I thought it would
-		//if(document.querySelector('[class^="repeatButton"]') == null)
-		//{
-		//	document.querySelector('[class^="playbackControls"]').children[4].click();
-		//}
-	};
+	tidalEventHandler.toggleThumbsDown = null;
 	tidalEventHandler.rating = function(rating)
 	{
 		//Check if thumbs has two paths, if it does not then it is active
