@@ -4,7 +4,7 @@
   "name": "WebNowPlaying Companion",
   "short_name": "WebNowPlaying",
   "description": "Ever wished music info from your web browser could be used in Rainmeter? Well now it can!",
-  "version": "0.4.0",
+  "version": "0.4.8",
   "icons":
   {
     "16": "icon16.png",
