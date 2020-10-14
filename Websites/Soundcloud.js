@@ -53,8 +53,7 @@ function setup()
 	soundcloudInfoHandler.cover = function()
 	{
 		var currCover = document.getElementsByClassName("playbackSoundBadge__avatar sc-media-image")[0].children[0].children[0].style.backgroundImage;
-		return currCover.substring(currCover.indexOf("(") + 2, currCover.indexOf(")") - 1).replace("50x50", "500x500").
-replace("120x120", "500x500");
+		return currCover.substring(currCover.indexOf("(") + 2, currCover.indexOf(")") - 1).replace("50x50", "500x500").replace("120x120", "500x500");
 	};
 	soundcloudInfoHandler.durationString = function()
 	{

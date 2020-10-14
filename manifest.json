@@ -4,7 +4,7 @@
   "name": "WebNowPlaying Companion",
   "short_name": "WebNowPlaying",
   "description": "Ever wished music info from your web browser could be used in Rainmeter? Well now it can!",
-  "version": "0.4.0",
+  "version": "0.4.8",
   "icons":
   {
     "16": "icon16.png",
@@ -162,6 +162,26 @@
     ]
   },
   {
+    "matches":        ["*://*/*"],
+    "include_globs": [
+      "*://jetsetradio.live/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/JetSetRadioLive.js"
+    ]
+  },
+  {
+    "matches":        ["*://*/*"],
+    "include_globs": [
+      "*://player.fm/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/PlayerFM.js"
+    ]
+  },
+  {
     "matches": [
       "<all_urls>"
     ],
@@ -178,7 +198,9 @@
       "*://www.deezer.*/*",
       "*://play.pocketcasts.*/*",
       "*://app.plex.tv/*",
-      "*://vibe.naver.com/*"     
+      "*://vibe.naver.com/*",
+      "*://jetsetradio.live/*",
+      "*://player.fm/*"
     ],
     "js": [
       "WebNowPlaying.js",

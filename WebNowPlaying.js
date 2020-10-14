@@ -233,6 +233,8 @@ function updateInfo()
 				temp = musicInfo.cover();
 				if (currCover !== temp && temp !== null)
 				{
+					//Since I dont have certs I need to stip https from the URL. (In the future I should really look into signing everything again)
+					temp.replace("https://", "http://");
 					ws.send("COVER:" + temp);
 					currCover = temp;
 				}
