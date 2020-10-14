@@ -130,11 +130,11 @@ function setupNew()
 	youtubeInfoHandler.rating = function()
 	{
 		//Check if thumbs button is active
-		if (document.getElementById("menu-container").children[0].children[0].children[0].children[0].children[0].children[0].getAttribute("aria-pressed") == "true")
+		if (document.getElementById("menu-container").children[0].children[0].children[0].children[0].children[0].children[0].children[0].getAttribute("aria-pressed") == "true")
 		{
 			return 5;
 		}
-		if (document.getElementById("menu-container").children[0].children[0].children[0].children[1].children[0].children[0].getAttribute("aria-pressed") == "true")
+		if (document.getElementById("menu-container").children[0].children[0].children[0].children[1].children[0].children[0].children[0].getAttribute("aria-pressed") == "true")
 		{
 			return 1;
 		}
@@ -146,17 +146,17 @@ function setupNew()
 		{
 			return 2;
 		}
-		if (document.getElementById("playlist-actions").children[0].children[0].children.length > 0)
+		if (document.getElementById('playlist-action-menu').innerHTML !== "")
 		{
-			return document.getElementById("playlist-actions").children[0].children[0].children[0].getAttribute("class").includes("active") ? 1 : 0;
+			return (document.getElementById("playlist-actions").children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].ariaPressed === "true") ? 1 : 0;
 		}
 		return 0;
 	};
 	youtubeInfoHandler.shuffle = function()
 	{
-		if (document.getElementById("playlist-actions").children[0].children[0].children.length > 0)
+		if(document.getElementById('playlist-action-menu').innerHTML !== "")
 		{
-			return document.getElementById("playlist-actions").children[0].children[0].children[1].getAttribute("class").includes("active") ? 1 : 0;
+			return (document.getElementById("playlist-actions").children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].ariaPressed === "true") ? 1 : 0;
 		}
 		return 0;
 	};
@@ -202,36 +202,37 @@ function setupNew()
 	youtubeEventHandler.repeat = function()
 	{
 		//If no repeat button on the page then use video's loop element to loop the video
-		if (document.getElementById("playlist-actions") === null)
+		if (document.getElementById("playlist-action-menu").innerHTML === "")
 		{
 			document.getElementsByClassName("html5-main-video")[0].loop = !document.getElementsByClassName("html5-main-video")[0].loop;
 		}
+
 		else
 		{
-			//Each if is a different state, first is loop none, second is loop one, last is loop all order triggered is still the usual none->all->one
-			if (document.getElementsByClassName("html5-main-video")[0].loop == true)
+			if(document.getElementsByClassName("html5-main-video")[0].loop === true)
 			{
 				document.getElementsByClassName("html5-main-video")[0].loop = false;
-				if (document.getElementById("playlist-actions").children[0].children[0].children[0].getAttribute("class").includes("active"))
+				if(document.getElementById("playlist-actions").children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].ariaPressed === "true")
 				{
-					document.getElementById("playlist-actions").children[0].children[0].children[0].click();
+					document.getElementById("playlist-actions").children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].click();
 				}
 			}
-			else if (document.getElementById("playlist-actions").children[0].children[0].children[0].getAttribute("class").includes("active"))
+			else if(document.getElementById("playlist-actions").children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].ariaPressed === "true")
 			{
+				document.getElementById("playlist-actions").children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].click();
 				document.getElementsByClassName("html5-main-video")[0].loop = true;
 			}
 			else
 			{
-				document.getElementById("playlist-actions").children[0].children[0].children[0].click();
+				document.getElementById("playlist-actions").children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].click();
 			}
 		}
 	};
 	youtubeEventHandler.shuffle = function()
 	{
-		if (document.getElementById("playlist-actions") !== null)
+		if(document.getElementById("playlist-action-menu").innerHTML !== "")
 		{
-			document.getElementById("playlist-actions").children[0].children[0].children[1].click();
+			document.getElementById("playlist-actions").children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].click();
 		}
 	};
 	youtubeEventHandler.toggleThumbsUp = function()
