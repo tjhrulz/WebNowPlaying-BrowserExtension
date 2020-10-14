@@ -154,6 +154,16 @@
   {
     "matches":        ["*://*/*"],
     "include_globs": [
+      "*://jetsetradio.live/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/JetSetRadioLive.js"
+    ]
+  },
+  {
+    "matches":        ["*://*/*"],
+    "include_globs": [
       "*://player.fm/*"
     ],
     "js": [
@@ -178,6 +188,7 @@
       "*://www.deezer.*/*",
       "*://play.pocketcasts.*/*",
       "*://app.plex.tv/*",
+      "*://jetsetradio.live/*",
       "*://player.fm/*"
     ],
     "js": [
