@@ -182,6 +182,16 @@
     ]
   },
   {
+    "matches":        ["*://*/*"],
+    "include_globs": [
+      "*://www.twitch.tv/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/Twitch.js"
+    ]
+  },
+  {
     "matches": [
       "<all_urls>"
     ],
@@ -200,7 +210,8 @@
       "*://app.plex.tv/*",
       "*://vibe.naver.com/*",
       "*://jetsetradio.live/*",
-      "*://player.fm/*"
+      "*://player.fm/*",
+      "*://www.twitch.tv/*"
     ],
     "js": [
       "WebNowPlaying.js",
