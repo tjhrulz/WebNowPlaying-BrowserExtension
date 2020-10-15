@@ -11,8 +11,6 @@
     "48": "icon48.png",
     "128": "icon128.png"
   },
-  "browser_action":
-  {},
   "permissions": [
     "tabs",
     "webNavigation",
@@ -192,6 +190,16 @@
     ]
   },
   {
+    "matches":        ["*://*/*"],
+    "include_globs": [
+      "*://music.apple.com/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/AppleMusic.js"
+    ]
+  },
+  {
     "matches": [
       "<all_urls>"
     ],
@@ -211,7 +219,8 @@
       "*://vibe.naver.com/*",
       "*://jetsetradio.live/*",
       "*://player.fm/*",
-      "*://www.twitch.tv/*"
+      "*://www.twitch.tv/*",
+      "*://music.apple.com/*"
     ],
     "js": [
       "WebNowPlaying.js",

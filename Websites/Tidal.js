@@ -1,8 +1,6 @@
 //Adds support for Tidal
 /*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString capitalize*/
 
-var element = null;
-
 function setup()
 {
 	var tidalInfoHandler = createNewMusicInfo();
