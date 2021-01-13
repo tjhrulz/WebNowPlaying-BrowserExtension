@@ -1,12 +1,10 @@
 {
   "manifest_version": 2,
-
   "name": "WebNowPlaying Companion",
   "short_name": "WebNowPlaying",
-  "description": "Ever wished music info from your web browser could be used in Rainmeter? Well now it can!",
+  "description": "Ever wished music info from your web browser could be used in Rainmeter? Well now it can! VK SUPPORT",
   "version": "0.4.8",
-  "icons":
-  {
+  "icons": {
     "16": "icon16.png",
     "48": "icon48.png",
     "128": "icon128.png"
@@ -16,215 +14,262 @@
     "webNavigation",
     "storage"
   ],
-  "background":
-  {
-    "scripts": ["Background.js"],
+  "background": {
+    "scripts": [
+      "Background.js"
+    ],
     "persistent": false
   },
-  "options_ui":
-  {
+  "options_ui": {
     "page": "Options.html"
   },
   "content_scripts": [
-  {
-    "matches":        ["*://*/*"],
-    "include_globs": [
-      "*://music.yandex.*/*"
-    ],
-    "js": [
-      "WebNowPlaying.js",
-      "Websites/YandexMusic.js"
-    ]
-  },
-  {
-    "matches":        ["*://*/*"],
-    "include_globs": [
-      "*://play.google.*/music/*"
-    ],
-    "js": [
-      "WebNowPlaying.js",
-      "Websites/GooglePlayMusic.js"
-    ]
-  },
-  {
-    "matches":        ["*://*/*"],
-    "include_globs": [
-      "*://music.youtube.*/*"
-    ],
-    "js": [
-      "WebNowPlaying.js",
-      "Websites/YoutubeMusic.js"
-    ]
-  },
-  {
-    "matches":        ["*://*/*"],
-    "include_globs": [
-      "*://www.youtube.*/*"
-    ],
-    "js": [
-      "WebNowPlaying.js",
-      "Websites/Youtube.js",
-      "Websites/YoutubeNew.js",
-      "Websites/YoutubeTV.js",
-      "Websites/YoutubeSelector.js"
-    ]
-  },
-  {
-    "matches":        ["*://*/*"],
-    "include_globs": [
-      "*://soundcloud.*/*"
-    ],
-    "js": [
-      "WebNowPlaying.js",
-      "Websites/Soundcloud.js"
-    ]
-  },
-  {
-    "matches":        ["*://*/*"],
-    "include_globs": [
-      "*://listen.tidal.*/*"
-    ],
-    "js": [
-      "WebNowPlaying.js",
-      "Websites/Tidal.js"
-    ]
-  },
-  {
-    "matches":        ["*://*/*"],
-    "include_globs": [
-      "*://music.amazon.*/*"
-    ],
-    "js": [
-      "WebNowPlaying.js",
-      "Websites/AmazonMusic.js"
-    ]
-  },
-  {
-    "matches":        ["*://*/*"],
-    "include_globs": [
-      "*://www.pandora.*/*"
-    ],
-    "js": [
-      "WebNowPlaying.js",
-      "Websites/Pandora.js"
-    ]
-  },
-  {
-    "matches":        ["*://*/*"],
-    "include_globs": [
-      "*://open.spotify.*/*"
-    ],
-    "js": [
-      "WebNowPlaying.js",
-      "Websites/Spotify.js"
-    ]
-  },
-  {
-    "matches":        ["*://*/*"],
-    "include_globs": [
-      "*://www.deezer.*/*"
-    ],
-    "js": [
-      "WebNowPlaying.js",
-      "Websites/Deezer.js"
-    ]
-  },
-  {
-    "matches":        ["*://*/*"],
-    "include_globs": [
-      "*://play.pocketcasts.*/*"
-    ],
-    "js": [
-      "WebNowPlaying.js",
-      "Websites/PocketCasts.js"
-    ]
-  },
-  {
-    "matches":        ["*://*/*"],
-    "include_globs": [
-      "*://app.plex.tv/*"
-    ],
-    "js": [
-      "WebNowPlaying.js",
-      "Websites/Plex.js"
-    ]
-  },
-  {
-    "matches":        ["*://*/*"],
-    "include_globs": [
-      "*://vibe.naver.com/*"
-    ],
-    "js": [
-      "WebNowPlaying.js",
-      "Websites/VIBE.js"
-    ]
-  },
-  {
-    "matches":        ["*://*/*"],
-    "include_globs": [
-      "*://jetsetradio.live/*"
-    ],
-    "js": [
-      "WebNowPlaying.js",
-      "Websites/JetSetRadioLive.js"
-    ]
-  },
-  {
-    "matches":        ["*://*/*"],
-    "include_globs": [
-      "*://player.fm/*"
-    ],
-    "js": [
-      "WebNowPlaying.js",
-      "Websites/PlayerFM.js"
-    ]
-  },
-  {
-    "matches":        ["*://*/*"],
-    "include_globs": [
-      "*://www.twitch.tv/*"
-    ],
-    "js": [
-      "WebNowPlaying.js",
-      "Websites/Twitch.js"
-    ]
-  },
-  {
-    "matches":        ["*://*/*"],
-    "include_globs": [
-      "*://music.apple.com/*"
-    ],
-    "js": [
-      "WebNowPlaying.js",
-      "Websites/AppleMusic.js"
-    ]
-  },
-  {
-    "matches": [
-      "<all_urls>"
-    ],
-    "exclude_globs": [
-      "*://music.yandex.*/*",
-      "*://play.google.*/music/*",
-      "*://music.youtube.*/*",
-      "*://www.youtube.*/*",
-      "*://soundcloud.*/*",
-      "*://listen.tidal.*/*",
-      "*://music.amazon.*/*",
-      "*://www.pandora.*/*",
-      "*://open.spotify.*/*",
-      "*://www.deezer.*/*",
-      "*://play.pocketcasts.*/*",
-      "*://app.plex.tv/*",
-      "*://vibe.naver.com/*",
-      "*://jetsetradio.live/*",
-      "*://player.fm/*",
-      "*://www.twitch.tv/*",
-      "*://music.apple.com/*"
-    ],
-    "js": [
-      "WebNowPlaying.js",
-      "Websites/Generic.js"
-    ]
-  }]
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "include_globs": [
+        "*://music.yandex.*/*"
+      ],
+      "js": [
+        "WebNowPlaying.js",
+        "Websites/YandexMusic.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "include_globs": [
+        "*://play.google.*/music/*"
+      ],
+      "js": [
+        "WebNowPlaying.js",
+        "Websites/GooglePlayMusic.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "include_globs": [
+        "*://music.youtube.*/*"
+      ],
+      "js": [
+        "WebNowPlaying.js",
+        "Websites/YoutubeMusic.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "include_globs": [
+        "*://vk.com/*"
+      ],
+      "js": [
+        "WebNowPlaying.js",
+        "Websites/VK.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "include_globs": [
+        "*://www.youtube.*/*"
+      ],
+      "js": [
+        "WebNowPlaying.js",
+        "Websites/Youtube.js",
+        "Websites/YoutubeNew.js",
+        "Websites/YoutubeTV.js",
+        "Websites/YoutubeSelector.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "include_globs": [
+        "*://soundcloud.*/*"
+      ],
+      "js": [
+        "WebNowPlaying.js",
+        "Websites/Soundcloud.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "include_globs": [
+        "*://listen.tidal.*/*"
+      ],
+      "js": [
+        "WebNowPlaying.js",
+        "Websites/Tidal.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "include_globs": [
+        "*://music.amazon.*/*"
+      ],
+      "js": [
+        "WebNowPlaying.js",
+        "Websites/AmazonMusic.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "include_globs": [
+        "*://www.pandora.*/*"
+      ],
+      "js": [
+        "WebNowPlaying.js",
+        "Websites/Pandora.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "include_globs": [
+        "*://open.spotify.*/*"
+      ],
+      "js": [
+        "WebNowPlaying.js",
+        "Websites/Spotify.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "include_globs": [
+        "*://www.deezer.*/*"
+      ],
+      "js": [
+        "WebNowPlaying.js",
+        "Websites/Deezer.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "include_globs": [
+        "*://play.pocketcasts.*/*"
+      ],
+      "js": [
+        "WebNowPlaying.js",
+        "Websites/PocketCasts.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "include_globs": [
+        "*://app.plex.tv/*"
+      ],
+      "js": [
+        "WebNowPlaying.js",
+        "Websites/Plex.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "include_globs": [
+        "*://vibe.naver.com/*"
+      ],
+      "js": [
+        "WebNowPlaying.js",
+        "Websites/VIBE.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "include_globs": [
+        "*://jetsetradio.live/*"
+      ],
+      "js": [
+        "WebNowPlaying.js",
+        "Websites/JetSetRadioLive.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "include_globs": [
+        "*://player.fm/*"
+      ],
+      "js": [
+        "WebNowPlaying.js",
+        "Websites/PlayerFM.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "include_globs": [
+        "*://www.twitch.tv/*"
+      ],
+      "js": [
+        "WebNowPlaying.js",
+        "Websites/Twitch.js"
+      ]
+    },
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "include_globs": [
+        "*://music.apple.com/*"
+      ],
+      "js": [
+        "WebNowPlaying.js",
+        "Websites/AppleMusic.js"
+      ]
+    },
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "exclude_globs": [
+        "*://music.yandex.*/*",
+        "*://play.google.*/music/*",
+        "*://music.youtube.*/*",
+        "*://www.youtube.*/*",
+        "*://soundcloud.*/*",
+        "*://listen.tidal.*/*",
+        "*://music.amazon.*/*",
+        "*://www.pandora.*/*",
+        "*://open.spotify.*/*",
+        "*://www.deezer.*/*",
+        "*://play.pocketcasts.*/*",
+        "*://app.plex.tv/*",
+        "*://vibe.naver.com/*",
+        "*://jetsetradio.live/*",
+        "*://player.fm/*",
+        "*://www.twitch.tv/*",
+        "*://music.apple.com/*"
+      ],
+      "js": [
+        "WebNowPlaying.js",
+        "Websites/Generic.js"
+      ]
+    }
+  ]
 }
