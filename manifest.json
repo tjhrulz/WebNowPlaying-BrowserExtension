@@ -4,7 +4,7 @@
   "name": "WebNowPlaying Companion",
   "short_name": "WebNowPlaying",
   "description": "Ever wished music info from your web browser could be used in Rainmeter? Well now it can!",
-  "version": "0.4.8",
+  "version": "0.5.0",
   "icons":
   {
     "16": "icon16.png",
@@ -197,6 +197,16 @@
     "js": [
       "WebNowPlaying.js",
       "Websites/AppleMusic.js"
+    ]
+  },
+  {
+    "matches":        ["*://*/*"],
+    "include_globs": [
+      "*://play.qobuz.com/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/Qobuz.js"
     ]
   },
   {
