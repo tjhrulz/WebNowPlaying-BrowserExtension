@@ -16,7 +16,11 @@ function setup()
 
 	amznInfoHandler.readyCheck = function()
 	{
-		return document.getElementsByTagName("music-horizontal-item").length > 0 && document.getElementById("transport") !== null;
+		if(document.getElementsByTagName("music-horizontal-item").length > 0 && document.getElementById("transport") !== null)
+		{
+			return document.getElementsByTagName("music-horizontal-item")[document.getElementsByTagName("music-horizontal-item").length-1].getAttribute("primary-text").length > 0 ? 1 : 0
+		}
+		return 0;
 	};
 
 	amznInfoHandler.state = function()
