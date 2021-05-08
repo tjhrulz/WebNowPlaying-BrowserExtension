@@ -577,7 +577,7 @@ function init()
 		if (versionNumber[0].includes("version"))
 		{
 			//Check that version number is the same major version
-			if (versionNumber[1].split(".")[1] < 4)
+			if (versionNumber[1].split(".")[1] < 5)
 			{
 				chrome.runtime.sendMessage(
 					{"method": "flagAsOutdated"}
