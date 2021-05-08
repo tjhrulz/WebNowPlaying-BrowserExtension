@@ -19,74 +19,59 @@ function setup()
 
 	spotifyInfoHandler.readyCheck = function()
 	{
-		return document.getElementsByClassName("now-playing").length > 0 && document.getElementsByClassName("now-playing")[0].innerText.length > 0;
+		return document.getElementsByClassName("Root__now-playing-bar").length > 0 && document.getElementsByClassName("Root__now-playing-bar")[0].innerText.length > 0;
 	};
 
 	spotifyInfoHandler.state = function()
 	{
-		return document.getElementsByClassName("spoticon-play-16").length > 0 ? 2 : 1;
+		return document.getElementsByClassName("player-controls__buttons")[0].children[2].getAttribute("aria-label").includes("Pause") ? 1 : 2;
 	};
 	spotifyInfoHandler.title = function()
 	{
-		if(lastKnownTitle != document.getElementsByClassName("now-playing")[0].children[1].children[0].innerText)
+		if(lastKnownTitle != document.getElementsByClassName("Root__now-playing-bar")[0].children[0].children[0].children[0].children[0].children[1].children[0].innerText)
 		{
-			lastKnownAlbum = "";
-			lastKnownTitle = document.getElementsByClassName("now-playing")[0].children[1].children[0].innerText;
+			lastKnownAlbumArt = "";
+			lastKnownTitle = document.getElementsByClassName("Root__now-playing-bar")[0].children[0].children[0].children[0].children[0].children[1].children[0].innerText;
 		}
 		return lastKnownTitle;
 	};
 	spotifyInfoHandler.artist = function()
 	{
-		return document.getElementsByClassName("now-playing")[0].children[1].children[1].innerText;
+		return document.getElementsByClassName("Root__now-playing-bar")[0].children[0].children[0].children[0].children[0].children[1].children[1].innerText;
 	};
-	spotifyInfoHandler.album = function()
-	{
-		if (lastKnownAlbumID !== document.getElementsByClassName("now-playing")[0].children[1].children[0].children[0].children[0].children[0].href)
-		{
-			lastKnownAlbumID = document.getElementsByClassName("now-playing")[0].children[1].children[0].children[0].children[0].children[0].href;
-			var ajaxReq = new XMLHttpRequest();
-			ajaxReq.onreadystatechange = function()
-			{
-				if (ajaxReq.readyState == 4)
-				{
-					lastKnownAlbum = ajaxReq.response.querySelector('meta[property="og:title"]').content;
-				}
-			};
-			ajaxReq.responseType = "document";
-			ajaxReq.open('get', document.getElementsByClassName("now-playing")[0].children[1].children[0].children[0].children[0].children[0].href);
-			ajaxReq.send();
-		}
-
-		//Spotify no long shows the name of the last played queue on the side of the page so there is no good placeholder
-		//if (lastKnownAlbum === "")
-		//{
-		//	  //Placeholder album
-		//	  return document.getElementsByClassName("react-contextmenu-wrapper")[0].children[0].children[0].title;
-		//}
-		return lastKnownAlbum;
-	};
+	spotifyInfoHandler.album = null;
 	spotifyInfoHandler.cover = function()
 	{
-		return document.getElementsByClassName("cover-art")[0].children[0].children[1].src;
+		//If album art is blank update it
+		if(lastKnownAlbumArt === "")
+		{
+			lastKnownAlbumArt = document.getElementsByClassName("cover-art")[0].children[0].children[1].src;
+		}
+		//If album art is not blank and we have 3 album art then it must be the big version on display so update to current album art
+		else if(document.getElementsByClassName("cover-art").length === 3)
+		{
+			lastKnownAlbumArt = document.getElementsByClassName("cover-art")[0].children[0].children[1].src;
+		}
+		//If it was not blnak and we have less than 3 album art then it is already set to the small album art or it is set to the big album art and the big album art is not visible
+		return lastKnownAlbumArt;
 	};
 	spotifyInfoHandler.durationString = function()
 	{
-		return document.getElementsByClassName("playback-bar__progress-time")[1].innerText;
+		return document.getElementsByClassName("playback-bar")[0].children[2].innerText;
 	};
 	spotifyInfoHandler.positionString = function()
 	{
-		return document.getElementsByClassName("playback-bar__progress-time")[0].innerText;
+		return document.getElementsByClassName("playback-bar")[0].children[0].innerText;
 	};
 	spotifyInfoHandler.volume = function()
 	{
-		var temp = document.getElementsByClassName("progress-bar__fg")[1].style.transform;
-		temp = temp.substring(temp.indexOf("(") + 1, temp.indexOf("%"));
 
-		return (100 + parseFloat(temp)) / 100;
+		return parseFloat(document.getElementsByClassName("volume-bar")[0].children[1].children[0].children[0].children[1].style.left.replace("%", "")) / 100;
 	};
 	spotifyInfoHandler.rating = function()
 	{
-		if (document.getElementsByClassName("now-playing")[0].children[2].children[0].children[0].children[0].className == "spoticon-heart-active-16")
+		//I have to check if it equal to true if I cast it since javascript is javascript
+		if (document.getElementsByClassName("Root__now-playing-bar")[0].children[0].children[0].children[0].children[0].children[2].children[0].children[0].getAttribute("aria-checked") == "true")
 		{
 			return 5;
 		}
@@ -94,11 +79,11 @@ function setup()
 	};
 	spotifyInfoHandler.repeat = function()
 	{
-		if (document.getElementsByClassName("spoticon-repeat-16").length > 0)
+		if (document.getElementsByClassName("player-controls__buttons")[0].children[4].getAttribute("aria-checked") == "true")
 		{
-			return document.getElementsByClassName("spoticon-repeat-16")[0].className.includes("active") ? 1 : 0;
+			return 1;
 		}
-		else if (document.getElementsByClassName("spoticon-repeatonce-16").length > 0)
+		if (document.getElementsByClassName("player-controls__buttons")[0].children[4].getAttribute("aria-checked") == "mixed")
 		{
 			return 2;
 		}
@@ -106,11 +91,7 @@ function setup()
 	};
 	spotifyInfoHandler.shuffle = function()
 	{
-		if (document.getElementsByClassName("spoticon-shuffle-16").length)
-		{
-			return document.getElementsByClassName("spoticon-shuffle-16")[0].className.includes("active") ? 1 : 0;
-		}
-		return 0;
+		return document.getElementsByClassName("player-controls__buttons")[0].children[0].getAttribute("aria-checked") == "true" ? 1 : 0;
 	};
 
 
@@ -119,27 +100,27 @@ function setup()
 	//Define custom check logic to make sure you are not trying to update info when nothing is playing
 	spotifyEventHandler.readyCheck = function()
 	{
-		return document.getElementsByClassName("now-playing").length > 0 && document.getElementsByClassName("now-playing")[0].innerText.length > 0;
+		return document.getElementsByClassName("Root__now-playing-bar").length > 0 && document.getElementsByClassName("Root__now-playing-bar")[0].innerText.length > 0;
 	};
 
 	spotifyEventHandler.playpause = function()
 	{
-		document.getElementsByClassName("player-controls__buttons")[0].children[2].children[0].click();
+		document.getElementsByClassName("player-controls__buttons")[0].children[2].click();
 	};
 	spotifyEventHandler.next = function()
 	{
-		document.getElementsByClassName("spoticon-skip-forward-16")[0].click();
+		document.getElementsByClassName("player-controls__buttons")[0].children[3].click();
 	};
 	spotifyEventHandler.previous = function()
 	{
-		document.getElementsByClassName("spoticon-skip-back-16")[0].click();
+		document.getElementsByClassName("player-controls__buttons")[0].children[1].click();
 	};
 	spotifyEventHandler.progress = function(progress)
 	{
-		var loc = document.getElementsByClassName("progress-bar")[0].getBoundingClientRect();
+		var loc = document.getElementsByClassName("playback-bar")[0].children[1].children[0].getBoundingClientRect();
 		progress *= loc.width;
 
-		var a = document.getElementsByClassName("progress-bar")[0];
+		var a = document.getElementsByClassName("playback-bar")[0].children[1].children[0];
 		var e = document.createEvent('MouseEvents');
 		e.initMouseEvent('mousedown', true, true, window, 1,
 			screenX + loc.left + progress, screenY + loc.top + loc.height / 2,
@@ -154,10 +135,10 @@ function setup()
 	};
 	spotifyEventHandler.volume = function(volume)
 	{
-		var loc = document.getElementsByClassName("volume-bar")[0].children[1].getBoundingClientRect();
+		var loc = document.getElementsByClassName("volume-bar")[0].children[1].children[0].getBoundingClientRect();
 		volume *= loc.width;
 
-		var a = document.getElementsByClassName("volume-bar")[0].children[1];
+		var a = document.getElementsByClassName("volume-bar")[0].children[1].children[0];
 		var e = document.createEvent('MouseEvents');
 		e.initMouseEvent('mousedown', true, true, window, 1,
 			screenX + loc.left + volume, screenY + loc.top + loc.height / 2,
@@ -172,66 +153,31 @@ function setup()
 	};
 	spotifyEventHandler.repeat = function()
 	{
-		if (document.getElementsByClassName("spoticon-repeat-16").length > 0)
-		{
-			document.getElementsByClassName("spoticon-repeat-16")[0].click();
-		}
-		else if (document.getElementsByClassName("spoticon-repeatonce-16").length > 0)
-		{
-			document.getElementsByClassName("spoticon-repeatonce-16")[0].click();
-		}
+		document.getElementsByClassName("player-controls__buttons")[0].children[4].click();
 	};
 	spotifyEventHandler.shuffle = function()
 	{
-		if (document.getElementsByClassName("spoticon-shuffle-16").length > 0)
-		{
-			document.getElementsByClassName("spoticon-shuffle-16")[0].click();
-		}
+		document.getElementsByClassName("player-controls__buttons")[0].children[0].click();
 	};
 	spotifyEventHandler.toggleThumbsUp = function()
 	{
-		if (document.getElementsByClassName("spoticon-heart-16").length > 0)
-		{
-			document.getElementsByClassName("spoticon-heart-16")[0].click();
-		}
-		else if (document.getElementsByClassName("spoticon-add-16").length > 0)
-		{
-			document.getElementsByClassName("spoticon-add-16")[0].click();
-		}
-		else if (document.getElementsByClassName("spoticon-added-16").length > 0)
-		{
-			document.getElementsByClassName("spoticon-added-16")[0].click();
-		}
-		else if (document.getElementsByClassName("spoticon-heart-active-16").length > 0)
-		{
-			document.getElementsByClassName("spoticon-heart-active-16")[0].click();
-		}
+		document.getElementsByClassName("Root__now-playing-bar")[0].children[0].children[0].children[0].children[0].children[2].children[0].children[0].click()
 	};
 	spotifyEventHandler.toggleThumbsDown = null;
 	spotifyEventHandler.rating = function(rating)
 	{
-		//Check if thumbs has two paths, if it does not then it is active
 		if (rating > 3)
 		{
-			if (document.getElementsByClassName("spoticon-heart-16").length > 0)
+			if (document.getElementsByClassName("Root__now-playing-bar")[0].children[0].children[0].children[0].children[0].children[2].children[0].children[0].getAttribute("aria-checked") != "true")
 			{
-				document.getElementsByClassName("spoticon-heart-16")[0].click();
-			}
-			else if (document.getElementsByClassName("spoticon-add-16").length > 0)
-			{
-				document.getElementsByClassName("spoticon-add-16")[0].click();
+				document.getElementsByClassName("Root__now-playing-bar")[0].children[0].children[0].children[0].children[0].children[2].children[0].children[0].click()
 			}
 		}
-		//@TODO Possibly add back thumbs down action when the feature is working again
 		else
 		{
-			if (document.getElementsByClassName("spoticon-heart-active-16").length > 0)
+			if (document.getElementsByClassName("Root__now-playing-bar")[0].children[0].children[0].children[0].children[0].children[2].children[0].children[0].getAttribute("aria-checked") == "true")
 			{
-				document.getElementsByClassName("spoticon-heart-active-16")[0].click();
-			}
-			if (document.getElementsByClassName("spoticon-added-16").length > 0)
-			{
-				document.getElementsByClassName("spoticon-added-16")[0].click();
+				document.getElementsByClassName("Root__now-playing-bar")[0].children[0].children[0].children[0].children[0].children[2].children[0].children[0].click()
 			}
 		}
 	};
