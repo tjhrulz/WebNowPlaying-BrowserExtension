@@ -7,7 +7,7 @@ function setup()
 
 	appleMusicInfoHandler.player = function()
 	{
-		return document.domain;
+		return "Apple Music";
 	};
 
 	//Define custom check logic to make sure you are not trying to update info when nothing is playing
