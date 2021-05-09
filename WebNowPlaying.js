@@ -536,6 +536,10 @@ oo     .d8P  888       o      888       `88.    .8'   888
 8""88888P'  o888ooooood8     o888o        `YbodP'    o888o
 */
 
+//Max length of time between attempting to reconnect
+//This is in MS so to make it more readable I took one second of time in MS * 60 to make it minutes so the last multiply is the amount of minutes you want
+var MAXTIMEOUT = 1000 * 60 * 1;
+var connectionAttemptCount = 0;
 function init()
 {
 	//@TODO allow custom ports
@@ -543,16 +547,18 @@ function init()
 	ws = new WebSocket(url);
 	ws.onopen = function()
 	{
+		//Reset connection attempts since we are now connected
+		connectionAttemptCount = 0;
 		connected = true;
 		currPlayer = musicInfo.player();
 		ws.send("PLAYER:" + currPlayer);
-		//If this is not cleared in 1000 seconds then assume plugin version is so old it has no version send
+		//If this is not cleared in 1000 MS then assume plugin version is so old it has no version send
 		outdatedCheck = setTimeout(function()
 		{
 			chrome.runtime.sendMessage(
 				{"method": "flagAsOutdated"}
 			);
-		}, 500);
+		}, 1000);
 		//@TODO Dynamic update rate based on success rate
 		sendData = setInterval(function()
 		{
@@ -566,10 +572,21 @@ function init()
 			{"method": "flagAsNotConnected"}
 		);
 		clearInterval(sendData);
+		//If we fail repeatedly exponentially increase the length of time between connection attempts
+		var timeoutLength = 1000 + Math.pow(10, connectionAttemptCount/4);
+		//If we are longer than the max timeout do not increase and cap at timeout
+		if(timeoutLength > MAXTIMEOUT)
+		{
+			timeoutLength = MAXTIMEOUT;
+		}
+		else
+		{
+			connectionAttemptCount++;
+		}
 		reconnect = setTimeout(function()
 		{
 			init();
-		}, 5000);
+		}, timeoutLength);
 	};
 	ws.onmessage = function(event)
 	{
