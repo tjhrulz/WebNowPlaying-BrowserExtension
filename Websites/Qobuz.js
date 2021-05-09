@@ -18,7 +18,7 @@ function setup()
 	//Qobuz is pretty easy compared to most other services
 	qobuzInfoHandler.state = function()
 	{
-		return document.getElementsByClassName("player__action")[0].children[2].className.includes("pause") ? 2 : 1;
+		return document.getElementsByClassName("player__action")[0].children[2].className.includes("pause") ? 1 : 2;
 	};
 	qobuzInfoHandler.title = function()
 	{
@@ -43,7 +43,7 @@ function setup()
 	};
 	qobuzInfoHandler.positionString = function()
 	{
-		return document.getElementsByClassName("player__track-time-content")[0].children[0];
+		return document.getElementsByClassName("player__track-time-content")[0].children[0].innerText;
 	};
 	qobuzInfoHandler.volume = function()
 	{
