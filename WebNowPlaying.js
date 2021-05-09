@@ -649,6 +649,9 @@ function init()
 
 window.onbeforeunload = function()
 {
-	ws.onclose = function() {}; // disable onclose handler first
-	ws.close();
+	if(ws != undefined)
+	{
+		ws.onclose = function() {}; // disable onclose handler first
+		ws.close();
+	}
 };
