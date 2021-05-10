@@ -42,17 +42,12 @@ function setup()
 	spotifyInfoHandler.album = null;
 	spotifyInfoHandler.cover = function()
 	{
-		//If album art is blank update it
-		if(lastKnownAlbumArt === "")
+		// Update Album art for "HD" version...
+		if(lastKnownAlbumArt == "" || document.getElementsByClassName("cover-art").length == 3)
 		{
-			lastKnownAlbumArt = document.getElementsByClassName("cover-art")[0].children[0].children[1].src;
+			lastKnownAlbumArt = document.getElementsByClassName("cover-art")[0].children[0].children[1].src.replace('ab67616d00004851', 'ab67616d00001e02');
 		}
-		//If album art is not blank and we have 3 album art then it must be the big version on display so update to current album art
-		else if(document.getElementsByClassName("cover-art").length === 3)
-		{
-			lastKnownAlbumArt = document.getElementsByClassName("cover-art")[0].children[0].children[1].src;
-		}
-		//If it was not blnak and we have less than 3 album art then it is already set to the small album art or it is set to the big album art and the big album art is not visible
+		//If it was not blank and we have less than 3 album art then it is already set to the small album art or it is set to the big album art and the big album art is not visible
 		return lastKnownAlbumArt;
 	};
 	spotifyInfoHandler.durationString = function()
