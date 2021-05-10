@@ -1,6 +1,8 @@
 //Adds support for Tidal
 /*global init createNewMusicInfo createNewMusicEventHandler convertTimeToString capitalize*/
 
+var lastKnownVolume = 100;
+
 function setup()
 {
 	var tidalInfoHandler = createNewMusicInfo();
@@ -12,7 +14,7 @@ function setup()
 
 	tidalInfoHandler.readyCheck = function()
 	{
-		return document.querySelector('[class^="mediaInformation"]').children.length > 0 && document.querySelector('[class^="mediaInformation"]').children[0].innerText.length > 0;
+		return document.getElementById("footerPlayer")  !== null;
 		
 		//Tidal removed their media component and baked something else in so this no longer works
 		//if (document.getElementsByTagName('audio').length > 0)
@@ -34,44 +36,50 @@ function setup()
 
 	tidalInfoHandler.state = function()
 	{
-		return document.querySelector('[class*="playbackToggle"]').getAttribute("data-type").includes("pause") ? 2 : 1;
+		return document.getElementById("footerPlayer").children[1].children[0].children[2].children[0].children[0].getAttribute("data-test").includes("Pause") ? 1 : 2;
 	};
 	tidalInfoHandler.title = function()
 	{
-		return document.querySelector('[class^="mediaInformation"]').children[0].innerText;
+		return document.getElementById("footerPlayer").children[0].children[1].children[0].children[0].innerText;
 	};
 	tidalInfoHandler.artist = function()
 	{
-		return document.querySelector('[class^="mediaInformation"]').children[1].innerText;
+		return document.getElementById("footerPlayer").children[0].children[1].children[1].innerText;
 	};
 	tidalInfoHandler.album = function()
 	{
 		//Sadly while I can get to a page that will tell me the album for the current playing song it is added by JS so I can not take the usual approach
-		//So this will sometime tell you the playlist instead of the album
-		return document.querySelector('[class^="mediaInformation"]').children[2].children[1].innerText;
+		//So this will sometimes tell you the playlist instead of the album
+		//Use textContent because innerText will return an all caps due to CSS styling
+		return document.getElementById("footerPlayer").children[0].children[1].children[2].children[1].children[0].textContent;
 	};
 	tidalInfoHandler.cover = function()
 	{
 		//Capture small src image
-		var tempIMG = document.querySelector('[class^="mediaImagery"]').children[0].src;
+		var tempIMG = document.getElementById("footerPlayer").children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].src;
 		//Remove size and replace it with max size before returning
 		return tempIMG.substring(0, tempIMG.lastIndexOf("/")) + "/1280x1280.jpg";
 	};
 	tidalInfoHandler.durationString = function()
 	{
-		return document.querySelector('[class^="duration"]').innerText;
+		return document.getElementById("progressBar").parentElement.children[2].innerText;
 	};
 	tidalInfoHandler.positionString = function()
 	{
-		return document.querySelector('[class^="currentTime"]').innerText;
+		return document.getElementById("progressBar").parentElement.children[0].innerText;
 	};
 	tidalInfoHandler.volume = function()
 	{
-		return document.querySelector('[class^="volumeSlider"]').children[1].value / 100;
+		//Volume is no longer always shown, so if it is visible cache that value
+		if(document.querySelector('[class^="nativeRange"]').value !== null)
+		{
+			lastKnownVolume = document.querySelector('[class^="nativeRange"]').value;
+		}
+		return lastKnownVolume;
 	};
 	tidalInfoHandler.rating = function()
 	{
-		if (document.querySelector('[class^="mediaActions"]').children[1].className.includes("favorite"))
+		if (document.getElementById("footerPlayer").children[0].children[1].children[0].children[1].children[0].getAttribute("aria-checked") == "true")
 		{
 			return 5;
 		}
@@ -79,20 +87,20 @@ function setup()
 	};
 	tidalInfoHandler.repeat = function()
 	{
-		if (document.querySelector('[class^="repeatButton"]').getAttribute("data-type").includes("All"))
+		if (document.getElementById("footerPlayer").children[1].children[0].children[4].getAttribute("aria-checked") == "true")
 		{
-			return 1;
-		}
-		if (document.querySelector('[class^="repeatButton"]').getAttribute("data-type").includes("Single"))
-		{
-			return 2;
+			if(document.getElementById("footerPlayer").children[1].children[0].children[4].children[0].getAttribute("data-test").includes("One"))
+			{
+				return 2;
+			}
+			return 1
 		}
 		return 0;
 	};
 	tidalInfoHandler.shuffle = function()
 	{
 		//Icon for shuffle button is goofy, they seem to have an oversite in their code and it only has a class when active
-		if (document.querySelector('[class^="shuffleButton"]').className.includes("active"))
+		if (document.getElementById("footerPlayer").children[1].children[0].children[0].getAttribute("aria-checked") == true)
 		{
 			return 1;
 		}
@@ -105,20 +113,20 @@ function setup()
 	//Define custom check logic to make sure you are not trying to update info when nothing is playing
 	tidalEventHandler.readyCheck = function()
 	{
-		return document.querySelector('[class^="mediaInformation"]').children.length > 0 && document.querySelector('[class^="mediaInformation"]').children[0].innerText.length > 0;
+		return document.getElementById("footerPlayer")  !== null;
 	};
 
 	tidalEventHandler.playpause = function()
 	{
-		document.querySelector('[class*="playbackToggle"]').click();
+		document.getElementById("footerPlayer").children[1].children[0].children[2].children[0].click();
 	};
 	tidalEventHandler.next = function()
 	{
-		document.querySelector('[class^="playbackControls"]').children[4].click();
+		document.getElementById("footerPlayer").children[1].children[0].children[3].click();
 	};
 	tidalEventHandler.previous = function()
 	{
-		document.querySelector('[class^="playbackControls"]').children[1].click();
+		document.getElementById("footerPlayer").children[1].children[0].children[1].click();
 	};
 	//Sadly a likely unintended effect of Tidal using <input> tags is that a quirk of the way the events work cause them not to fire using my usual event hacking
 	//I have reverse enineered how both work for the most part and can successfully change them programatically however due to the obfuscation techniques of react
@@ -293,15 +301,15 @@ function setup()
 	//};
 	tidalEventHandler.repeat = function()
 	{
-		document.querySelector('[class^="playbackControls"]').children[4].click();
+		document.getElementById("footerPlayer").children[1].children[0].children[4].click();
 	};
 	tidalEventHandler.shuffle = function()
 	{
-		document.querySelector('[class^="playbackControls"]').children[0].click();
+		document.getElementById("footerPlayer").children[1].children[0].children[0].click();
 	};
 	tidalEventHandler.toggleThumbsUp = function()
 	{
-		document.querySelector('[class^="mediaActions"]').children[1].click();
+		document.getElementById("footerPlayer").children[0].children[1].children[0].children[1].children[0].click();
 	};
 	tidalEventHandler.toggleThumbsDown = null;
 	tidalEventHandler.rating = function(rating)
@@ -310,16 +318,17 @@ function setup()
 		if (rating > 3)
 		{
 			//If thumbs up is not active
-			if (!document.querySelector('[class^="mediaActions"]').children[1].className.includes("favorite"))
+			if (document.getElementById("footerPlayer").children[0].children[1].children[0].children[1].children[0].getAttribute("aria-checked") != "true")
 			{
-				document.querySelector('[class^="mediaActions"]').children[1].click();
+				document.getElementById("footerPlayer").children[0].children[1].children[0].children[1].children[0].click();
 			}
 		}
 		else
 		{
-			if (document.querySelector('[class^="mediaActions"]').children[1].className.includes("favorite"))
+			//If thumbs up is not active
+			if (document.getElementById("footerPlayer").children[0].children[1].children[0].children[1].children[0].getAttribute("aria-checked") == "true")
 			{
-				document.querySelector('[class^="mediaActions"]').children[1].click();
+				document.getElementById("footerPlayer").children[0].children[1].children[0].children[1].children[0].click();
 			}
 		}
 	};
