@@ -159,7 +159,7 @@ function updateInfo()
 			if (musicInfo.state !== null)
 			{
 				temp = musicInfo.state();
-				if (currState !== temp && temp !== null)
+				if (currState !== temp && temp !== null && ws.readyState == WebSocket.OPEN)
 				{
 					ws.send("STATE:" + temp);
 					currState = temp;
@@ -168,8 +168,11 @@ function updateInfo()
 		}
 		catch (e)
 		{
-			ws.send("Error:Error updating state for " + musicInfo.player());
-			ws.send("ErrorD:" + e);
+			if(ws.readyState == WebSocket.OPEN)
+			{
+				ws.send("Error:Error updating state for " + musicInfo.player());
+				ws.send("ErrorD:" + e);
+			}
 		}
 		//UPDATE TITLE
 		try
@@ -177,7 +180,7 @@ function updateInfo()
 			if (musicInfo.title !== null)
 			{
 				temp = musicInfo.title();
-				if (currTitle !== temp && temp !== null)
+				if (currTitle !== temp && temp !== null && ws.readyState == WebSocket.OPEN)
 				{
 					ws.send("TITLE:" + temp);
 					currTitle = temp;
@@ -186,8 +189,11 @@ function updateInfo()
 		}
 		catch (e)
 		{
-			ws.send("Error:Error updating title for " + musicInfo.player());
-			ws.send("ErrorD:" + e);
+			if(ws.readyState == WebSocket.OPEN)
+			{
+				ws.send("Error:Error updating title for " + musicInfo.player());
+				ws.send("ErrorD:" + e);
+			}
 		}
 		//UPDATE ARTIST
 		try
@@ -195,7 +201,7 @@ function updateInfo()
 			if (musicInfo.artist !== null)
 			{
 				temp = musicInfo.artist();
-				if (currArtist !== temp && temp !== null)
+				if (currArtist !== temp && temp !== null && ws.readyState == WebSocket.OPEN)
 				{
 					ws.send("ARTIST:" + temp);
 					currArtist = temp;
@@ -204,8 +210,12 @@ function updateInfo()
 		}
 		catch (e)
 		{
-			ws.send("Error:Error updating artist for " + musicInfo.player());
-			ws.send("ErrorD:" + e);
+			
+			if(ws.readyState == WebSocket.OPEN)
+			{
+				ws.send("Error:Error updating artist for " + musicInfo.player());
+				ws.send("ErrorD:" + e);
+			}
 		}
 		//UPDATE ALBUM
 		try
@@ -213,7 +223,7 @@ function updateInfo()
 			if (musicInfo.album !== null)
 			{
 				temp = musicInfo.album();
-				if (currAlbum !== temp && temp !== null)
+				if (currAlbum !== temp && temp !== null && ws.readyState == WebSocket.OPEN)
 				{
 					ws.send("ALBUM:" + temp);
 					currAlbum = temp;
@@ -222,8 +232,11 @@ function updateInfo()
 		}
 		catch (e)
 		{
-			ws.send("Error:Error updating album for " + musicInfo.player());
-			ws.send("ErrorD:" + e);
+			if(ws.readyState == WebSocket.OPEN)
+			{
+				ws.send("Error:Error updating album for " + musicInfo.player());
+				ws.send("ErrorD:" + e);
+			}
 		}
 		//UPDATE COVER
 		try
@@ -231,7 +244,7 @@ function updateInfo()
 			if (musicInfo.cover !== null)
 			{
 				temp = musicInfo.cover();
-				if (currCover !== temp && temp !== null)
+				if (currCover !== temp && temp !== null && ws.readyState == WebSocket.OPEN)
 				{
 					//Since I dont have certs I need to stip https from the URL. (In the future I should really look into signing everything again)
 					ws.send("COVER:" + temp);
@@ -241,8 +254,11 @@ function updateInfo()
 		}
 		catch (e)
 		{
-			ws.send("Error:Error updating cover for " + musicInfo.player());
-			ws.send("ErrorD:" + e);
+			if(ws.readyState == WebSocket.OPEN)
+			{
+				ws.send("Error:Error updating cover for " + musicInfo.player());
+				ws.send("ErrorD:" + e);
+			}
 		}
 		//UPDATE DURATION
 		try
@@ -250,7 +266,7 @@ function updateInfo()
 			if (musicInfo.durationString !== null)
 			{
 				temp = musicInfo.durationString();
-				if (currDur !== temp && temp !== null)
+				if (currDur !== temp && temp !== null && ws.readyState == WebSocket.OPEN)
 				{
 					ws.send("DURATION:" + temp);
 					currDur = temp;
@@ -268,8 +284,11 @@ function updateInfo()
 		}
 		catch (e)
 		{
-			ws.send("Error:Error updating duration for " + musicInfo.player());
-			ws.send("ErrorD:" + e);
+			if(ws.readyState == WebSocket.OPEN)
+			{
+				ws.send("Error:Error updating duration for " + musicInfo.player());
+				ws.send("ErrorD:" + e);
+			}
 		}
 		//UPDATE POSITION
 		try
@@ -277,7 +296,7 @@ function updateInfo()
 			if (musicInfo.positionString !== null)
 			{
 				temp = musicInfo.positionString();
-				if (currPos !== temp && temp !== null)
+				if (currPos !== temp && temp !== null && ws.readyState == WebSocket.OPEN)
 				{
 					ws.send("POSITION:" + temp);
 					currPos = temp;
@@ -295,8 +314,11 @@ function updateInfo()
 		}
 		catch (e)
 		{
-			ws.send("Error:Error updating position for " + musicInfo.player());
-			ws.send("ErrorD:" + e);
+			if(ws.readyState == WebSocket.OPEN)
+			{
+				ws.send("Error:Error updating position for " + musicInfo.player());
+				ws.send("ErrorD:" + e);
+			}
 		}
 		//UPDATE VOLUME
 		try
@@ -313,8 +335,11 @@ function updateInfo()
 		}
 		catch (e)
 		{
-			ws.send("Error:Error updating volume for " + musicInfo.player());
-			ws.send("ErrorD:" + e);
+			if(ws.readyState == WebSocket.OPEN)
+			{
+				ws.send("Error:Error updating volume for " + musicInfo.player());
+				ws.send("ErrorD:" + e);
+			}
 		}
 		//UPDATE RATING
 		try
@@ -322,7 +347,7 @@ function updateInfo()
 			if (musicInfo.rating !== null)
 			{
 				temp = musicInfo.rating();
-				if (currRating !== temp && temp !== null)
+				if (currRating !== temp && temp !== null && ws.readyState == WebSocket.OPEN)
 				{
 					ws.send("RATING:" + temp);
 					currRating = temp;
@@ -331,8 +356,11 @@ function updateInfo()
 		}
 		catch (e)
 		{
-			ws.send("Error:Error updating rating for " + musicInfo.player());
-			ws.send("ErrorD:" + e);
+			if(ws.readyState == WebSocket.OPEN)
+			{
+				ws.send("Error:Error updating rating for " + musicInfo.player());
+				ws.send("ErrorD:" + e);
+			}
 		}
 		//UPDATE REPEAT
 		try
@@ -340,7 +368,7 @@ function updateInfo()
 			if (musicInfo.repeat !== null)
 			{
 				temp = musicInfo.repeat();
-				if (currRepeat !== temp && temp !== null)
+				if (currRepeat !== temp && temp !== null && ws.readyState == WebSocket.OPEN)
 				{
 					ws.send("REPEAT:" + temp);
 					currRepeat = temp;
@@ -349,8 +377,11 @@ function updateInfo()
 		}
 		catch (e)
 		{
-			ws.send("Error:Error updating repeat for " + musicInfo.player());
-			ws.send("ErrorD:" + e);
+			if(ws.readyState == WebSocket.OPEN)
+			{
+				ws.send("Error:Error updating repeat for " + musicInfo.player());
+				ws.send("ErrorD:" + e);
+			}
 		}
 		//UPDATE SHUFFLE
 		try
@@ -358,7 +389,7 @@ function updateInfo()
 			if (musicInfo.shuffle !== null)
 			{
 				temp = musicInfo.shuffle();
-				if (currShuffle !== temp && temp !== null)
+				if (currShuffle !== temp && temp !== null && ws.readyState == WebSocket.OPEN)
 				{
 					ws.send("SHUFFLE:" + temp);
 					currShuffle = temp;
@@ -367,8 +398,11 @@ function updateInfo()
 		}
 		catch (e)
 		{
-			ws.send("Error:Error updating shuffle for " + musicInfo.player());
-			ws.send("ErrorD:" + e);
+			if(ws.readyState == WebSocket.OPEN)
+			{
+				ws.send("Error:Error updating shuffle for " + musicInfo.player());
+				ws.send("ErrorD:" + e);
+			}
 		}
 
 
@@ -379,7 +413,7 @@ function updateInfo()
 			if (musicInfo.trackID !== null)
 			{
 				temp = musicInfo.trackID();
-				if (currShuffle !== temp && temp !== null)
+				if (currShuffle !== temp && temp !== null && ws.readyState == WebSocket.OPEN)
 				{
 					ws.send("TRACKID:" + temp);
 					currShuffle = temp;
@@ -388,8 +422,11 @@ function updateInfo()
 		}
 		catch (e)
 		{
-			ws.send("Error:Error updating trackID for " + musicInfo.player());
-			ws.send("ErrorD:" + e);
+			if(ws.readyState == WebSocket.OPEN)
+			{
+				ws.send("Error:Error updating trackID for " + musicInfo.player());
+				ws.send("ErrorD:" + e);
+			}
 		}
 		//UPDATE ARTISTID
 		try
@@ -397,7 +434,7 @@ function updateInfo()
 			if (musicInfo.artistID !== null)
 			{
 				temp = musicInfo.artistID();
-				if (currShuffle !== temp && temp !== null)
+				if (currShuffle !== temp && temp !== null && ws.readyState == WebSocket.OPEN)
 				{
 					ws.send("ARTISTID:" + temp);
 					currShuffle = temp;
@@ -406,8 +443,11 @@ function updateInfo()
 		}
 		catch (e)
 		{
-			ws.send("Error:Error updating artistID for " + musicInfo.player());
-			ws.send("ErrorD:" + e);
+			if(ws.readyState == WebSocket.OPEN)
+			{
+				ws.send("Error:Error updating artistID for " + musicInfo.player());
+				ws.send("ErrorD:" + e);
+			}
 		}
 		//UPDATE ALBUMID
 		try
@@ -415,7 +455,7 @@ function updateInfo()
 			if (musicInfo.albumID !== null)
 			{
 				temp = musicInfo.albumID();
-				if (currShuffle !== temp && temp !== null)
+				if (currShuffle !== temp && temp !== null && ws.readyState == WebSocket.OPEN)
 				{
 					ws.send("ALBUMID:" + temp);
 					currShuffle = temp;
@@ -424,8 +464,11 @@ function updateInfo()
 		}
 		catch (e)
 		{
-			ws.send("Error:Error updating albumID for " + musicInfo.player());
-			ws.send("ErrorD:" + e);
+			if(ws.readyState == WebSocket.OPEN)
+			{
+				ws.send("Error:Error updating albumID for " + musicInfo.player());
+				ws.send("ErrorD:" + e);
+			}
 		}
 	}
 	else
