@@ -29,6 +29,7 @@ function setup()
 	};
 	twitchInfoHandler.album = function()
 	{
+		//If we are not live
 		if (document.querySelector("[data-a-target=\"video-info-game-boxart-link\"]")) 
 		{ 
 			return document.querySelector("[data-a-target=\"video-info-game-boxart-link\"]").innerText;
