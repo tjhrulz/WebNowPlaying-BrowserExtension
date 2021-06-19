@@ -12,7 +12,8 @@ function setup()
 
 	twitchInfoHandler.readyCheck = function()
 	{
-		return document.getElementsByClassName("video-player__default-player").length > 0 && document.getElementsByTagName('video').length > 0;
+		
+		return document.getElementsByClassName("video-player__default-player").length > 0 && document.getElementsByTagName("video").length > 0;
 	};
 
 	twitchInfoHandler.state = function()
@@ -21,19 +22,23 @@ function setup()
 	};
 	twitchInfoHandler.title = function()
 	{
-		return document.querySelector("h2.tw-ellipsis").title;
+		return document.querySelector("h2[data-a-target=\"stream-title\"]").innerText.split("\n")[0];
 	};
 	twitchInfoHandler.artist = function()
 	{
-		return document.querySelector("h1.tw-c-text-base").innerText;
+		return document.querySelector("h1.tw-title").innerText;
 	};
 	twitchInfoHandler.album = function()
 	{
-		return document.querySelector("span.tw-font-size-5").innerText;
+		if (document.querySelector("[data-a-target=\"video-info-game-boxart-link\"]")) 
+		{ 
+			return document.querySelector("[data-a-target=\"video-info-game-boxart-link\"]").innerText;
+		}
+		return document.querySelector("[data-a-target=\"stream-game-link\"]").innerText;
 	};
 	twitchInfoHandler.cover = function()
 	{
-		return document.querySelector(".tw-avatar--size-64 > img:nth-child(1)").src.replace("70x70", "600x600");
+		return document.querySelector(".tw-avatar[aria-label=\"" + twitchInfoHandler.artist() + "\"] img").src.replace("70x70", "600x600");
 	};
 	twitchInfoHandler.duration = function()
 	{
@@ -146,3 +151,4 @@ function setup()
 
 setup();
 init();
+
