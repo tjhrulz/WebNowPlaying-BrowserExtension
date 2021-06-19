@@ -12,7 +12,6 @@ function setup()
 
 	twitchInfoHandler.readyCheck = function()
 	{
-		
 		return document.getElementsByClassName("video-player__default-player").length > 0 && document.getElementsByTagName("video").length > 0;
 	};
 
@@ -151,4 +150,3 @@ function setup()
 
 setup();
 init();
-
