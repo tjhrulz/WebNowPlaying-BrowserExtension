@@ -29,7 +29,6 @@ function setup()
 	};
 	twitchInfoHandler.album = function()
 	{
-		//If we are not live
 		if (document.querySelector("[data-a-target=\"video-info-game-boxart-link\"]")) 
 		{ 
 			return document.querySelector("[data-a-target=\"video-info-game-boxart-link\"]").innerText;
@@ -60,7 +59,7 @@ function setup()
 	};
 	twitchInfoHandler.rating = function()
 	{
-		if(document.getElementsByClassName("follow-btn__follow-btn")[0].className.includes("following"))
+		if(document.querySelector("[data-a-target=\"unfollow-button\"]"))
 		{
 			return 5;
 		}
@@ -74,7 +73,6 @@ function setup()
 	{
 		return 0;
 	};
-
 
 	var twitchEventHandler = createNewMusicEventHandler();
 
@@ -126,28 +124,34 @@ function setup()
 	twitchEventHandler.shuffle = null;
 	twitchEventHandler.toggleThumbsUp = function()
 	{
-		document.getElementsByClassName("follow-btn__follow-btn")[0].children[0].children[0].click();
+		if(document.querySelector("[data-a-target=\"unfollow-button\"]")) {
+			document.querySelector("[data-a-target=\"unfollow-button\"]").click();
+			document.querySelector("[data-a-target=\"modal-unfollow-button\"]").click();
+		}
+		else
+		{
+			document.querySelector("[data-a-target=\"follow-button\"]").click();
+		}
 	};
 	twitchEventHandler.toggleThumbsDown = null;
 	twitchEventHandler.rating = function(rating)
 	{
 		if (rating > 3)
 		{
-			if(!document.getElementsByClassName("follow-btn__follow-btn")[0].className.includes("following"))
+			if(document.querySelector("[data-a-target=\"unfollow-button\"]"))
 			{
-				document.getElementsByClassName("follow-btn__follow-btn")[0].children[0].children[0].click();
+				document.querySelector("[data-a-target=\"unfollow-button\"]").click();
 			}
 		}
 		else
 		{
-			if(document.getElementsByClassName("follow-btn__follow-btn")[0].className.includes("following"))
+			if(document.querySelector("[data-a-target=\"follow-button\"]"))
 			{
-				document.getElementsByClassName("follow-btn__follow-btn")[0].children[0].children[0].click();
+				document.querySelector("[data-a-target=\"follow-button\"]").click();
 			}
 		}
 	};
 }
-
 
 setup();
 init();
