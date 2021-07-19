@@ -29,6 +29,7 @@ function setup()
 	};
 	twitchInfoHandler.album = function()
 	{
+		//If we are not live
 		if (document.querySelector("[data-a-target=\"video-info-game-boxart-link\"]")) 
 		{ 
 			return document.querySelector("[data-a-target=\"video-info-game-boxart-link\"]").innerText;
@@ -74,6 +75,7 @@ function setup()
 		return 0;
 	};
 
+	
 	var twitchEventHandler = createNewMusicEventHandler();
 
 	//Define custom check logic to make sure you are not trying to update info when nothing is playing
@@ -152,6 +154,7 @@ function setup()
 		}
 	};
 }
+
 
 setup();
 init();
