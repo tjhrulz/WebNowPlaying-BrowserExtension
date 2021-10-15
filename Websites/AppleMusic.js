@@ -34,8 +34,8 @@ function setup()
 	};
 	appleMusicInfoHandler.cover = function()
 	{
-        var tempCover = document.getElementsByClassName("media-artwork-v2__image")[2].srcset.substr(document.getElementsByClassName("media-artwork-v2__image")[2].srcset.lastIndexOf(",")+2)
-		return tempCover.substr(0, tempCover.indexOf(".jpg")) + ".jpg/2000x2000.jpg";
+		var src = document.querySelector('.web-chrome-playback-lcd__artwork-container img.media-artwork-v2__image').currentSrc;
+		return src.substr(0, src.lastIndexOf('/')) + '/2000x2000.jpg';
 	};
 	appleMusicInfoHandler.duration = function()
 	{
