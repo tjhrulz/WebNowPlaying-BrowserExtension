@@ -20,7 +20,7 @@ function setup()
 
 	deezerInfoHandler.state = function()
 	{
-		return document.getElementsByClassName("player-controls")[0].children[0].children[2].children[0].children[0].className.baseVal.includes("pause") ? 1 : 2;
+		return document.getElementsByClassName("player-controls")[0].children[0].children[2].children[0].ariaLabel.includes("Pause") ? 1 : 2;
 	};
 	deezerInfoHandler.title = function()
 	{
@@ -126,11 +126,11 @@ function setup()
 	};
 	deezerEventHandler.next = function()
 	{
-		document.getElementsByClassName("player-controls")[0].children[0].children[4].children[0].children[0].click();
+		document.getElementsByClassName("player-controls")[0].children[0].children[4].children[0].click();
 	};
 	deezerEventHandler.previous = function()
 	{
-		document.getElementsByClassName("player-controls")[0].children[0].children[0].children[0].children[0].click();
+		document.getElementsByClassName("player-controls")[0].children[0].children[0].children[0].click();
 	};
 	deezerEventHandler.progress = null;
 	//Deezer has the dumbest progress bar I have ever seen, this will the the track bar to be active and show the tooltip
