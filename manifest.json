@@ -1,32 +1,50 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
 
-  "name": "WebNowPlaying Companion",
-  "short_name": "WebNowPlaying",
-  "description": "Ever wished music info from your web browser could be used in Rainmeter? Well now it can!",
-  "version": "0.5.0",
+  "name": "WebNowPlaying Companion Reloaded",
+  "short_name": "WCR",
+  "description": "Ever wished music info from your web browser could be used in Rainmeter? Well now it can! Updated to work in 2023!",
+  "version": "0.6.0",
   "icons":
   {
     "16": "icon16.png",
     "48": "icon48.png",
     "128": "icon128.png"
   },
-  "browser_action":
-  {},
   "permissions": [
     "tabs",
     "storage"
   ],
   "background":
   {
-    "scripts": ["Background.js"],
-    "persistent": false
+    "service_worker": "Background.js",
+    "type": "module"
   },
   "options_ui":
   {
     "page": "Options.html"
   },
   "content_scripts": [
+  {
+    "matches":        ["*://*/*"],
+    "include_globs": [
+      "*://music.cosk.*/*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/CoskMusic.js"
+    ]
+  },
+  {
+    "matches":        ["*://*/*"],
+    "include_globs": [
+      "localhost:3000*"
+    ],
+    "js": [
+      "WebNowPlaying.js",
+      "Websites/CoskMusic.js"
+    ]
+  },
   {
     "matches":        ["*://*/*"],
     "include_globs": [
