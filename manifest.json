@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
 
   "name": "WebNowPlaying Companion",
   "short_name": "WebNowPlaying",
@@ -11,16 +11,14 @@
     "48": "icon48.png",
     "128": "icon128.png"
   },
-  "browser_action":
-  {},
   "permissions": [
     "tabs",
     "storage"
   ],
   "background":
   {
-    "scripts": ["Background.js"],
-    "persistent": false
+    "service_worker": "Background.js",
+    "type": "module"
   },
   "options_ui":
   {
